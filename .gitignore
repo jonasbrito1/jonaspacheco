@@ -1,0 +1,37 @@
+# Claude Code
+.claude/
+
+# Arquivos de documentação local (apenas para desenvolvimento local)
+*.txt
+!README.txt
+
+# Scripts Windows específicos
+*.bat
+
+# Arquivos de teste e diagnóstico
+test-*.html
+diagnosticar-*.bat
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.log
+
+# Node modules (se adicionar futuramente)
+node_modules/
+
+# Arquivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Backup files
+*.bak
+*.backup
