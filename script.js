@@ -209,27 +209,30 @@ if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            subject: document.getElementById('subject').value,
-            message: document.getElementById('message').value
-        };
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalHTML = submitBtn.innerHTML;
 
-        // Here you can add your form submission logic
-        // For now, we'll show a success message
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Enviando...</span><i class="fas fa-spinner fa-spin"></i>';
 
         try {
-            // Simulate form submission
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            const res = await fetch('/contact.php', {
+                method: 'POST',
+                body: new FormData(contactForm),
+            });
+            const data = await res.json();
 
-            // Show success message
-            showNotification('Mensagem enviada com sucesso! Entrarei em contato em breve.', 'success');
-
-            // Reset form
-            contactForm.reset();
-        } catch (error) {
-            showNotification('Erro ao enviar mensagem. Por favor, tente novamente.', 'error');
+            if (data.success) {
+                showNotification(data.message, 'success');
+                contactForm.reset();
+            } else {
+                showNotification(data.message || 'Erro ao enviar. Tente pelo WhatsApp.', 'error');
+            }
+        } catch (err) {
+            showNotification('Erro de conexão. Tente pelo WhatsApp ou email diretamente.', 'error');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalHTML;
         }
     });
 }
@@ -385,11 +388,17 @@ function showNotification(message, type = 'info') {
 const heroBackground = document.querySelector('.hero-background');
 
 if (heroBackground) {
+    heroBackground.style.willChange = 'transform';
+    let ticking = false;
     window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const parallaxSpeed = 0.5;
-        heroBackground.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
-    });
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                heroBackground.style.transform = `translateY(${window.pageYOffset * 0.5}px)`;
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
 }
 
 // ==========================================

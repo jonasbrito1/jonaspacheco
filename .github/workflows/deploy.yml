@@ -1,0 +1,50 @@
+name: Deploy → jonaspacheco.cloud
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to VPS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p ${{ secrets.VPS_PORT }} ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy via rsync
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }}" \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.env' \
+            --exclude='.claude' \
+            --exclude='backend/' \
+            --exclude='deploy/' \
+            --exclude='node_modules/' \
+            --exclude='deploy.sh' \
+            --exclude='docker*' \
+            --exclude='*.md' \
+            --exclude='test-css.html' \
+            --exclude='logos.html' \
+            ./ \
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}/
+
+      - name: Verificar deploy
+        run: |
+          STATUS=$(curl -o /dev/null -s -w "%{http_code}" https://jonaspacheco.cloud)
+          if [ "$STATUS" = "200" ]; then
+            echo "✅ Deploy concluído! Site respondendo com HTTP $STATUS"
+          else
+            echo "⚠️ Site respondeu com HTTP $STATUS"
+          fi

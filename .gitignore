@@ -1,9 +1,23 @@
 # Claude Code
 .claude/
 
+# Deploy script (contém IP/credenciais do VPS)
+deploy.sh
+
+# Ambiente
+.env
+
 # Arquivos de documentação local (apenas para desenvolvimento local)
 *.txt
 !README.txt
+*.md
+
+# Infraestrutura local (não vai para o repo)
+backend/
+database/
+docker/
+docker-compose.yml
+frontend/
 
 # Scripts Windows específicos
 *.bat
@@ -16,6 +30,7 @@ diagnosticar-*.bat
 .DS_Store
 Thumbs.db
 desktop.ini
+nul
 
 # Arquivos temporários
 *.tmp

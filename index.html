@@ -3,16 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Jonas Pacheco - Engenheiro de Software especialista em Segurança da Informação, Cibersegurança, DevSecOps e desenvolvimento seguro de sistemas">
-    <meta name="keywords" content="engenheiro de software, segurança da informação, cibersegurança, DevSecOps, desenvolvimento seguro, compliance, PHP, Python, JavaScript">
-    <meta name="author" content="Jonas Pacheco">
+
+    <!-- SEO base -->
     <title>Jonas Pacheco | Engenheiro de Software & Especialista em Cibersegurança</title>
+    <meta name="description" content="Jonas Pacheco — Engenheiro de Software especialista em Segurança da Informação, Cibersegurança, DevSecOps e desenvolvimento full-stack seguro. +50 projetos entregues.">
+    <meta name="keywords" content="engenheiro de software, segurança da informação, cibersegurança, DevSecOps, desenvolvimento seguro, compliance, PHP, Python, JavaScript, React">
+    <meta name="author" content="Jonas Pacheco">
+    <link rel="canonical" href="https://jonaspacheco.cloud/">
+
+    <!-- Open Graph (LinkedIn, WhatsApp, Facebook) -->
+    <meta property="og:type"        content="profile">
+    <meta property="og:url"         content="https://jonaspacheco.cloud/">
+    <meta property="og:title"       content="Jonas Pacheco | Engenheiro de Software & Cibersegurança">
+    <meta property="og:description" content="Especialista em desenvolvimento full-stack, DevSecOps e segurança da informação. +50 projetos entregues. Consultoria gratuita.">
+    <meta property="og:image"       content="https://jonaspacheco.cloud/jonas-pro1.jpg">
+    <meta property="og:image:width"  content="800">
+    <meta property="og:image:height" content="800">
+    <meta property="og:locale"      content="pt_BR">
+    <meta property="og:site_name"   content="Jonas Pacheco">
+    <meta property="profile:first_name" content="Jonas">
+    <meta property="profile:last_name"  content="Pacheco">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:title"       content="Jonas Pacheco | Engenheiro de Software & Cibersegurança">
+    <meta name="twitter:description" content="Especialista em desenvolvimento full-stack, DevSecOps e segurança da informação. +50 projetos entregues.">
+    <meta name="twitter:image"       content="https://jonaspacheco.cloud/jonas-pro1.jpg">
+
+    <!-- Schema.org Person (SEO rich snippet) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Jonas Pacheco",
+      "url": "https://jonaspacheco.cloud",
+      "image": "https://jonaspacheco.cloud/jonas-pro1.jpg",
+      "jobTitle": "Engenheiro de Software",
+      "description": "Especialista em Segurança da Informação, Cibersegurança e DevSecOps com mais de 50 projetos entregues.",
+      "email": "contato@jonaspacheco.cloud",
+      "telephone": "+5547988521318",
+      "sameAs": [
+        "https://github.com/jonasbrito1",
+        "https://www.linkedin.com/in/jonaspacheco1/",
+        "https://www.instagram.com/jonasbritopacheco/"
+      ],
+      "knowsAbout": ["Segurança da Informação", "DevSecOps", "PHP", "Python", "JavaScript", "React", "Docker", "CI/CD"],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "i9Script",
+        "url": "https://i9script.com"
+      }
+    }
+    </script>
+
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css?v=20251103b">
+
+    <!-- Preload: imagem hero (LCP crítico) -->
+    <link rel="preload" as="image" href="jonas-pro.webp" type="image/webp">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css?v=20260301">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Font Awesome 6.7 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- Google Analytics 4 — substitua G-XXXXXXXXXX pelo seu Measurement ID -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script> -->
 </head>
 <body>
     <!-- Navigation -->
@@ -52,7 +120,10 @@
                 <div class="hero-text">
                     <div class="profile-photo" data-aos="fade-up">
                         <div class="photo-container">
-                            <img src="jonas-pro.jpg" alt="Jonas Pacheco - Engenheiro de Software" class="profile-img">
+                            <picture>
+                                <source srcset="jonas-pro.webp" type="image/webp">
+                                <img src="jonas-pro.jpg" alt="Jonas Pacheco - Engenheiro de Software" class="profile-img" width="300" height="300" fetchpriority="high">
+                            </picture>
                             <div class="photo-ring"></div>
                             <div class="security-badge">
                                 <i class="fas fa-shield-alt"></i>
@@ -916,13 +987,13 @@
                         </p>
                     </div>
                     <div class="contact-methods">
-                        <a href="mailto:contato@i9script.com" class="contact-method">
+                        <a href="mailto:contato@jonaspacheco.cloud" class="contact-method">
                             <div class="method-icon">
                                 <i class="fas fa-envelope"></i>
                             </div>
                             <div class="method-content">
                                 <h4>Email</h4>
-                                <p>contato@i9script.com</p>
+                                <p>contato@jonaspacheco.cloud</p>
                             </div>
                         </a>
                         <a href="https://wa.me/5547988521318" target="_blank" class="contact-method">
@@ -1004,6 +1075,13 @@
                             <li><a href="#about">Sobre</a></li>
                             <li><a href="#expertise">Especialidades</a></li>
                             <li><a href="#projects">Projetos</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="privacy-policy.html">Política de Privacidade</a></li>
+                            <li><a href="terms-of-service.html">Termos de Serviço</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
