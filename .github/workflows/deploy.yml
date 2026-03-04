@@ -19,12 +19,12 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -p ${{ secrets.VPS_PORT }} ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+          echo "StrictHostKeyChecking no" >> ~/.ssh/config
 
       - name: Deploy via rsync
         run: |
           rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }}" \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} -o StrictHostKeyChecking=no" \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='.env' \
