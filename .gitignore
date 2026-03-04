@@ -4,8 +4,10 @@
 # Deploy script (contém IP/credenciais do VPS)
 deploy.sh
 
-# Ambiente
+# Ambiente e credenciais (só existem no VPS)
 .env
+config.php
+vendor/
 
 # Arquivos de documentação local (apenas para desenvolvimento local)
 *.txt

@@ -54,18 +54,41 @@ if (strlen($message) > 5000) {
     exit;
 }
 
-// Destinatário
-$to      = 'jonasbrito1a@gmail.com';
-$headers = implode("\r\n", [
-    'From: noreply@jonaspacheco.cloud',
-    'Reply-To: ' . $email,
-    'X-Mailer: PHP/' . phpversion(),
-    'MIME-Version: 1.0',
-    'Content-Type: text/html; charset=UTF-8',
-]);
+// Carregar config (só existe no VPS, fora do git)
+$config_file = __DIR__ . '/config.php';
+if (!file_exists($config_file)) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Configuração de email não encontrada.']);
+    exit;
+}
+require_once $config_file;
 
-$email_subject = '[jonaspacheco.cloud] ' . $subject;
-$email_body    = "
+// PHPMailer via Composer
+require_once __DIR__ . '/vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+$mail = new PHPMailer(true);
+
+try {
+    $mail->isSMTP();
+    $mail->Host       = SMTP_HOST;
+    $mail->SMTPAuth   = true;
+    $mail->Username   = SMTP_USER;
+    $mail->Password   = SMTP_PASS;
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+    $mail->Port       = SMTP_PORT;
+    $mail->CharSet    = 'UTF-8';
+
+    $mail->setFrom(SMTP_USER, 'Jonas Pacheco | Portfolio');
+    $mail->addAddress(MAIL_TO, 'Jonas Pacheco');
+    $mail->addReplyTo($email, $name);
+
+    $mail->isHTML(true);
+    $mail->Subject = '[jonaspacheco.cloud] ' . $subject;
+    $mail->Body    = "
 <!DOCTYPE html>
 <html>
 <head><meta charset='UTF-8'></head>
@@ -88,14 +111,12 @@ $email_body    = "
     </p>
   </div>
 </body>
-</html>
-";
+</html>";
 
-$sent = mail($to, $email_subject, $email_body, $headers);
-
-if ($sent) {
+    $mail->send();
     echo json_encode(['success' => true, 'message' => 'Mensagem enviada! Responderei em breve.']);
-} else {
+
+} catch (Exception $e) {
     http_response_code(500);
     echo json_encode(['success' => false, 'message' => 'Erro ao enviar. Tente pelo WhatsApp ou email diretamente.']);
 }
