@@ -48,6 +48,8 @@ jobs:
             --exclude='*.md' \
             --exclude='test-css.html' \
             --exclude='logos.html' \
+            --exclude='config.php' \
+            --exclude='vendor/' \
             ./ \
             ${VPS_USER}@${VPS_HOST}:${VPS_PATH}/
 
