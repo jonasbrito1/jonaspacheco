@@ -33,6 +33,38 @@ async function migrate() {
       created_at TIMESTAMP DEFAULT NOW()
     );
   `);
+
+  // Adicionar colunas na tabela users (idempotente)
+  await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS name VARCHAR(255)`);
+  await pool.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS role VARCHAR(50) DEFAULT 'admin'`);
+  await pool.query(`UPDATE users SET role = 'admin' WHERE role IS NULL`);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS tickets (
+      id SERIAL PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      description TEXT,
+      project_id INT REFERENCES projects(id) ON DELETE SET NULL,
+      status VARCHAR(50) DEFAULT 'aberto',
+      priority VARCHAR(20) DEFAULT 'media',
+      assigned_to INT REFERENCES users(id) ON DELETE SET NULL,
+      created_by INT REFERENCES users(id) ON DELETE SET NULL,
+      client_name VARCHAR(255),
+      client_email VARCHAR(255),
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    );
+
+    CREATE TABLE IF NOT EXISTS ticket_messages (
+      id SERIAL PRIMARY KEY,
+      ticket_id INT REFERENCES tickets(id) ON DELETE CASCADE,
+      user_id INT REFERENCES users(id) ON DELETE SET NULL,
+      author_name VARCHAR(255),
+      message TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
   console.log('Migrations aplicadas.');
   process.exit(0);
 }
