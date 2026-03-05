@@ -15,6 +15,7 @@ export default function Login() {
     try {
       const { data } = await api.post('/auth/login', { email, password })
       localStorage.setItem('hub_token', data.token)
+      localStorage.setItem('hub_user', JSON.stringify(data.user))
       navigate('/')
     } catch {
       setError('Email ou senha incorretos')
