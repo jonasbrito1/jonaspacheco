@@ -1,7 +1,30 @@
 const router = require('express').Router();
+const path = require('path');
+const fs = require('fs');
+const multer = require('multer');
 const pool = require('../db/pool');
 const auth = require('../middleware/auth');
 const { notifyNewTicket, notifyClientReply, notifyClientStatus } = require('../services/mailer');
+
+// Multer config — store in hub/uploads/tickets/
+const uploadDir = path.join(__dirname, '../../../uploads/tickets');
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadDir),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`);
+  },
+});
+const upload = multer({
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
+  fileFilter: (req, file, cb) => {
+    const allowed = /jpeg|jpg|png|gif|webp|pdf|txt|zip|doc|docx|xls|xlsx/i;
+    cb(null, allowed.test(path.extname(file.originalname)));
+  },
+});
 
 const SELECT_TICKET = `
   SELECT t.*,
@@ -82,7 +105,6 @@ router.post('/', auth, async (req, res) => {
 router.put('/:id', auth, async (req, res) => {
   const { title, status, priority, urgency, category, assigned_to, project_id } = req.body;
   try {
-    // Buscar ticket antes para notificação de status
     const { rows: [before] } = await pool.query('SELECT * FROM tickets WHERE id = $1', [req.params.id]);
 
     await pool.query(
@@ -92,7 +114,6 @@ router.put('/:id', auth, async (req, res) => {
        assigned_to || null, project_id || null, req.params.id]
     );
 
-    // Notificar cliente se status mudou para resolvido/fechado
     if (before && before.status !== status && ['resolvido', 'fechado'].includes(status)) {
       notifyClientStatus(before, status);
     }
@@ -108,21 +129,35 @@ router.delete('/:id', auth, async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// POST /api/tickets/:id/messages — adicionar mensagem/nota
-router.post('/:id/messages', auth, async (req, res) => {
+// POST /api/tickets/:id/messages — adicionar mensagem/nota (suporta anexo)
+router.post('/:id/messages', auth, upload.single('attachment'), async (req, res) => {
   const { message, is_internal } = req.body;
+  const file = req.file;
+
+  let attachment_url = null;
+  let attachment_name = null;
+  let attachment_type = null;
+
+  if (file) {
+    attachment_url = `/uploads/tickets/${file.filename}`;
+    attachment_name = file.originalname;
+    attachment_type = file.mimetype;
+  }
+
   try {
     const { rows } = await pool.query(
-      `INSERT INTO ticket_messages (ticket_id, user_id, author_name, message, is_internal)
-       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [req.params.id, req.user.id, req.user.name || req.user.email, message, is_internal || false]
+      `INSERT INTO ticket_messages (ticket_id, user_id, author_name, message, is_internal, attachment_url, attachment_name, attachment_type)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+      [req.params.id, req.user.id, req.user.name || req.user.email,
+       message || '', is_internal || false,
+       attachment_url, attachment_name, attachment_type]
     );
     await pool.query('UPDATE tickets SET updated_at=NOW() WHERE id=$1', [req.params.id]);
 
-    // Notificar cliente apenas em respostas públicas
-    if (!is_internal) {
+    // Notificar ambas as partes em respostas públicas
+    if (!is_internal || is_internal === 'false') {
       const { rows: [ticket] } = await pool.query('SELECT * FROM tickets WHERE id = $1', [req.params.id]);
-      if (ticket) notifyClientReply(ticket, message);
+      if (ticket) notifyClientReply(ticket, message || '[Anexo]', attachment_name);
     }
     res.json(rows[0]);
   } catch (err) { res.status(500).json({ error: err.message }); }

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import api from '../services/api'
-import { Plus, X, Send, Trash2, Lock, Globe, Clock } from 'lucide-react'
+import { Plus, X, Send, Trash2, Lock, Globe, Clock, Paperclip, Image } from 'lucide-react'
 
 const STATUS = {
   aberto:       { label: 'Aberto',       color: '#00d4ff' },
@@ -60,6 +60,24 @@ function Badge({ label, color, small }) {
   )
 }
 
+function Attachment({ url, name, type }) {
+  const isImage = type && type.startsWith('image/')
+  const src = url // already relative: /uploads/tickets/...
+  if (isImage) {
+    return (
+      <a href={src} target="_blank" rel="noreferrer" style={{ display: 'block', marginTop: 8 }}>
+        <img src={src} alt={name} style={{ maxWidth: '100%', maxHeight: 300, borderRadius: 6, border: '1px solid #1e293b', cursor: 'zoom-in' }} />
+      </a>
+    )
+  }
+  return (
+    <a href={src} download={name} target="_blank" rel="noreferrer"
+      style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 8, padding: '6px 12px', background: '#0f1117', border: '1px solid #1e293b', borderRadius: 6, color: '#94a3b8', fontSize: 13, textDecoration: 'none' }}>
+      <Paperclip size={13} /> {name || 'Anexo'}
+    </a>
+  )
+}
+
 export default function Tickets() {
   const [tickets, setTickets] = useState([])
   const [projects, setProjects] = useState([])
@@ -74,6 +92,9 @@ export default function Tickets() {
   const [reply, setReply] = useState('')
   const [isInternal, setIsInternal] = useState(false)
   const [sending, setSending] = useState(false)
+  const [attachment, setAttachment] = useState(null)     // File
+  const [attachPreview, setAttachPreview] = useState(null) // object URL for image preview
+  const fileInputRef = useRef(null)
 
   const load = () => api.get('/tickets').then(r => setTickets(r.data))
 
@@ -89,19 +110,61 @@ export default function Tickets() {
     setDetail(data)
     setReply('')
     setIsInternal(false)
+    clearAttachment()
   }
 
   const closeDetail = () => { setSelected(null); setDetail(null) }
 
+  const clearAttachment = () => {
+    if (attachPreview) URL.revokeObjectURL(attachPreview)
+    setAttachment(null)
+    setAttachPreview(null)
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
+  const pickFile = file => {
+    if (!file) return
+    clearAttachment()
+    setAttachment(file)
+    if (file.type.startsWith('image/')) {
+      setAttachPreview(URL.createObjectURL(file))
+    }
+  }
+
+  const handleFileInput = e => pickFile(e.target.files[0])
+
+  const handlePaste = e => {
+    const items = e.clipboardData?.items
+    if (!items) return
+    for (const item of items) {
+      if (item.type.startsWith('image/')) {
+        e.preventDefault()
+        const file = item.getAsFile()
+        if (file) pickFile(new File([file], `screenshot-${Date.now()}.png`, { type: file.type }))
+        return
+      }
+    }
+  }
+
   const sendReply = async () => {
-    if (!reply.trim()) return
+    if (!reply.trim() && !attachment) return
     setSending(true)
-    await api.post('/tickets/' + selected + '/messages', { message: reply, is_internal: isInternal })
-    setReply('')
-    const { data } = await api.get('/tickets/' + selected)
-    setDetail(data)
-    load()
-    setSending(false)
+    try {
+      const fd = new FormData()
+      fd.append('message', reply)
+      fd.append('is_internal', isInternal)
+      if (attachment) fd.append('attachment', attachment)
+      await api.post('/tickets/' + selected + '/messages', fd, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      setReply('')
+      clearAttachment()
+      const { data } = await api.get('/tickets/' + selected)
+      setDetail(data)
+      load()
+    } finally {
+      setSending(false)
+    }
   }
 
   const changeStatus = async status => {
@@ -147,6 +210,7 @@ export default function Tickets() {
   })
 
   const countByStatus = s => tickets.filter(t => t.status === s).length
+  const canSend = !sending && (reply.trim() || attachment)
 
   return (
     <div style={{ display: 'flex', gap: 0, height: 'calc(100vh - 64px)', overflow: 'hidden' }}>
@@ -312,13 +376,17 @@ export default function Tickets() {
                     </div>
                     <span style={{ fontSize: 11, color: '#475569' }}>{new Date(msg.created_at).toLocaleString('pt-BR')}</span>
                   </div>
-                  <p style={{ fontSize: 14, color: '#e2e8f0', whiteSpace: 'pre-wrap', lineHeight: 1.7, margin: 0 }}>{msg.message}</p>
+                  {msg.message && <p style={{ fontSize: 14, color: '#e2e8f0', whiteSpace: 'pre-wrap', lineHeight: 1.7, margin: 0 }}>{msg.message}</p>}
+                  {msg.attachment_url && (
+                    <Attachment url={msg.attachment_url} name={msg.attachment_name} type={msg.attachment_type} />
+                  )}
                 </div>
               ))}
               {(!detail.messages || detail.messages.length === 0) && <p style={{ color: '#475569', fontSize: 13 }}>Nenhuma mensagem ainda.</p>}
             </div>
           </div>
 
+          {/* Reply area */}
           <div style={{ background: '#161b27', border: '1px solid ' + (isInternal ? '#78350f88' : '#1e293b'), borderRadius: 10, padding: 16 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
               <p style={{ fontSize: 12, color: '#64748b', fontWeight: 600, margin: 0 }}>
@@ -333,19 +401,53 @@ export default function Tickets() {
                 {isInternal ? 'Interna' : 'Publica'}
               </button>
             </div>
+
+            {/* Attachment preview */}
+            {attachment && (
+              <div style={{ marginBottom: 10, padding: '8px 10px', background: '#0f1117', borderRadius: 8, border: '1px solid #1e293b', display: 'flex', alignItems: 'center', gap: 10 }}>
+                {attachPreview
+                  ? <img src={attachPreview} alt="preview" style={{ height: 48, borderRadius: 4, objectFit: 'cover' }} />
+                  : <Paperclip size={16} color="#94a3b8" />
+                }
+                <span style={{ fontSize: 12, color: '#94a3b8', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{attachment.name}</span>
+                <button onClick={clearAttachment} style={{ background: 'none', border: 'none', color: '#f87171', cursor: 'pointer', padding: 4 }}><X size={14} /></button>
+              </div>
+            )}
+
             <div style={{ display: 'flex', gap: 8 }}>
-              <textarea value={reply} onChange={e => setReply(e.target.value)}
-                placeholder={isInternal ? 'Nota interna para a equipe... (Ctrl+Enter envia)' : 'Resposta ao cliente... (Ctrl+Enter envia)'}
-                style={{ ...s.input, flex: 1, resize: 'none', height: 80, borderColor: isInternal ? '#78350f88' : '#1e293b' }}
-                onKeyDown={e => { if (e.ctrlKey && e.key === 'Enter') sendReply() }} />
-              <button onClick={sendReply} disabled={sending || !reply.trim()} style={{
+              <div style={{ flex: 1, position: 'relative' }}>
+                <textarea value={reply} onChange={e => setReply(e.target.value)}
+                  onPaste={handlePaste}
+                  placeholder={isInternal
+                    ? 'Nota interna... (Ctrl+Enter envia, Cole prints com Ctrl+V)'
+                    : 'Resposta ao cliente... (Ctrl+Enter envia, Cole prints com Ctrl+V)'}
+                  style={{ ...s.input, resize: 'none', height: 80, borderColor: isInternal ? '#78350f88' : '#1e293b', paddingRight: 40 }}
+                  onKeyDown={e => { if (e.ctrlKey && e.key === 'Enter') sendReply() }}
+                />
+                {/* File attach button inside textarea */}
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  title="Anexar arquivo"
+                  style={{ position: 'absolute', bottom: 8, right: 8, background: 'none', border: 'none', color: '#475569', cursor: 'pointer', padding: 2 }}
+                >
+                  <Paperclip size={15} />
+                </button>
+              </div>
+              <input ref={fileInputRef} type="file" style={{ display: 'none' }}
+                accept="image/*,.pdf,.txt,.zip,.doc,.docx,.xls,.xlsx"
+                onChange={handleFileInput} />
+              <button onClick={sendReply} disabled={!canSend} style={{
                 display: 'flex', alignItems: 'center', gap: 6,
                 padding: '12px 16px', border: 'none', borderRadius: 8,
-                cursor: reply.trim() ? 'pointer' : 'default',
-                alignSelf: 'flex-end', opacity: reply.trim() ? 1 : 0.4,
+                cursor: canSend ? 'pointer' : 'default',
+                alignSelf: 'flex-end', opacity: canSend ? 1 : 0.4,
                 background: isInternal ? '#f59e0b' : '#00d4ff', color: '#0f1117',
               }}><Send size={15} /></button>
             </div>
+            <p style={{ fontSize: 11, color: '#334155', marginTop: 6, margin: '6px 0 0' }}>
+              Cole screenshots com Ctrl+V • Clique em <Paperclip size={10} style={{ verticalAlign: 'middle' }} /> para anexar arquivo
+            </p>
           </div>
         </div>
       )}

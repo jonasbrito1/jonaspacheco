@@ -72,6 +72,11 @@ async function migrate() {
   // Mensagens: nota interna vs pública
   await pool.query(`ALTER TABLE ticket_messages ADD COLUMN IF NOT EXISTS is_internal BOOLEAN DEFAULT false`);
 
+  // Mensagens: anexos
+  await pool.query(`ALTER TABLE ticket_messages ADD COLUMN IF NOT EXISTS attachment_url  VARCHAR(500)`);
+  await pool.query(`ALTER TABLE ticket_messages ADD COLUMN IF NOT EXISTS attachment_name VARCHAR(255)`);
+  await pool.query(`ALTER TABLE ticket_messages ADD COLUMN IF NOT EXISTS attachment_type VARCHAR(100)`);
+
   console.log('Migrations aplicadas.');
   process.exit(0);
 }

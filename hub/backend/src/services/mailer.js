@@ -54,23 +54,48 @@ async function notifyNewTicket(ticket) {
   await sendMail({ to, subject: `[Hub] Novo ticket #${ticket.id}: ${ticket.title}`, html });
 }
 
-async function notifyClientReply(ticket, message) {
-  if (!ticket.client_email) return;
-  const html = baseTemplate(`
-    <h3 style="margin-top:0;color:#0f1117">💬 Resposta ao seu chamado #${ticket.id}</h3>
-    <p style="color:#64748b;font-size:14px">Olá${ticket.client_name ? ', ' + ticket.client_name : ''}! Sua solicitação recebeu uma resposta:</p>
-    <div style="margin:16px 0;padding:14px;background:#f8fafc;border-left:3px solid #00d4ff;border-radius:4px;font-size:14px;white-space:pre-wrap">${message}</div>
-    <p style="font-size:13px;color:#64748b">Para mais informações, responda este email ou entre em contato via <a href="https://jonaspacheco.cloud">jonaspacheco.cloud</a>.</p>
-  `);
-  await sendMail({ to: ticket.client_email, subject: `Re: ${ticket.title} [Ticket #${ticket.id}]`, html });
+async function notifyClientReply(ticket, message, attachmentName) {
+  const notifyEmail = process.env.NOTIFY_EMAIL;
+  const clientEmail = ticket.client_email;
+
+  const attachmentNote = attachmentName
+    ? `<p style="font-size:13px;color:#64748b;margin-top:8px">📎 Anexo: <strong>${attachmentName}</strong></p>`
+    : '';
+
+  // Email para o cliente
+  if (clientEmail) {
+    const html = baseTemplate(`
+      <h3 style="margin-top:0;color:#0f1117">💬 Resposta ao seu chamado #${ticket.id}</h3>
+      <p style="color:#64748b;font-size:14px">Olá${ticket.client_name ? ', ' + ticket.client_name : ''}! Sua solicitação recebeu uma resposta:</p>
+      <div style="margin:16px 0;padding:14px;background:#f8fafc;border-left:3px solid #00d4ff;border-radius:4px;font-size:14px;white-space:pre-wrap">${message}</div>
+      ${attachmentNote}
+      <p style="font-size:13px;color:#64748b">Para mais informações, responda este email ou entre em contato via <a href="https://jonaspacheco.cloud">jonaspacheco.cloud</a>.</p>
+    `);
+    await sendMail({ to: clientEmail, subject: `Re: ${ticket.title} [Ticket #${ticket.id}]`, html });
+  }
+
+  // Email para Jonas (cópia da resposta enviada)
+  if (notifyEmail) {
+    const html = baseTemplate(`
+      <h3 style="margin-top:0;color:#0f1117">💬 Resposta enviada — Ticket #${ticket.id}</h3>
+      <table style="width:100%;border-collapse:collapse;font-size:14px">
+        <tr><td style="padding:6px 0;color:#64748b;width:120px">Ticket</td><td><strong>${ticket.title}</strong></td></tr>
+        <tr><td style="padding:6px 0;color:#64748b">Cliente</td><td>${ticket.client_name || '—'} ${clientEmail ? `(${clientEmail})` : ''}</td></tr>
+      </table>
+      <div style="margin:16px 0;padding:14px;background:#f8fafc;border-left:3px solid #00d4ff;border-radius:4px;font-size:14px;white-space:pre-wrap">${message}</div>
+      ${attachmentNote}
+      <p style="margin-top:20px"><a href="https://hub.jonaspacheco.cloud/tickets" style="background:#00d4ff;color:#0f1117;padding:10px 20px;border-radius:6px;text-decoration:none;font-weight:bold">Ver no Hub</a></p>
+    `);
+    await sendMail({ to: notifyEmail, subject: `[Hub] Re: Ticket #${ticket.id} — ${ticket.title}`, html });
+  }
 }
 
 async function notifyClientStatus(ticket, newStatus) {
-  if (!ticket.client_email) return;
   const labels = { resolvido: 'Resolvido ✅', fechado: 'Fechado 🔒' };
   const label = labels[newStatus];
   if (!label) return;
-  const html = baseTemplate(`
+
+  const content = `
     <h3 style="margin-top:0;color:#0f1117">Chamado #${ticket.id} — ${label}</h3>
     <p style="color:#64748b;font-size:14px">Olá${ticket.client_name ? ', ' + ticket.client_name : ''}! Seu chamado foi atualizado:</p>
     <table style="width:100%;border-collapse:collapse;font-size:14px">
@@ -78,8 +103,14 @@ async function notifyClientStatus(ticket, newStatus) {
       <tr><td style="padding:6px 0;color:#64748b">Novo status</td><td><strong style="color:${newStatus === 'resolvido' ? '#10b981' : '#475569'}">${label}</strong></td></tr>
     </table>
     <p style="font-size:13px;color:#64748b;margin-top:16px">Se precisar de mais ajuda, não hesite em entrar em contato.</p>
-  `);
-  await sendMail({ to: ticket.client_email, subject: `Chamado #${ticket.id} ${label}: ${ticket.title}`, html });
+  `;
+
+  if (ticket.client_email) {
+    await sendMail({ to: ticket.client_email, subject: `Chamado #${ticket.id} ${label}: ${ticket.title}`, html: baseTemplate(content) });
+  }
+  if (process.env.NOTIFY_EMAIL) {
+    await sendMail({ to: process.env.NOTIFY_EMAIL, subject: `[Hub] Ticket #${ticket.id} ${label}: ${ticket.title}`, html: baseTemplate(content) });
+  }
 }
 
 module.exports = { notifyNewTicket, notifyClientReply, notifyClientStatus };
