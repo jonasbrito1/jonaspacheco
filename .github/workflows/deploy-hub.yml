@@ -66,4 +66,4 @@ jobs:
           VPS_HOST=$(echo "$VPS_HOST" | tr -d '[:space:]')
           VPS_PORT=$(echo "$VPS_PORT" | tr -d '[:space:]')
           ssh -i ~/.ssh/deploy_key -p ${VPS_PORT} -o StrictHostKeyChecking=no root@${VPS_HOST} \
-            "cd /var/www/hub.jonaspacheco.cloud/backend && npm ci --only=production --silent && pm2 restart hub-api || pm2 start src/index.js --name hub-api"
+            "cd /var/www/hub.jonaspacheco.cloud/backend && npm install --omit=dev --silent && pm2 restart hub-api || pm2 start src/index.js --name hub-api"
