@@ -29,6 +29,17 @@ export default function Login({ onLogin }) {
       <p style={{ color: '#64748b', fontSize: 14, marginBottom: 28 }}>
         Acesse sua área para ver todos os seus chamados.
       </p>
+
+      {/* Opção sem conta */}
+      <div style={{ background: '#0f1a2e', border: '1px solid #00d4ff33', borderRadius: 10, padding: '14px 18px', marginBottom: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+        <div>
+          <p style={{ fontSize: 13, fontWeight: 600, color: '#00d4ff', marginBottom: 2 }}>Não tem conta?</p>
+          <p style={{ fontSize: 12, color: '#64748b', margin: 0 }}>Abra um chamado com nome e email — sem cadastro.</p>
+        </div>
+        <Link to="/novo" style={{ background: '#00d4ff', border: 'none', borderRadius: 8, color: '#0f1117', fontWeight: 700, textDecoration: 'none', padding: '8px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
+          Abrir sem conta
+        </Link>
+      </div>
       <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         <div>
           <label style={lb}>Email</label>

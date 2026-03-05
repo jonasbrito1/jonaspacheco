@@ -28,9 +28,20 @@ export default function Register({ onLogin }) {
   return (
     <div style={{ maxWidth: 420, margin: '0 auto' }}>
       <h2 style={{ fontSize: 24, fontWeight: 700, marginBottom: 6 }}>Criar conta</h2>
-      <p style={{ color: '#64748b', fontSize: 14, marginBottom: 28 }}>
-        Cadastre-se para gerenciar todos seus chamados em um só lugar.
+      <p style={{ color: '#64748b', fontSize: 14, marginBottom: 20 }}>
+        Gerencie todos seus chamados em um só lugar. <strong style={{ color: '#94a3b8' }}>Conta é opcional</strong> — você pode abrir chamados sem cadastro.
       </p>
+
+      {/* Opção sem conta */}
+      <div style={{ background: '#0f1a2e', border: '1px solid #00d4ff33', borderRadius: 10, padding: '14px 18px', marginBottom: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+        <div>
+          <p style={{ fontSize: 13, fontWeight: 600, color: '#00d4ff', marginBottom: 2 }}>Prefere sem cadastro?</p>
+          <p style={{ fontSize: 12, color: '#64748b', margin: 0 }}>Acompanhe pelo link enviado no seu email.</p>
+        </div>
+        <Link to="/novo" style={{ background: '#00d4ff', border: 'none', borderRadius: 8, color: '#0f1117', fontWeight: 700, textDecoration: 'none', padding: '8px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
+          Abrir sem conta
+        </Link>
+      </div>
       <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         <div>
           <label style={lb}>Nome completo *</label>
