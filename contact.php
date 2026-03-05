@@ -114,6 +114,32 @@ try {
 </html>";
 
     $mail->send();
+
+    // Criar ticket no hub automaticamente (fire-and-forget)
+    $hub_key = defined('HUB_TICKET_KEY') ? HUB_TICKET_KEY : '';
+    if (!empty($hub_key)) {
+        $ticket_title = 'Contato via site: ' . mb_substr($subject, 0, 80, 'UTF-8');
+        $ticket_desc  = "De: {$name} <{$email}>\nAssunto: {$subject}\n\n{$message}";
+        $ticket_data  = json_encode([
+            'title'        => $ticket_title,
+            'description'  => $ticket_desc,
+            'client_name'  => $name,
+            'client_email' => $email,
+            'category'     => 'suporte',
+            'urgency'      => 'media',
+        ]);
+        $ch = curl_init('http://localhost:3200/api/tickets/public');
+        curl_setopt_array($ch, [
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => $ticket_data,
+            CURLOPT_HTTPHEADER     => ['Content-Type: application/json', 'X-Api-Key: ' . $hub_key],
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 5,
+        ]);
+        curl_exec($ch);
+        curl_close($ch);
+    }
+
     echo json_encode(['success' => true, 'message' => 'Mensagem enviada! Responderei em breve.']);
 
 } catch (Exception $e) {
