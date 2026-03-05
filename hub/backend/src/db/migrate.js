@@ -65,6 +65,13 @@ async function migrate() {
     );
   `);
 
+  // Tickets: categoria e urgência
+  await pool.query(`ALTER TABLE tickets ADD COLUMN IF NOT EXISTS category VARCHAR(50) DEFAULT 'suporte'`);
+  await pool.query(`ALTER TABLE tickets ADD COLUMN IF NOT EXISTS urgency  VARCHAR(20) DEFAULT 'media'`);
+
+  // Mensagens: nota interna vs pública
+  await pool.query(`ALTER TABLE ticket_messages ADD COLUMN IF NOT EXISTS is_internal BOOLEAN DEFAULT false`);
+
   console.log('Migrations aplicadas.');
   process.exit(0);
 }
