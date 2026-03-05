@@ -15,11 +15,17 @@ vendor/
 *.md
 
 # Infraestrutura local (não vai para o repo)
-backend/
-database/
-docker/
-docker-compose.yml
-frontend/
+/backend/
+/frontend/
+/database/
+/docker/
+/docker-compose.yml
+
+# node_modules dentro do hub
+hub/backend/node_modules/
+hub/frontend/node_modules/
+hub/frontend/dist/
+hub/backend/.env
 
 # Scripts Windows específicos
 *.bat
