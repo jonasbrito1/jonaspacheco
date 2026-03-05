@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
-import { LayoutDashboard, FolderKanban, DollarSign, Activity, LogOut, Ticket, Users } from 'lucide-react'
+import { LayoutDashboard, FolderKanban, DollarSign, Activity, LogOut, Ticket, Users, CheckSquare } from 'lucide-react'
 
 export default function Layout() {
   const navigate = useNavigate()
@@ -17,8 +17,9 @@ export default function Layout() {
     { to: '/',        icon: LayoutDashboard, label: 'Dashboard',  roles: ['admin', 'dev'] },
     { to: '/projects',icon: FolderKanban,    label: 'Projetos',   roles: ['admin', 'dev'] },
     { to: '/finance', icon: DollarSign,      label: 'Financeiro', roles: ['admin', 'dev'] },
-    { to: '/tickets', icon: Ticket,          label: 'Tickets',    roles: ['admin', 'dev', 'colaborador'] },
-    { to: '/monitor', icon: Activity,        label: 'Monitor',    roles: ['admin', 'dev'] },
+    { to: '/tickets',  icon: Ticket,       label: 'Tickets',    roles: ['admin', 'dev', 'colaborador'] },
+    { to: '/taskflow', icon: CheckSquare,  label: 'TaskFlow',   roles: ['admin', 'dev', 'colaborador'] },
+    { to: '/monitor',  icon: Activity,     label: 'Monitor',    roles: ['admin', 'dev'] },
     { to: '/users',   icon: Users,           label: 'Usuários',   roles: ['admin'] },
   ].filter(item => item.roles.includes(currentUser.role))
 

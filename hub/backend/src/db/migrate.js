@@ -92,6 +92,99 @@ async function migrate() {
   // Garantir token em tickets existentes
   await pool.query(`UPDATE tickets SET ticket_token = gen_random_uuid() WHERE ticket_token IS NULL`);
 
+  // ──────────────────────────────────────────────
+  // TASKFLOW — gestão de tarefas tipo Kanban
+  // ──────────────────────────────────────────────
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS tf_boards (
+      id          SERIAL PRIMARY KEY,
+      project_id  INT REFERENCES projects(id) ON DELETE SET NULL,
+      name        VARCHAR(255) NOT NULL,
+      description TEXT,
+      created_by  INT REFERENCES users(id) ON DELETE SET NULL,
+      created_at  TIMESTAMP DEFAULT NOW(),
+      updated_at  TIMESTAMP DEFAULT NOW()
+    );
+
+    CREATE TABLE IF NOT EXISTS tf_columns (
+      id         SERIAL PRIMARY KEY,
+      board_id   INT REFERENCES tf_boards(id) ON DELETE CASCADE,
+      name       VARCHAR(100) NOT NULL,
+      color      VARCHAR(20)  DEFAULT '#475569',
+      position   REAL         NOT NULL DEFAULT 0,
+      is_done    BOOLEAN      DEFAULT false,
+      created_at TIMESTAMP    DEFAULT NOW()
+    );
+
+    CREATE TABLE IF NOT EXISTS tf_tasks (
+      id          SERIAL PRIMARY KEY,
+      board_id    INT  REFERENCES tf_boards(id)  ON DELETE CASCADE,
+      column_id   INT  REFERENCES tf_columns(id) ON DELETE SET NULL,
+      parent_id   INT  REFERENCES tf_tasks(id)   ON DELETE CASCADE,
+      title       VARCHAR(500) NOT NULL,
+      description TEXT,
+      priority    VARCHAR(20)  DEFAULT 'none',
+      due_date    DATE,
+      position    REAL         NOT NULL DEFAULT 0,
+      created_by  INT  REFERENCES users(id) ON DELETE SET NULL,
+      created_at  TIMESTAMP    DEFAULT NOW(),
+      updated_at  TIMESTAMP    DEFAULT NOW(),
+      deleted_at  TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS tf_task_assignees (
+      task_id INT REFERENCES tf_tasks(id) ON DELETE CASCADE,
+      user_id INT REFERENCES users(id)    ON DELETE CASCADE,
+      PRIMARY KEY (task_id, user_id)
+    );
+
+    CREATE TABLE IF NOT EXISTS tf_labels (
+      id       SERIAL PRIMARY KEY,
+      board_id INT REFERENCES tf_boards(id) ON DELETE CASCADE,
+      name     VARCHAR(100) NOT NULL,
+      color    VARCHAR(20)  DEFAULT '#475569'
+    );
+
+    CREATE TABLE IF NOT EXISTS tf_task_labels (
+      task_id  INT REFERENCES tf_tasks(id)  ON DELETE CASCADE,
+      label_id INT REFERENCES tf_labels(id) ON DELETE CASCADE,
+      PRIMARY KEY (task_id, label_id)
+    );
+
+    CREATE TABLE IF NOT EXISTS tf_comments (
+      id         SERIAL PRIMARY KEY,
+      task_id    INT REFERENCES tf_tasks(id)    ON DELETE CASCADE,
+      user_id    INT REFERENCES users(id)        ON DELETE SET NULL,
+      content    TEXT NOT NULL,
+      parent_id  INT REFERENCES tf_comments(id) ON DELETE CASCADE,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    );
+
+    CREATE TABLE IF NOT EXISTS tf_time_entries (
+      id               SERIAL PRIMARY KEY,
+      task_id          INT REFERENCES tf_tasks(id) ON DELETE CASCADE,
+      user_id          INT REFERENCES users(id)    ON DELETE SET NULL,
+      description      VARCHAR(255),
+      started_at       TIMESTAMP,
+      ended_at         TIMESTAMP,
+      duration_minutes INT,
+      is_running       BOOLEAN DEFAULT false,
+      created_at       TIMESTAMP DEFAULT NOW()
+    );
+
+    CREATE TABLE IF NOT EXISTS tf_attachments (
+      id         SERIAL PRIMARY KEY,
+      task_id    INT REFERENCES tf_tasks(id) ON DELETE CASCADE,
+      user_id    INT REFERENCES users(id)    ON DELETE SET NULL,
+      filename   VARCHAR(255) NOT NULL,
+      file_url   VARCHAR(500) NOT NULL,
+      file_size  INT,
+      mime_type  VARCHAR(100),
+      created_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
   console.log('Migrations aplicadas.');
   process.exit(0);
 }

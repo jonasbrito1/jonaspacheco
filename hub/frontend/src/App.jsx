@@ -8,6 +8,8 @@ import Finance from './pages/Finance'
 import Monitor from './pages/Monitor'
 import Tickets from './pages/Tickets'
 import Users from './pages/Users'
+import TaskFlow from './pages/TaskFlow'
+import Board from './pages/Board'
 
 const PrivateRoute = ({ children }) => {
   return localStorage.getItem('hub_token') ? children : <Navigate to="/login" />
@@ -36,7 +38,9 @@ export default function App() {
           <Route path="finance"  element={<RoleRoute roles={['admin', 'dev']}><Finance /></RoleRoute>} />
           <Route path="monitor"  element={<RoleRoute roles={['admin', 'dev']}><Monitor /></RoleRoute>} />
           <Route path="tickets"  element={<RoleRoute roles={['admin', 'dev', 'colaborador']}><Tickets /></RoleRoute>} />
-          <Route path="users"    element={<AdminRoute><Users /></AdminRoute>} />
+          <Route path="users"       element={<AdminRoute><Users /></AdminRoute>} />
+          <Route path="taskflow"    element={<RoleRoute roles={['admin', 'dev', 'colaborador']}><TaskFlow /></RoleRoute>} />
+          <Route path="taskflow/:id" element={<RoleRoute roles={['admin', 'dev', 'colaborador']}><Board /></RoleRoute>} />
         </Route>
       </Routes>
     </BrowserRouter>
