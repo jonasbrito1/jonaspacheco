@@ -77,6 +77,21 @@ async function migrate() {
   await pool.query(`ALTER TABLE ticket_messages ADD COLUMN IF NOT EXISTS attachment_name VARCHAR(255)`);
   await pool.query(`ALTER TABLE ticket_messages ADD COLUMN IF NOT EXISTS attachment_type VARCHAR(100)`);
 
+  // Portal de clientes: token de rastreamento + tabela client_users
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS client_users (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      email VARCHAR(255) UNIQUE NOT NULL,
+      password_hash VARCHAR(255) NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+  await pool.query(`ALTER TABLE tickets ADD COLUMN IF NOT EXISTS ticket_token UUID DEFAULT gen_random_uuid()`);
+  await pool.query(`ALTER TABLE tickets ADD COLUMN IF NOT EXISTS client_user_id INT REFERENCES client_users(id) ON DELETE SET NULL`);
+  // Garantir token em tickets existentes
+  await pool.query(`UPDATE tickets SET ticket_token = gen_random_uuid() WHERE ticket_token IS NULL`);
+
   console.log('Migrations aplicadas.');
   process.exit(0);
 }
