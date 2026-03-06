@@ -24,7 +24,9 @@ vendor/
 # node_modules dentro do hub
 hub/backend/node_modules/
 hub/frontend/node_modules/
+hub/portal/node_modules/
 hub/frontend/dist/
+hub/portal/dist/
 hub/backend/.env
 
 # Scripts Windows específicos
