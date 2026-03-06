@@ -8,30 +8,30 @@
 }
 
 :root {
-    /* Color Palette - Preto, Azul, Verde, Amarelo */
-    --color-bg-primary: #0a0a0a;
-    --color-bg-secondary: #0f0f0f;
-    --color-bg-tertiary: #1a1a1a;
-    --color-bg-card: #141414;
+    /* Color Palette - Bandeira do Brasil: Azul Marinho, Amarelo, Verde, Branco */
+    --color-bg-primary: #020c1b;
+    --color-bg-secondary: #081526;
+    --color-bg-tertiary: #0d1e35;
+    --color-bg-card: #0d1e35;
 
-    --color-blue-primary: #00d4ff;
-    --color-blue-secondary: #0099cc;
-    --color-blue-dark: #006699;
+    --color-blue-primary: #1E6FD9;
+    --color-blue-secondary: #1657a8;
+    --color-blue-dark: #0d3d7a;
 
-    --color-green-primary: #00ff88;
-    --color-green-secondary: #00cc6a;
-    --color-green-dark: #009954;
+    --color-green-primary: #009C3B;
+    --color-green-secondary: #007d2f;
+    --color-green-dark: #005c22;
 
-    --color-yellow-primary: #ffd600;
-    --color-yellow-secondary: #ffb700;
-    --color-yellow-dark: #ff9500;
+    --color-yellow-primary: #FFDF00;
+    --color-yellow-secondary: #e6c900;
+    --color-yellow-dark: #c9a800;
 
-    --color-text-primary: #ffffff;
-    --color-text-secondary: #b0b0b0;
-    --color-text-tertiary: #808080;
+    --color-text-primary: #EEF2FF;
+    --color-text-secondary: #8BAFC8;
+    --color-text-tertiary: #4A6B87;
 
-    --color-border: #2a2a2a;
-    --color-shadow: rgba(0, 212, 255, 0.1);
+    --color-border: #1a3a5c;
+    --color-shadow: rgba(255, 223, 0, 0.08);
 
     /* Typography - Fluid Typography with clamp() */
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -72,9 +72,9 @@
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-    --shadow-glow-blue: 0 0 20px rgba(0, 212, 255, 0.3);
-    --shadow-glow-green: 0 0 20px rgba(0, 255, 136, 0.3);
-    --shadow-glow-yellow: 0 0 20px rgba(255, 214, 0, 0.3);
+    --shadow-glow-blue: 0 0 20px rgba(30, 111, 217, 0.3);
+    --shadow-glow-green: 0 0 20px rgba(0, 156, 59, 0.3);
+    --shadow-glow-yellow: 0 0 20px rgba(255, 223, 0, 0.3);
 }
 
 html {
@@ -105,14 +105,14 @@ body {
     left: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(10, 10, 10, 0.95);
+    background: rgba(2, 12, 27, 0.95);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--color-border);
     transition: var(--transition-normal);
 }
 
 .navbar.scrolled {
-    background: rgba(10, 10, 10, 0.98);
+    background: rgba(2, 12, 27, 0.98);
     box-shadow: var(--shadow-md);
 }
 
@@ -1860,7 +1860,7 @@ section {
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(10, 10, 10, 0.98);
+        background: rgba(2, 12, 27, 0.98);
         backdrop-filter: blur(10px);
         flex-direction: column;
         justify-content: center;

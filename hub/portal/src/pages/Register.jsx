@@ -28,17 +28,17 @@ export default function Register({ onLogin }) {
   return (
     <div style={{ maxWidth: 420, margin: '0 auto' }}>
       <h2 style={{ fontSize: 24, fontWeight: 700, marginBottom: 6 }}>Criar conta</h2>
-      <p style={{ color: '#64748b', fontSize: 14, marginBottom: 20 }}>
-        Gerencie todos seus chamados em um só lugar. <strong style={{ color: '#94a3b8' }}>Conta é opcional</strong> — você pode abrir chamados sem cadastro.
+      <p style={{ color: '#4A6B87', fontSize: 14, marginBottom: 20 }}>
+        Gerencie todos seus chamados em um só lugar. <strong style={{ color: '#8BAFC8' }}>Conta é opcional</strong> — você pode abrir chamados sem cadastro.
       </p>
 
       {/* Opção sem conta */}
-      <div style={{ background: '#0f1a2e', border: '1px solid #00d4ff33', borderRadius: 10, padding: '14px 18px', marginBottom: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+      <div style={{ background: '#081526', border: '1px solid #FFDF0033', borderRadius: 10, padding: '14px 18px', marginBottom: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
         <div>
-          <p style={{ fontSize: 13, fontWeight: 600, color: '#00d4ff', marginBottom: 2 }}>Prefere sem cadastro?</p>
-          <p style={{ fontSize: 12, color: '#64748b', margin: 0 }}>Acompanhe pelo link enviado no seu email.</p>
+          <p style={{ fontSize: 13, fontWeight: 600, color: '#FFDF00', marginBottom: 2 }}>Prefere sem cadastro?</p>
+          <p style={{ fontSize: 12, color: '#4A6B87', margin: 0 }}>Acompanhe pelo link enviado no seu email.</p>
         </div>
-        <Link to="/novo" style={{ background: '#00d4ff', border: 'none', borderRadius: 8, color: '#0f1117', fontWeight: 700, textDecoration: 'none', padding: '8px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
+        <Link to="/novo" style={{ background: '#FFDF00', border: 'none', borderRadius: 8, color: '#020c1b', fontWeight: 800, textDecoration: 'none', padding: '8px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
           Abrir sem conta
         </Link>
       </div>
@@ -68,13 +68,13 @@ export default function Register({ onLogin }) {
           {loading ? 'Criando conta...' : 'Criar conta'}
         </button>
       </form>
-      <p style={{ textAlign: 'center', marginTop: 20, fontSize: 14, color: '#64748b' }}>
-        Já tem conta? <Link to="/entrar" style={{ color: '#00d4ff' }}>Entrar</Link>
+      <p style={{ textAlign: 'center', marginTop: 20, fontSize: 14, color: '#4A6B87' }}>
+        Já tem conta? <Link to="/entrar" style={{ color: '#FFDF00' }}>Entrar</Link>
       </p>
     </div>
   )
 }
 
-const lb = { fontSize: 13, color: '#94a3b8', marginBottom: 6, display: 'block' }
-const inp = { width: '100%', padding: '11px 14px', background: '#161b27', border: '1px solid #1e293b', borderRadius: 8, color: '#e2e8f0', fontSize: 14, boxSizing: 'border-box' }
-const btnPrimary = { background: '#00d4ff', border: 'none', borderRadius: 8, color: '#0f1117', fontWeight: 700, cursor: 'pointer', padding: '12px', fontSize: 15, width: '100%' }
+const lb = { fontSize: 13, color: '#8BAFC8', marginBottom: 6, display: 'block' }
+const inp = { width: '100%', padding: '11px 14px', background: '#06101e', border: '1px solid #1a3a5c', borderRadius: 8, color: '#EEF2FF', fontSize: 14, boxSizing: 'border-box' }
+const btnPrimary = { background: '#FFDF00', border: 'none', borderRadius: 8, color: '#020c1b', fontWeight: 800, cursor: 'pointer', padding: '12px', fontSize: 15, width: '100%' }

@@ -3,32 +3,32 @@ import api from '../services/api'
 import { Plus, X, Send, Trash2, Lock, Globe, Clock, Paperclip, Image } from 'lucide-react'
 
 const STATUS = {
-  aberto:       { label: 'Aberto',       color: '#00d4ff' },
-  em_andamento: { label: 'Em Andamento', color: '#f59e0b' },
-  resolvido:    { label: 'Resolvido',    color: '#10b981' },
-  fechado:      { label: 'Fechado',      color: '#475569' },
+  aberto:       { label: 'Aberto',       color: '#FFDF00' },
+  em_andamento: { label: 'Em Andamento', color: '#F97316' },
+  resolvido:    { label: 'Resolvido',    color: '#009C3B' },
+  fechado:      { label: 'Fechado',      color: '#4A6B87' },
 }
 
 const PRIORITY = {
-  baixa:   { label: 'Baixa',   color: '#64748b' },
-  media:   { label: 'Media',   color: '#00d4ff' },
-  alta:    { label: 'Alta',    color: '#f59e0b' },
+  baixa:   { label: 'Baixa',   color: '#4A6B87' },
+  media:   { label: 'Media',   color: '#FFDF00' },
+  alta:    { label: 'Alta',    color: '#F97316' },
   critica: { label: 'Critica', color: '#f87171' },
 }
 
 const URGENCY = {
-  baixa:   { label: 'Baixa',   color: '#64748b' },
-  media:   { label: 'Media',   color: '#00d4ff' },
-  alta:    { label: 'Alta',    color: '#f59e0b' },
+  baixa:   { label: 'Baixa',   color: '#4A6B87' },
+  media:   { label: 'Media',   color: '#FFDF00' },
+  alta:    { label: 'Alta',    color: '#F97316' },
   critica: { label: 'Critica', color: '#f87171' },
 }
 
 const CATEGORY = {
-  suporte:  { label: 'Suporte',  color: '#a78bfa' },
-  bug:      { label: 'Bug',      color: '#f87171' },
-  melhoria: { label: 'Melhoria', color: '#10b981' },
-  duvida:   { label: 'Duvida',   color: '#f59e0b' },
-  outro:    { label: 'Outro',    color: '#64748b' },
+  suporte:  { label: 'Suporte',  color: '#1E6FD9' },
+  bug:      { label: 'Bug',      color: '#EF4444' },
+  melhoria: { label: 'Melhoria', color: '#009C3B' },
+  duvida:   { label: 'Duvida',   color: '#F97316' },
+  outro:    { label: 'Outro',    color: '#4A6B87' },
 }
 
 const emptyForm = {
@@ -66,13 +66,13 @@ function Attachment({ url, name, type }) {
   if (isImage) {
     return (
       <a href={src} target="_blank" rel="noreferrer" style={{ display: 'block', marginTop: 8 }}>
-        <img src={src} alt={name} style={{ maxWidth: '100%', maxHeight: 300, borderRadius: 6, border: '1px solid #1e293b', cursor: 'zoom-in' }} />
+        <img src={src} alt={name} style={{ maxWidth: '100%', maxHeight: 300, borderRadius: 6, border: '1px solid #1a3a5c', cursor: 'zoom-in' }} />
       </a>
     )
   }
   return (
     <a href={src} download={name} target="_blank" rel="noreferrer"
-      style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 8, padding: '6px 12px', background: '#0f1117', border: '1px solid #1e293b', borderRadius: 6, color: '#94a3b8', fontSize: 13, textDecoration: 'none' }}>
+      style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 8, padding: '6px 12px', background: '#06101e', border: '1px solid #1a3a5c', borderRadius: 6, color: '#8BAFC8', fontSize: 13, textDecoration: 'none' }}>
       <Paperclip size={13} /> {name || 'Anexo'}
     </a>
   )
@@ -218,7 +218,7 @@ export default function Tickets() {
       <div style={{
         width: selected ? 380 : '100%', minWidth: selected ? 380 : 'auto',
         display: 'flex', flexDirection: 'column', gap: 0,
-        borderRight: selected ? '1px solid #1e293b' : 'none',
+        borderRight: selected ? '1px solid #1a3a5c' : 'none',
         paddingRight: selected ? 16 : 0,
       }}>
         <div style={{ paddingBottom: 12, display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -229,7 +229,7 @@ export default function Tickets() {
           <input style={{ ...s.input, fontSize: 13 }} placeholder="Buscar titulo, cliente ou email..."
             value={search} onChange={e => setSearch(e.target.value)} />
           <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-            <button onClick={() => setFilterStatus('todos')} style={s.pill(filterStatus === 'todos', '#00d4ff')}>Todos ({tickets.length})</button>
+            <button onClick={() => setFilterStatus('todos')} style={s.pill(filterStatus === 'todos', '#FFDF00')}>Todos ({tickets.length})</button>
             {Object.entries(STATUS).map(([k, v]) => (
               <button key={k} onClick={() => setFilterStatus(k)} style={s.pill(filterStatus === k, v.color)}>
                 {v.label} ({countByStatus(k)})
@@ -237,7 +237,7 @@ export default function Tickets() {
             ))}
           </div>
           <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-            <button onClick={() => setFilterCategory('todos')} style={s.pill(filterCategory === 'todos', '#64748b', true)}>Categorias</button>
+            <button onClick={() => setFilterCategory('todos')} style={s.pill(filterCategory === 'todos', '#4A6B87', true)}>Categorias</button>
             {Object.entries(CATEGORY).map(([k, v]) => (
               <button key={k} onClick={() => setFilterCategory(k)} style={s.pill(filterCategory === k, v.color, true)}>{v.label}</button>
             ))}
@@ -248,33 +248,33 @@ export default function Tickets() {
           {filtered.map(t => (
             <div key={t.id} onClick={() => openTicket(t)} style={{
               padding: '12px 14px', borderRadius: 10, cursor: 'pointer',
-              background: selected === t.id ? '#1e293b' : '#161b27',
-              border: '1px solid ' + (selected === t.id ? '#334155' : '#1e293b'),
-              borderLeft: '3px solid ' + (STATUS[t.status] ? STATUS[t.status].color : '#475569'),
+              background: selected === t.id ? '#081526' : '#0d1e35',
+              border: '1px solid ' + (selected === t.id ? '#254d6e' : '#1a3a5c'),
+              borderLeft: '3px solid ' + (STATUS[t.status] ? STATUS[t.status].color : '#4A6B87'),
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 6 }}>
                 <span style={{ fontSize: 13, fontWeight: 600, flex: 1, lineHeight: 1.4 }}>
-                  <span style={{ color: '#475569', marginRight: 4 }}>{'#' + t.id}</span>{t.title}
+                  <span style={{ color: '#4A6B87', marginRight: 4 }}>{'#' + t.id}</span>{t.title}
                 </span>
-                <Badge label={PRIORITY[t.priority] ? PRIORITY[t.priority].label : t.priority} color={PRIORITY[t.priority] ? PRIORITY[t.priority].color : '#64748b'} small />
+                <Badge label={PRIORITY[t.priority] ? PRIORITY[t.priority].label : t.priority} color={PRIORITY[t.priority] ? PRIORITY[t.priority].color : '#4A6B87'} small />
               </div>
               <div style={{ display: 'flex', gap: 5, marginBottom: 6, flexWrap: 'wrap' }}>
-                <Badge label={CATEGORY[t.category] ? CATEGORY[t.category].label : (t.category || 'suporte')} color={CATEGORY[t.category] ? CATEGORY[t.category].color : '#a78bfa'} small />
-                <Badge label={STATUS[t.status] ? STATUS[t.status].label : t.status} color={STATUS[t.status] ? STATUS[t.status].color : '#475569'} small />
+                <Badge label={CATEGORY[t.category] ? CATEGORY[t.category].label : (t.category || 'suporte')} color={CATEGORY[t.category] ? CATEGORY[t.category].color : '#1E6FD9'} small />
+                <Badge label={STATUS[t.status] ? STATUS[t.status].label : t.status} color={STATUS[t.status] ? STATUS[t.status].color : '#4A6B87'} small />
                 {t.urgency && t.urgency !== 'media' && (
-                  <Badge label={'Urgencia ' + (URGENCY[t.urgency] ? URGENCY[t.urgency].label : t.urgency)} color={URGENCY[t.urgency] ? URGENCY[t.urgency].color : '#64748b'} small />
+                  <Badge label={'Urgencia ' + (URGENCY[t.urgency] ? URGENCY[t.urgency].label : t.urgency)} color={URGENCY[t.urgency] ? URGENCY[t.urgency].color : '#4A6B87'} small />
                 )}
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#475569' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#4A6B87' }}>
                 <span>{t.client_name || t.creator_name || 'Interno'}</span>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  {t.assigned_name && <span style={{ color: '#64748b' }}>{'-> ' + t.assigned_name}</span>}
+                  {t.assigned_name && <span style={{ color: '#8BAFC8' }}>{'-> ' + t.assigned_name}</span>}
                   <span style={{ display: 'flex', alignItems: 'center', gap: 3 }}><Clock size={10} />{timeAgo(t.updated_at)}</span>
                 </div>
               </div>
             </div>
           ))}
-          {filtered.length === 0 && <p style={{ color: '#475569', textAlign: 'center', padding: '40px 0', fontSize: 13 }}>Nenhum ticket encontrado.</p>}
+          {filtered.length === 0 && <p style={{ color: '#4A6B87', textAlign: 'center', padding: '40px 0', fontSize: 13 }}>Nenhum ticket encontrado.</p>}
         </div>
       </div>
 
@@ -283,63 +283,63 @@ export default function Tickets() {
           <div style={{ marginBottom: 16 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div style={{ flex: 1, marginRight: 12 }}>
-                <p style={{ color: '#475569', fontSize: 12, marginBottom: 4 }}>{'Ticket #' + detail.id + ' - ' + new Date(detail.created_at).toLocaleString('pt-BR')}</p>
+                <p style={{ color: '#4A6B87', fontSize: 12, marginBottom: 4 }}>{'Ticket #' + detail.id + ' - ' + new Date(detail.created_at).toLocaleString('pt-BR')}</p>
                 <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 10 }}>{detail.title}</h3>
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                  <Badge label={CATEGORY[detail.category] ? CATEGORY[detail.category].label : 'suporte'} color={CATEGORY[detail.category] ? CATEGORY[detail.category].color : '#a78bfa'} />
-                  <Badge label={'Urgencia: ' + (URGENCY[detail.urgency] ? URGENCY[detail.urgency].label : (detail.urgency || 'media'))} color={URGENCY[detail.urgency] ? URGENCY[detail.urgency].color : '#00d4ff'} />
-                  <Badge label={'Prioridade: ' + (PRIORITY[detail.priority] ? PRIORITY[detail.priority].label : detail.priority)} color={PRIORITY[detail.priority] ? PRIORITY[detail.priority].color : '#00d4ff'} />
+                  <Badge label={CATEGORY[detail.category] ? CATEGORY[detail.category].label : 'suporte'} color={CATEGORY[detail.category] ? CATEGORY[detail.category].color : '#1E6FD9'} />
+                  <Badge label={'Urgencia: ' + (URGENCY[detail.urgency] ? URGENCY[detail.urgency].label : (detail.urgency || 'media'))} color={URGENCY[detail.urgency] ? URGENCY[detail.urgency].color : '#FFDF00'} />
+                  <Badge label={'Prioridade: ' + (PRIORITY[detail.priority] ? PRIORITY[detail.priority].label : detail.priority)} color={PRIORITY[detail.priority] ? PRIORITY[detail.priority].color : '#FFDF00'} />
                 </div>
               </div>
               <div style={{ display: 'flex', gap: 6 }}>
                 <button onClick={() => removeTicket(selected)} style={{ background: 'none', border: 'none', color: '#f87171', cursor: 'pointer', padding: 6 }}><Trash2 size={15} /></button>
-                <button onClick={closeDetail} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', padding: 6 }}><X size={18} /></button>
+                <button onClick={closeDetail} style={{ background: 'none', border: 'none', color: '#4A6B87', cursor: 'pointer', padding: 6 }}><X size={18} /></button>
               </div>
             </div>
             {(detail.client_name || detail.client_email) && (
-              <div style={{ background: '#161b27', border: '1px solid #1e293b', borderRadius: 8, padding: '10px 14px', marginTop: 12, fontSize: 13 }}>
-                <span style={{ color: '#64748b', marginRight: 12 }}>Cliente:</span>
+              <div style={{ background: '#0d1e35', border: '1px solid #1a3a5c', borderRadius: 8, padding: '10px 14px', marginTop: 12, fontSize: 13 }}>
+                <span style={{ color: '#4A6B87', marginRight: 12 }}>Cliente:</span>
                 <strong style={{ marginRight: 12 }}>{detail.client_name || '-'}</strong>
-                {detail.client_email && <a href={'mailto:' + detail.client_email} style={{ color: '#00d4ff', fontSize: 12 }}>{detail.client_email}</a>}
+                {detail.client_email && <a href={'mailto:' + detail.client_email} style={{ color: '#FFDF00', fontSize: 12 }}>{detail.client_email}</a>}
               </div>
             )}
           </div>
 
-          <div style={{ background: '#161b27', border: '1px solid #1e293b', borderRadius: 10, padding: '14px 16px', marginBottom: 16 }}>
-            <p style={{ fontSize: 12, color: '#64748b', marginBottom: 8 }}>Status</p>
+          <div style={{ background: '#0d1e35', border: '1px solid #1a3a5c', borderRadius: 10, padding: '14px 16px', marginBottom: 16 }}>
+            <p style={{ fontSize: 12, color: '#4A6B87', marginBottom: 8 }}>Status</p>
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
               {Object.entries(STATUS).map(([k, v]) => (
                 <button key={k} onClick={() => changeStatus(k)} style={{
                   padding: '5px 14px', borderRadius: 20, fontSize: 12, cursor: 'pointer',
                   border: '1px solid ' + v.color + '55',
                   background: detail.status === k ? v.color + '33' : 'none',
-                  color: detail.status === k ? v.color : '#64748b',
+                  color: detail.status === k ? v.color : '#4A6B87',
                   fontWeight: detail.status === k ? 700 : 400,
                 }}>{v.label}</button>
               ))}
             </div>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <div style={{ flex: 1, minWidth: 150 }}>
-                <p style={{ fontSize: 11, color: '#64748b', marginBottom: 4 }}>Atribuido a</p>
+                <p style={{ fontSize: 11, color: '#4A6B87', marginBottom: 4 }}>Atribuido a</p>
                 <select value={detail.assigned_to || ''} onChange={e => updateField('assigned_to', e.target.value || null)} style={{ ...s.input, padding: '6px 10px', fontSize: 12 }}>
                   <option value="">Nao atribuido</option>
                   {users.map(u => <option key={u.id} value={u.id}>{u.name || u.email}</option>)}
                 </select>
               </div>
               <div style={{ minWidth: 120 }}>
-                <p style={{ fontSize: 11, color: '#64748b', marginBottom: 4 }}>Prioridade</p>
+                <p style={{ fontSize: 11, color: '#4A6B87', marginBottom: 4 }}>Prioridade</p>
                 <select value={detail.priority} onChange={e => updateField('priority', e.target.value)} style={{ ...s.input, padding: '6px 10px', fontSize: 12 }}>
                   {Object.entries(PRIORITY).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
                 </select>
               </div>
               <div style={{ minWidth: 120 }}>
-                <p style={{ fontSize: 11, color: '#64748b', marginBottom: 4 }}>Urgencia</p>
+                <p style={{ fontSize: 11, color: '#4A6B87', marginBottom: 4 }}>Urgencia</p>
                 <select value={detail.urgency || 'media'} onChange={e => updateField('urgency', e.target.value)} style={{ ...s.input, padding: '6px 10px', fontSize: 12 }}>
                   {Object.entries(URGENCY).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
                 </select>
               </div>
               <div style={{ minWidth: 120 }}>
-                <p style={{ fontSize: 11, color: '#64748b', marginBottom: 4 }}>Categoria</p>
+                <p style={{ fontSize: 11, color: '#4A6B87', marginBottom: 4 }}>Categoria</p>
                 <select value={detail.category || 'suporte'} onChange={e => updateField('category', e.target.value)} style={{ ...s.input, padding: '6px 10px', fontSize: 12 }}>
                   {Object.entries(CATEGORY).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
                 </select>
@@ -348,55 +348,55 @@ export default function Tickets() {
           </div>
 
           {detail.description && (
-            <div style={{ background: '#161b27', border: '1px solid #1e293b', borderRadius: 10, padding: '14px 16px', marginBottom: 16 }}>
-              <p style={{ fontSize: 11, color: '#64748b', marginBottom: 8, fontWeight: 600, textTransform: 'uppercase' }}>Descricao</p>
-              <p style={{ fontSize: 14, color: '#94a3b8', whiteSpace: 'pre-wrap', lineHeight: 1.7, margin: 0 }}>{detail.description}</p>
+            <div style={{ background: '#0d1e35', border: '1px solid #1a3a5c', borderRadius: 10, padding: '14px 16px', marginBottom: 16 }}>
+              <p style={{ fontSize: 11, color: '#4A6B87', marginBottom: 8, fontWeight: 600, textTransform: 'uppercase' }}>Descricao</p>
+              <p style={{ fontSize: 14, color: '#8BAFC8', whiteSpace: 'pre-wrap', lineHeight: 1.7, margin: 0 }}>{detail.description}</p>
             </div>
           )}
 
           <div style={{ marginBottom: 16 }}>
-            <p style={{ fontSize: 12, color: '#64748b', fontWeight: 600, marginBottom: 12, textTransform: 'uppercase' }}>
+            <p style={{ fontSize: 12, color: '#4A6B87', fontWeight: 600, marginBottom: 12, textTransform: 'uppercase' }}>
               {'Historico - ' + (detail.messages ? detail.messages.length : 0) + ' mensagem(s)'}
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {detail.messages && detail.messages.map(msg => (
                 <div key={msg.id} style={{
                   borderRadius: 10, padding: '12px 16px',
-                  background: msg.is_internal ? '#2d1f0a' : '#161b27',
-                  border: '1px solid ' + (msg.is_internal ? '#78350f44' : '#1e293b'),
-                  borderLeft: '3px solid ' + (msg.is_internal ? '#f59e0b' : '#00d4ff'),
+                  background: msg.is_internal ? '#112640' : '#081526',
+                  border: '1px solid ' + (msg.is_internal ? '#F9731622' : '#FFDF0022'),
+                  borderLeft: '3px solid ' + (msg.is_internal ? '#F97316' : '#FFDF00'),
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      {msg.is_internal ? <Lock size={12} color="#f59e0b" /> : <Globe size={12} color="#00d4ff" />}
-                      <span style={{ fontSize: 13, fontWeight: 600, color: msg.is_internal ? '#f59e0b' : '#00d4ff' }}>
+                      {msg.is_internal ? <Lock size={12} color="#F97316" /> : <Globe size={12} color="#FFDF00" />}
+                      <span style={{ fontSize: 13, fontWeight: 600, color: msg.is_internal ? '#F97316' : '#FFDF00' }}>
                         {msg.user_name || msg.author_name || 'Sistema'}
                       </span>
-                      {msg.is_internal && <span style={{ fontSize: 10, background: '#f59e0b22', color: '#f59e0b', padding: '1px 6px', borderRadius: 4 }}>nota interna</span>}
+                      {msg.is_internal && <span style={{ fontSize: 10, background: '#F9731622', color: '#F97316', padding: '1px 6px', borderRadius: 4 }}>nota interna</span>}
                     </div>
-                    <span style={{ fontSize: 11, color: '#475569' }}>{new Date(msg.created_at).toLocaleString('pt-BR')}</span>
+                    <span style={{ fontSize: 11, color: '#4A6B87' }}>{new Date(msg.created_at).toLocaleString('pt-BR')}</span>
                   </div>
-                  {msg.message && <p style={{ fontSize: 14, color: '#e2e8f0', whiteSpace: 'pre-wrap', lineHeight: 1.7, margin: 0 }}>{msg.message}</p>}
+                  {msg.message && <p style={{ fontSize: 14, color: '#EEF2FF', whiteSpace: 'pre-wrap', lineHeight: 1.7, margin: 0 }}>{msg.message}</p>}
                   {msg.attachment_url && (
                     <Attachment url={msg.attachment_url} name={msg.attachment_name} type={msg.attachment_type} />
                   )}
                 </div>
               ))}
-              {(!detail.messages || detail.messages.length === 0) && <p style={{ color: '#475569', fontSize: 13 }}>Nenhuma mensagem ainda.</p>}
+              {(!detail.messages || detail.messages.length === 0) && <p style={{ color: '#4A6B87', fontSize: 13 }}>Nenhuma mensagem ainda.</p>}
             </div>
           </div>
 
           {/* Reply area */}
-          <div style={{ background: '#161b27', border: '1px solid ' + (isInternal ? '#78350f88' : '#1e293b'), borderRadius: 10, padding: 16 }}>
+          <div style={{ background: '#0d1e35', border: '1px solid ' + (isInternal ? '#F9731688' : '#1a3a5c'), borderRadius: 10, padding: 16 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-              <p style={{ fontSize: 12, color: '#64748b', fontWeight: 600, margin: 0 }}>
+              <p style={{ fontSize: 12, color: '#4A6B87', fontWeight: 600, margin: 0 }}>
                 {isInternal ? 'Nota interna (nao enviada ao cliente)' : 'Resposta publica (notifica cliente por email)'}
               </p>
               <button onClick={() => setIsInternal(v => !v)} style={{
                 padding: '4px 12px', borderRadius: 20, fontSize: 11, cursor: 'pointer',
-                border: '1px solid ' + (isInternal ? '#f59e0b' : '#334155'),
-                background: isInternal ? '#f59e0b22' : 'none',
-                color: isInternal ? '#f59e0b' : '#64748b',
+                border: '1px solid ' + (isInternal ? '#F97316' : '#254d6e'),
+                background: isInternal ? '#F9731622' : 'none',
+                color: isInternal ? '#F97316' : '#4A6B87',
               }}>
                 {isInternal ? 'Interna' : 'Publica'}
               </button>
@@ -404,12 +404,12 @@ export default function Tickets() {
 
             {/* Attachment preview */}
             {attachment && (
-              <div style={{ marginBottom: 10, padding: '8px 10px', background: '#0f1117', borderRadius: 8, border: '1px solid #1e293b', display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ marginBottom: 10, padding: '8px 10px', background: '#06101e', borderRadius: 8, border: '1px solid #1a3a5c', display: 'flex', alignItems: 'center', gap: 10 }}>
                 {attachPreview
                   ? <img src={attachPreview} alt="preview" style={{ height: 48, borderRadius: 4, objectFit: 'cover' }} />
-                  : <Paperclip size={16} color="#94a3b8" />
+                  : <Paperclip size={16} color="#8BAFC8" />
                 }
-                <span style={{ fontSize: 12, color: '#94a3b8', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{attachment.name}</span>
+                <span style={{ fontSize: 12, color: '#8BAFC8', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{attachment.name}</span>
                 <button onClick={clearAttachment} style={{ background: 'none', border: 'none', color: '#f87171', cursor: 'pointer', padding: 4 }}><X size={14} /></button>
               </div>
             )}
@@ -421,7 +421,7 @@ export default function Tickets() {
                   placeholder={isInternal
                     ? 'Nota interna... (Ctrl+Enter envia, Cole prints com Ctrl+V)'
                     : 'Resposta ao cliente... (Ctrl+Enter envia, Cole prints com Ctrl+V)'}
-                  style={{ ...s.input, resize: 'none', height: 80, borderColor: isInternal ? '#78350f88' : '#1e293b', paddingRight: 40 }}
+                  style={{ ...s.input, resize: 'none', height: 80, borderColor: isInternal ? '#F9731688' : '#1a3a5c', paddingRight: 40 }}
                   onKeyDown={e => { if (e.ctrlKey && e.key === 'Enter') sendReply() }}
                 />
                 {/* File attach button inside textarea */}
@@ -429,7 +429,7 @@ export default function Tickets() {
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   title="Anexar arquivo"
-                  style={{ position: 'absolute', bottom: 8, right: 8, background: 'none', border: 'none', color: '#475569', cursor: 'pointer', padding: 2 }}
+                  style={{ position: 'absolute', bottom: 8, right: 8, background: 'none', border: 'none', color: '#4A6B87', cursor: 'pointer', padding: 2 }}
                 >
                   <Paperclip size={15} />
                 </button>
@@ -442,10 +442,10 @@ export default function Tickets() {
                 padding: '12px 16px', border: 'none', borderRadius: 8,
                 cursor: canSend ? 'pointer' : 'default',
                 alignSelf: 'flex-end', opacity: canSend ? 1 : 0.4,
-                background: isInternal ? '#f59e0b' : '#00d4ff', color: '#0f1117',
+                background: isInternal ? '#F97316' : '#FFDF00', color: '#020c1b',
               }}><Send size={15} /></button>
             </div>
-            <p style={{ fontSize: 11, color: '#334155', marginTop: 6, margin: '6px 0 0' }}>
+            <p style={{ fontSize: 11, color: '#254d6e', marginTop: 6, margin: '6px 0 0' }}>
               Cole screenshots com Ctrl+V • Clique em <Paperclip size={10} style={{ verticalAlign: 'middle' }} /> para anexar arquivo
             </p>
           </div>
@@ -486,7 +486,7 @@ export default function Tickets() {
                   </select>
                 </div>
               </div>
-              <hr style={{ border: 'none', borderTop: '1px solid #1e293b' }} />
+              <hr style={{ border: 'none', borderTop: '1px solid #1a3a5c' }} />
               <input style={s.input} placeholder="Nome do cliente" value={form.client_name} onChange={e => setForm(f => ({ ...f, client_name: e.target.value }))} />
               <input style={s.input} type="email" placeholder="Email do cliente (para notificacoes)" value={form.client_email} onChange={e => setForm(f => ({ ...f, client_email: e.target.value }))} />
               <select style={s.input} value={form.project_id} onChange={e => setForm(f => ({ ...f, project_id: e.target.value }))}>
@@ -511,13 +511,13 @@ const s = {
     borderRadius: 20, fontSize: small ? 11 : 12, cursor: 'pointer',
     border: '1px solid ' + color + '44',
     background: active ? color + '22' : 'none',
-    color: active ? color : '#64748b',
+    color: active ? color : '#4A6B87',
     fontWeight: active ? 600 : 400,
   }),
-  label: { fontSize: 11, color: '#64748b', marginBottom: 4, marginTop: 0 },
-  btnPrimary: { display: 'flex', alignItems: 'center', gap: 6, padding: '10px 18px', background: '#00d4ff', border: 'none', borderRadius: 8, color: '#0f1117', fontWeight: 700, fontSize: 13, cursor: 'pointer' },
-  btnSecondary: { flex: 1, padding: '10px', background: 'none', border: '1px solid #1e293b', borderRadius: 8, color: '#94a3b8', cursor: 'pointer' },
-  input: { padding: '9px 12px', background: '#0f1117', border: '1px solid #1e293b', borderRadius: 8, color: '#e2e8f0', fontSize: 13, width: '100%', boxSizing: 'border-box' },
+  label: { fontSize: 11, color: '#4A6B87', marginBottom: 4, marginTop: 0 },
+  btnPrimary: { display: 'flex', alignItems: 'center', gap: 6, padding: '10px 18px', background: '#FFDF00', border: 'none', borderRadius: 8, color: '#020c1b', fontWeight: 800, fontSize: 13, cursor: 'pointer' },
+  btnSecondary: { flex: 1, padding: '10px', background: 'none', border: '1px solid #1a3a5c', borderRadius: 8, color: '#8BAFC8', cursor: 'pointer' },
+  input: { padding: '9px 12px', background: '#06101e', border: '1px solid #1a3a5c', borderRadius: 8, color: '#EEF2FF', fontSize: 13, width: '100%', boxSizing: 'border-box' },
   overlay: { position: 'fixed', inset: 0, background: '#00000099', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 },
-  modal: { background: '#161b27', borderRadius: 16, padding: 28, width: 560, maxHeight: '90vh', overflowY: 'auto', border: '1px solid #1e293b' },
+  modal: { background: '#081526', borderRadius: 16, padding: 28, width: 560, maxHeight: '90vh', overflowY: 'auto', border: '1px solid #1a3a5c' },
 }

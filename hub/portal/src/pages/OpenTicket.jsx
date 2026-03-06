@@ -68,29 +68,29 @@ export default function OpenTicket() {
     return (
       <div style={{ maxWidth: 540, margin: '0 auto', padding: '20px 0' }}>
         <div style={{ textAlign: 'center', marginBottom: 28 }}>
-          <CheckCircle size={52} color="#10b981" style={{ margin: '0 auto 16px' }} />
+          <CheckCircle size={52} color="#009C3B" style={{ margin: '0 auto 16px' }} />
           <h2 style={{ fontSize: 24, fontWeight: 700, marginBottom: 8 }}>Chamado aberto!</h2>
-          <p style={{ color: '#64748b', fontSize: 15 }}>
-            Protocolo <strong style={{ color: '#00d4ff' }}>#{done.id}</strong>
+          <p style={{ color: '#4A6B87', fontSize: 15 }}>
+            Protocolo <strong style={{ color: '#FFDF00' }}>#{done.id}</strong>
           </p>
         </div>
 
         {/* Próximos passos */}
-        <div style={{ background: '#0f1a2e', border: '1px solid #00d4ff33', borderRadius: 12, padding: '20px 24px', marginBottom: 20 }}>
-          <p style={{ fontSize: 13, fontWeight: 600, color: '#00d4ff', marginBottom: 14 }}>📧 Verifique seu email</p>
-          <p style={{ color: '#94a3b8', fontSize: 14, lineHeight: 1.7, marginBottom: 0 }}>
-            Enviamos um email de confirmação para <strong style={{ color: '#e2e8f0' }}>{form.email}</strong> com o
-            <strong style={{ color: '#00d4ff' }}> link para acompanhar</strong> seu chamado.
-            Use esse link para ver respostas e adicionar informações — <strong style={{ color: '#e2e8f0' }}>sem precisar criar conta</strong>.
+        <div style={{ background: '#081526', border: '1px solid #FFDF0033', borderRadius: 12, padding: '20px 24px', marginBottom: 20 }}>
+          <p style={{ fontSize: 13, fontWeight: 600, color: '#FFDF00', marginBottom: 14 }}>Verifique seu email</p>
+          <p style={{ color: '#8BAFC8', fontSize: 14, lineHeight: 1.7, marginBottom: 0 }}>
+            Enviamos um email de confirmação para <strong style={{ color: '#EEF2FF' }}>{form.email}</strong> com o
+            <strong style={{ color: '#FFDF00' }}> link para acompanhar</strong> seu chamado.
+            Use esse link para ver respostas e adicionar informações — <strong style={{ color: '#EEF2FF' }}>sem precisar criar conta</strong>.
           </p>
         </div>
 
-        <div style={{ background: '#161b27', border: '1px solid #1e293b', borderRadius: 12, padding: '16px 20px', marginBottom: 24 }}>
-          <p style={{ fontSize: 13, color: '#64748b', marginBottom: 8 }}>Quer histórico de todos seus chamados?</p>
-          <p style={{ fontSize: 13, color: '#94a3b8', lineHeight: 1.6, marginBottom: 12 }}>
+        <div style={{ background: '#0d1e35', border: '1px solid #1a3a5c', borderRadius: 12, padding: '16px 20px', marginBottom: 24 }}>
+          <p style={{ fontSize: 13, color: '#4A6B87', marginBottom: 8 }}>Quer histórico de todos seus chamados?</p>
+          <p style={{ fontSize: 13, color: '#8BAFC8', lineHeight: 1.6, marginBottom: 12 }}>
             Crie uma conta com o mesmo email e todos os seus chamados ficam disponíveis em um só lugar.
           </p>
-          <a href="/cadastro" style={{ fontSize: 13, color: '#a78bfa', textDecoration: 'none', fontWeight: 600 }}>
+          <a href="/cadastro" style={{ fontSize: 13, color: '#1E6FD9', textDecoration: 'none', fontWeight: 600 }}>
             Criar conta grátis →
           </a>
         </div>
@@ -110,12 +110,12 @@ export default function OpenTicket() {
   return (
     <div>
       <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 6 }}>Abrir Chamado</h2>
-      <p style={{ color: '#64748b', marginBottom: 28, fontSize: 14 }}>
+      <p style={{ color: '#4A6B87', marginBottom: 28, fontSize: 14 }}>
         Descreva o problema ou solicitação. Nossa equipe responderá em breve.
       </p>
 
       <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+        <div className="form-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
           <div>
             <label style={lb}>Seu nome *</label>
             <input style={inp} placeholder="João Silva" value={user?.name || form.name}
@@ -136,7 +136,7 @@ export default function OpenTicket() {
             onChange={e => setForm(f => ({ ...f, title: e.target.value }))} required />
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+        <div className="form-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
           <div>
             <label style={lb}>Categoria</label>
             <select style={inp} value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}>
@@ -163,7 +163,7 @@ export default function OpenTicket() {
             />
             <button type="button" onClick={() => fileRef.current?.click()}
               title="Anexar arquivo"
-              style={{ position: 'absolute', bottom: 10, right: 10, background: 'none', border: 'none', color: '#475569', cursor: 'pointer' }}>
+              style={{ position: 'absolute', bottom: 10, right: 10, background: 'none', border: 'none', color: '#4A6B87', cursor: 'pointer' }}>
               <Paperclip size={18} />
             </button>
           </div>
@@ -173,11 +173,11 @@ export default function OpenTicket() {
         </div>
 
         {attachment && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', background: '#161b27', border: '1px solid #1e293b', borderRadius: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', background: '#0d1e35', border: '1px solid #1a3a5c', borderRadius: 8 }}>
             {attachPreview
               ? <img src={attachPreview} alt="preview" style={{ height: 40, borderRadius: 4, objectFit: 'cover' }} />
-              : <Paperclip size={16} color="#94a3b8" />}
-            <span style={{ fontSize: 13, color: '#94a3b8', flex: 1 }}>{attachment.name}</span>
+              : <Paperclip size={16} color="#8BAFC8" />}
+            <span style={{ fontSize: 13, color: '#8BAFC8', flex: 1 }}>{attachment.name}</span>
             <button type="button" onClick={() => { setAttachment(null); setAttachPreview(null) }} style={{ background: 'none', border: 'none', color: '#f87171', cursor: 'pointer' }}><X size={14} /></button>
           </div>
         )}
@@ -192,7 +192,7 @@ export default function OpenTicket() {
   )
 }
 
-const lb = { fontSize: 13, color: '#94a3b8', marginBottom: 6, display: 'block' }
-const inp = { width: '100%', padding: '10px 14px', background: '#161b27', border: '1px solid #1e293b', borderRadius: 8, color: '#e2e8f0', fontSize: 14, boxSizing: 'border-box' }
-const btnPrimary = { background: '#00d4ff', border: 'none', borderRadius: 8, color: '#0f1117', fontWeight: 700, cursor: 'pointer', padding: '11px 24px', fontSize: 14 }
-const btnSecondary = { background: 'none', border: '1px solid #334155', borderRadius: 8, color: '#94a3b8', cursor: 'pointer', padding: '11px 24px', fontSize: 14 }
+const lb = { fontSize: 13, color: '#8BAFC8', marginBottom: 6, display: 'block' }
+const inp = { width: '100%', padding: '10px 14px', background: '#06101e', border: '1px solid #1a3a5c', borderRadius: 8, color: '#EEF2FF', fontSize: 14, boxSizing: 'border-box' }
+const btnPrimary = { background: '#FFDF00', border: 'none', borderRadius: 8, color: '#020c1b', fontWeight: 800, cursor: 'pointer', padding: '11px 24px', fontSize: 14 }
+const btnSecondary = { background: 'none', border: '1px solid #254d6e', borderRadius: 8, color: '#8BAFC8', cursor: 'pointer', padding: '11px 24px', fontSize: 14 }

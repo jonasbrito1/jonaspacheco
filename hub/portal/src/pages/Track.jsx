@@ -4,8 +4,8 @@ import { Send, Paperclip, X, Globe } from 'lucide-react'
 import api from '../services/api'
 
 const STATUS_COLOR = {
-  aberto: '#00d4ff', em_andamento: '#f59e0b',
-  resolvido: '#10b981', fechado: '#475569',
+  aberto: '#FFDF00', em_andamento: '#F97316',
+  resolvido: '#009C3B', fechado: '#4A6B87',
 }
 const STATUS_LABEL = {
   aberto: 'Aberto', em_andamento: 'Em Andamento',
@@ -90,7 +90,7 @@ export default function Track() {
     return (
       <div style={{ maxWidth: 480, margin: '0 auto', paddingTop: 20 }}>
         <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>Acompanhar chamado</h2>
-        <p style={{ color: '#64748b', fontSize: 14, marginBottom: 24 }}>
+        <p style={{ color: '#4A6B87', fontSize: 14, marginBottom: 24 }}>
           Insira o token recebido no email de confirmação ou cole o link completo.
         </p>
         <form onSubmit={handleSearch} style={{ display: 'flex', gap: 10 }}>
@@ -102,7 +102,7 @@ export default function Track() {
     )
   }
 
-  if (loading) return <p style={{ color: '#64748b', textAlign: 'center', paddingTop: 40 }}>Carregando...</p>
+  if (loading) return <p style={{ color: '#4A6B87', textAlign: 'center', paddingTop: 40 }}>Carregando...</p>
   if (error && !ticket) return (
     <div style={{ textAlign: 'center', paddingTop: 40 }}>
       <p style={{ color: '#f87171', marginBottom: 20 }}>{error}</p>
@@ -116,29 +116,29 @@ export default function Track() {
   return (
     <div>
       {/* Header do ticket */}
-      <div style={{ background: '#161b27', border: '1px solid #1e293b', borderRadius: 12, padding: '20px 24px', marginBottom: 24 }}>
+      <div style={{ background: '#0d1e35', border: '1px solid #1a3a5c', borderRadius: 12, padding: '20px 24px', marginBottom: 24 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
           <div>
-            <p style={{ color: '#475569', fontSize: 12, marginBottom: 6 }}>
+            <p style={{ color: '#4A6B87', fontSize: 12, marginBottom: 6 }}>
               Chamado #{ticket.id} · {new Date(ticket.created_at).toLocaleString('pt-BR')}
             </p>
             <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 10 }}>{ticket.title}</h2>
           </div>
           <span style={{
-            background: (STATUS_COLOR[ticket.status] || '#475569') + '22',
-            color: STATUS_COLOR[ticket.status] || '#475569',
+            background: (STATUS_COLOR[ticket.status] || '#4A6B87') + '22',
+            color: STATUS_COLOR[ticket.status] || '#4A6B87',
             padding: '4px 14px', borderRadius: 20, fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap',
           }}>{STATUS_LABEL[ticket.status] || ticket.status}</span>
         </div>
         {ticket.description && (
-          <div style={{ background: '#0f1117', borderRadius: 8, padding: '12px 16px', fontSize: 14, color: '#94a3b8', whiteSpace: 'pre-wrap', lineHeight: 1.7 }}>
+          <div style={{ background: '#081526', borderRadius: 8, padding: '12px 16px', fontSize: 14, color: '#8BAFC8', whiteSpace: 'pre-wrap', lineHeight: 1.7 }}>
             {ticket.description}
           </div>
         )}
       </div>
 
       {/* Histórico */}
-      <h3 style={{ fontSize: 14, color: '#64748b', fontWeight: 600, textTransform: 'uppercase', marginBottom: 14, letterSpacing: 0.5 }}>
+      <h3 style={{ fontSize: 14, color: '#4A6B87', fontWeight: 600, textTransform: 'uppercase', marginBottom: 14, letterSpacing: 0.5 }}>
         Histórico · {ticket.messages?.length || 0} mensagem(s)
       </h3>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 28 }}>
@@ -147,45 +147,45 @@ export default function Track() {
           return (
             <div key={msg.id} style={{
               borderRadius: 10, padding: '14px 18px',
-              background: isSupport ? '#0f1a2e' : '#161b27',
-              border: '1px solid ' + (isSupport ? '#00d4ff22' : '#1e293b'),
-              borderLeft: '3px solid ' + (isSupport ? '#00d4ff' : '#475569'),
+              background: isSupport ? '#081526' : '#0d1e35',
+              border: '1px solid ' + (isSupport ? '#FFDF0022' : '#1a3a5c'),
+              borderLeft: '3px solid ' + (isSupport ? '#FFDF00' : '#4A6B87'),
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, flexWrap: 'wrap', gap: 6 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Globe size={12} color={isSupport ? '#00d4ff' : '#475569'} />
-                  <span style={{ fontSize: 13, fontWeight: 600, color: isSupport ? '#00d4ff' : '#94a3b8' }}>
+                  <Globe size={12} color={isSupport ? '#FFDF00' : '#4A6B87'} />
+                  <span style={{ fontSize: 13, fontWeight: 600, color: isSupport ? '#FFDF00' : '#8BAFC8' }}>
                     {isSupport ? (msg.user_name || 'Equipe de Suporte') : (msg.author_name || 'Você')}
                   </span>
-                  {isSupport && <span style={{ fontSize: 10, background: '#00d4ff22', color: '#00d4ff', padding: '1px 6px', borderRadius: 4 }}>equipe</span>}
+                  {isSupport && <span style={{ fontSize: 10, background: '#FFDF0022', color: '#FFDF00', padding: '1px 6px', borderRadius: 4 }}>equipe</span>}
                 </div>
-                <span style={{ fontSize: 11, color: '#475569' }}>{new Date(msg.created_at).toLocaleString('pt-BR')}</span>
+                <span style={{ fontSize: 11, color: '#4A6B87' }}>{new Date(msg.created_at).toLocaleString('pt-BR')}</span>
               </div>
-              {msg.message && <p style={{ fontSize: 14, color: '#e2e8f0', whiteSpace: 'pre-wrap', lineHeight: 1.7, margin: 0 }}>{msg.message}</p>}
+              {msg.message && <p style={{ fontSize: 14, color: '#EEF2FF', whiteSpace: 'pre-wrap', lineHeight: 1.7, margin: 0 }}>{msg.message}</p>}
               {msg.attachment_url && <AttachmentDisplay url={msg.attachment_url} name={msg.attachment_name} type={msg.attachment_type} />}
             </div>
           )
         })}
         {(!ticket.messages || ticket.messages.length === 0) && (
-          <p style={{ color: '#475569', fontSize: 14 }}>Ainda não há respostas. Nossa equipe irá responder em breve.</p>
+          <p style={{ color: '#4A6B87', fontSize: 14 }}>Ainda não há respostas. Nossa equipe irá responder em breve.</p>
         )}
       </div>
 
       {/* Responder */}
       {closed ? (
-        <div style={{ background: '#161b27', border: '1px solid #1e293b', borderRadius: 10, padding: '20px 24px', textAlign: 'center' }}>
-          <p style={{ color: '#64748b', fontSize: 14, marginBottom: 16 }}>Este chamado foi encerrado. Se precisar de mais ajuda, abra um novo chamado.</p>
+        <div style={{ background: '#0d1e35', border: '1px solid #1a3a5c', borderRadius: 10, padding: '20px 24px', textAlign: 'center' }}>
+          <p style={{ color: '#4A6B87', fontSize: 14, marginBottom: 16 }}>Este chamado foi encerrado. Se precisar de mais ajuda, abra um novo chamado.</p>
           <a href="/novo" style={{ ...btnPrimary, textDecoration: 'none', display: 'inline-block' }}>Abrir novo chamado</a>
         </div>
       ) : (
-        <div style={{ background: '#161b27', border: '1px solid #1e293b', borderRadius: 10, padding: 20 }}>
-          <p style={{ fontSize: 13, color: '#64748b', marginBottom: 12, fontWeight: 600 }}>Adicionar informação ou resposta</p>
-          {replyDone && <p style={{ color: '#10b981', fontSize: 13, marginBottom: 10 }}>✓ Resposta enviada! Nossa equipe foi notificada.</p>}
+        <div style={{ background: '#0d1e35', border: '1px solid #1a3a5c', borderRadius: 10, padding: 20 }}>
+          <p style={{ fontSize: 13, color: '#4A6B87', marginBottom: 12, fontWeight: 600 }}>Adicionar informação ou resposta</p>
+          {replyDone && <p style={{ color: '#009C3B', fontSize: 13, marginBottom: 10 }}>Resposta enviada! Nossa equipe foi notificada.</p>}
 
           {attachment && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', background: '#0f1117', border: '1px solid #1e293b', borderRadius: 8, marginBottom: 10 }}>
-              {attachPreview ? <img src={attachPreview} alt="" style={{ height: 36, borderRadius: 4, objectFit: 'cover' }} /> : <Paperclip size={14} color="#94a3b8" />}
-              <span style={{ fontSize: 12, color: '#94a3b8', flex: 1 }}>{attachment.name}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', background: '#081526', border: '1px solid #1a3a5c', borderRadius: 8, marginBottom: 10 }}>
+              {attachPreview ? <img src={attachPreview} alt="" style={{ height: 36, borderRadius: 4, objectFit: 'cover' }} /> : <Paperclip size={14} color="#8BAFC8" />}
+              <span style={{ fontSize: 12, color: '#8BAFC8', flex: 1 }}>{attachment.name}</span>
               <button onClick={() => { setAttachment(null); setAttachPreview(null) }} style={{ background: 'none', border: 'none', color: '#f87171', cursor: 'pointer' }}><X size={13} /></button>
             </div>
           )}
@@ -201,7 +201,7 @@ export default function Track() {
                 onKeyDown={e => { if (e.ctrlKey && e.key === 'Enter') sendReply() }}
               />
               <button type="button" onClick={() => fileRef.current?.click()}
-                style={{ position: 'absolute', bottom: 10, right: 10, background: 'none', border: 'none', color: '#475569', cursor: 'pointer' }}>
+                style={{ position: 'absolute', bottom: 10, right: 10, background: 'none', border: 'none', color: '#4A6B87', cursor: 'pointer' }}>
                 <Paperclip size={16} />
               </button>
             </div>
@@ -224,18 +224,18 @@ function AttachmentDisplay({ url, name, type }) {
   if (type?.startsWith('image/')) {
     return (
       <a href={url} target="_blank" rel="noreferrer" style={{ display: 'block', marginTop: 8 }}>
-        <img src={url} alt={name} style={{ maxWidth: '100%', maxHeight: 280, borderRadius: 6, border: '1px solid #1e293b' }} />
+        <img src={url} alt={name} style={{ maxWidth: '100%', maxHeight: 280, borderRadius: 6, border: '1px solid #1a3a5c' }} />
       </a>
     )
   }
   return (
     <a href={url} download={name} target="_blank" rel="noreferrer"
-      style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 8, padding: '6px 12px', background: '#0f1117', border: '1px solid #1e293b', borderRadius: 6, color: '#94a3b8', fontSize: 13, textDecoration: 'none' }}>
+      style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 8, padding: '6px 12px', background: '#081526', border: '1px solid #1a3a5c', borderRadius: 6, color: '#8BAFC8', fontSize: 13, textDecoration: 'none' }}>
       <Paperclip size={13} /> {name || 'Anexo'}
     </a>
   )
 }
 
-const inp = { width: '100%', padding: '10px 14px', background: '#0f1117', border: '1px solid #1e293b', borderRadius: 8, color: '#e2e8f0', fontSize: 14, boxSizing: 'border-box' }
-const btnPrimary = { background: '#00d4ff', border: 'none', borderRadius: 8, color: '#0f1117', fontWeight: 700, cursor: 'pointer', padding: '10px 20px', fontSize: 14 }
-const btnSecondary = { background: 'none', border: '1px solid #334155', borderRadius: 8, color: '#94a3b8', cursor: 'pointer', padding: '10px 20px', fontSize: 14 }
+const inp = { width: '100%', padding: '10px 14px', background: '#06101e', border: '1px solid #1a3a5c', borderRadius: 8, color: '#EEF2FF', fontSize: 14, boxSizing: 'border-box' }
+const btnPrimary = { background: '#FFDF00', border: 'none', borderRadius: 8, color: '#020c1b', fontWeight: 800, cursor: 'pointer', padding: '10px 20px', fontSize: 14 }
+const btnSecondary = { background: 'none', border: '1px solid #254d6e', borderRadius: 8, color: '#8BAFC8', cursor: 'pointer', padding: '10px 20px', fontSize: 14 }

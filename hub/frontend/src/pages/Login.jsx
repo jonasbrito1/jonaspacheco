@@ -25,13 +25,22 @@ export default function Login() {
   return (
     <div style={s.page}>
       <div style={s.card}>
-        <h1 style={s.title}>&lt;hub /&gt;</h1>
-        <p style={s.sub}>Painel de Gestão · Jonas Pacheco</p>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <h1 style={s.title}>&lt;hub /&gt;</h1>
+          <p style={s.sub}>Painel de Gestão · Jonas Pacheco</p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 16 }}>
+            {['#009C3B','#FFDF00','#002776'].map(c => (
+              <span key={c} style={{ width: 8, height: 8, borderRadius: '50%', background: c }} />
+            ))}
+          </div>
+        </div>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <input style={s.input} type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
           <input style={s.input} type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} required />
-          {error && <p style={{ color: '#f87171', fontSize: 14 }}>{error}</p>}
-          <button style={s.btn} disabled={loading}>{loading ? 'Entrando...' : 'Entrar'}</button>
+          {error && <p style={{ color: '#EF4444', fontSize: 13, textAlign: 'center' }}>{error}</p>}
+          <button style={{ ...s.btn, opacity: loading ? 0.7 : 1 }} disabled={loading}>
+            {loading ? 'Entrando...' : 'Entrar'}
+          </button>
         </form>
       </div>
     </div>
@@ -39,10 +48,10 @@ export default function Login() {
 }
 
 const s = {
-  page: { minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0f1117' },
-  card: { background: '#161b27', padding: 40, borderRadius: 16, width: 360, border: '1px solid #1e293b' },
-  title: { color: '#00d4ff', fontSize: 28, fontWeight: 700, marginBottom: 4 },
-  sub: { color: '#64748b', fontSize: 14, marginBottom: 32 },
-  input: { padding: '12px 16px', background: '#0f1117', border: '1px solid #1e293b', borderRadius: 8, color: '#e2e8f0', fontSize: 14 },
-  btn: { padding: '12px', background: '#00d4ff', border: 'none', borderRadius: 8, color: '#0f1117', fontWeight: 700, fontSize: 15 },
+  page:  { minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#020c1b', padding: 16 },
+  card:  { background: '#0d1e35', padding: '40px 36px', borderRadius: 18, width: '100%', maxWidth: 380, border: '1px solid #1a3a5c', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' },
+  title: { color: '#FFDF00', fontSize: 32, fontWeight: 800, letterSpacing: -1 },
+  sub:   { color: '#4A6B87', fontSize: 13, marginTop: 4 },
+  input: { padding: '12px 16px', background: '#06101e', border: '1px solid #1a3a5c', borderRadius: 10, color: '#EEF2FF', fontSize: 14, outline: 'none', transition: 'border-color .2s' },
+  btn:   { padding: '13px', background: '#FFDF00', border: 'none', borderRadius: 10, color: '#020c1b', fontWeight: 800, fontSize: 15, letterSpacing: 0.3 },
 }

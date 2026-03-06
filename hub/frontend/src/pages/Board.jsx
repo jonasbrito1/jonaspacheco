@@ -15,11 +15,11 @@ import {
 
 // ─── Priority helpers ──────────────────────────────────────────────────────────
 const PRIORITY = {
-  critica: { label: 'Crítica', color: '#ef4444' },
-  alta:    { label: 'Alta',    color: '#f97316' },
-  media:   { label: 'Média',  color: '#eab308' },
-  baixa:   { label: 'Baixa',  color: '#22c55e' },
-  none:    { label: 'Nenhuma',color: '#475569' },
+  critica: { label: 'Crítica', color: '#EF4444' },
+  alta:    { label: 'Alta',    color: '#F97316' },
+  media:   { label: 'Média',  color: '#FFDF00' },
+  baixa:   { label: 'Baixa',  color: '#009C3B' },
+  none:    { label: 'Nenhuma',color: '#4A6B87' },
 }
 
 function PriorityIcon({ priority, size = 13 }) {
@@ -46,11 +46,11 @@ function TaskCard({ task, onClick }) {
     <div ref={setNodeRef} style={style} onClick={() => onClick(task)}>
       <div style={cardStyle}>
         <div style={{ display: 'flex', gap: 6, alignItems: 'flex-start' }}>
-          <span {...attributes} {...listeners} style={{ color: '#334155', cursor: 'grab', marginTop: 2, flexShrink: 0 }}>
+          <span {...attributes} {...listeners} style={{ color: '#1a3a5c', cursor: 'grab', marginTop: 2, flexShrink: 0 }}>
             <GripVertical size={14} />
           </span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ fontSize: 13, color: '#e2e8f0', lineHeight: 1.4, wordBreak: 'break-word' }}>{task.title}</p>
+            <p style={{ fontSize: 13, color: '#EEF2FF', lineHeight: 1.4, wordBreak: 'break-word' }}>{task.title}</p>
 
             {/* Labels */}
             {task.labels?.length > 0 && (
@@ -67,13 +67,13 @@ function TaskCard({ task, onClick }) {
               <PriorityIcon priority={task.priority} />
 
               {task.due_date && (
-                <span style={{ fontSize: 11, color: isOverdue ? '#f87171' : '#64748b' }}>
+                <span style={{ fontSize: 11, color: isOverdue ? '#EF4444' : '#4A6B87' }}>
                   {new Date(task.due_date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
                 </span>
               )}
 
               {subtasksTotal > 0 && (
-                <span style={{ fontSize: 11, color: subtasksDone === subtasksTotal ? '#22c55e' : '#64748b' }}>
+                <span style={{ fontSize: 11, color: subtasksDone === subtasksTotal ? '#009C3B' : '#4A6B87' }}>
                   ✓ {subtasksDone}/{subtasksTotal}
                 </span>
               )}
@@ -83,7 +83,7 @@ function TaskCard({ task, onClick }) {
                 <div style={{ display: 'flex', marginLeft: 'auto' }}>
                   {task.assignees.slice(0, 3).map(a => (
                     <div key={a.id} title={a.name || a.email}
-                      style={{ width: 20, height: 20, borderRadius: '50%', background: '#1e40af', border: '1px solid #161b27', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 700, color: '#93c5fd', marginLeft: -4 }}>
+                      style={{ width: 20, height: 20, borderRadius: '50%', background: '#112640', border: '1px solid #0d1e35', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 700, color: '#FFDF00', marginLeft: -4 }}>
                       {(a.name || a.email).charAt(0).toUpperCase()}
                     </div>
                   ))}
@@ -106,9 +106,9 @@ function Column({ column, tasks, onAddTask, onTaskClick, onEditColumn, onDeleteC
     <div style={{ width: 280, flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
       {/* Column header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10, padding: '0 4px' }}>
-        <span style={{ width: 10, height: 10, borderRadius: '50%', background: column.color || '#475569', flexShrink: 0 }} />
-        <span style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0', flex: 1 }}>{column.name}</span>
-        <span style={{ fontSize: 11, color: '#475569', background: '#1e293b', borderRadius: 20, padding: '1px 7px' }}>{tasks.length}</span>
+        <span style={{ width: 10, height: 10, borderRadius: '50%', background: column.color || '#4A6B87', flexShrink: 0 }} />
+        <span style={{ fontSize: 13, fontWeight: 600, color: '#EEF2FF', flex: 1 }}>{column.name}</span>
+        <span style={{ fontSize: 11, color: '#4A6B87', background: '#112640', borderRadius: 20, padding: '1px 7px' }}>{tasks.length}</span>
         <button onClick={() => onAddTask(column.id)} style={iconBtn} title="Adicionar tarefa">
           <Plus size={14} />
         </button>
@@ -122,8 +122,8 @@ function Column({ column, tasks, onAddTask, onTaskClick, onEditColumn, onDeleteC
       <SortableContext items={taskIds} strategy={verticalListSortingStrategy}>
         <div ref={setNodeRef} style={{
           flex: 1, minHeight: 100, borderRadius: 10, padding: '6px 4px',
-          background: isOver ? '#0f1a2e' : 'transparent',
-          border: isOver ? '1px dashed #00d4ff55' : '1px dashed transparent',
+          background: isOver ? '#06101e' : 'transparent',
+          border: isOver ? '1px dashed #FFDF0055' : '1px dashed transparent',
           transition: 'all .15s',
         }}>
           {tasks.map(task => (
@@ -273,12 +273,12 @@ export default function Board() {
 
   // ─── List View ──────────────────────────────────────────────────────────────
   const ListView = () => (
-    <div style={{ background: '#161b27', borderRadius: 12, border: '1px solid #1e293b', overflow: 'hidden' }}>
+    <div style={{ background: '#0d1e35', borderRadius: 14, border: '1px solid #1a3a5c', overflow: 'hidden' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
         <thead>
-          <tr style={{ borderBottom: '1px solid #1e293b' }}>
+          <tr style={{ borderBottom: '1px solid #1a3a5c' }}>
             {['Tarefa', 'Status', 'Prioridade', 'Responsáveis', 'Prazo'].map(h => (
-              <th key={h} style={{ padding: '12px 16px', textAlign: 'left', color: '#64748b', fontWeight: 600, fontSize: 12 }}>{h}</th>
+              <th key={h} style={{ padding: '12px 16px', textAlign: 'left', color: '#4A6B87', fontWeight: 600, fontSize: 12 }}>{h}</th>
             ))}
           </tr>
         </thead>
@@ -288,17 +288,17 @@ export default function Board() {
             const isOverdue = task.due_date && !col?.is_done && new Date(task.due_date) < new Date()
             return (
               <tr key={task.id} onClick={() => setSelectedTask(task)}
-                style={{ borderBottom: '1px solid #1e293b', cursor: 'pointer' }}
-                onMouseEnter={e => e.currentTarget.style.background = '#1e293b44'}
+                style={{ borderBottom: '1px solid #1a3a5c', cursor: 'pointer' }}
+                onMouseEnter={e => e.currentTarget.style.background = '#112640'}
                 onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-                <td style={{ padding: '12px 16px', color: '#e2e8f0' }}>{task.title}</td>
+                <td style={{ padding: '12px 16px', color: '#EEF2FF' }}>{task.title}</td>
                 <td style={{ padding: '12px 16px' }}>
-                  <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 20, background: (col?.color || '#475569') + '33', color: col?.color || '#475569' }}>
+                  <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 20, background: (col?.color || '#4A6B87') + '33', color: col?.color || '#4A6B87' }}>
                     {col?.name || '—'}
                   </span>
                 </td>
                 <td style={{ padding: '12px 16px' }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: 4, color: PRIORITY[task.priority]?.color || '#475569', fontSize: 12 }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 4, color: PRIORITY[task.priority]?.color || '#4A6B87', fontSize: 12 }}>
                     <PriorityIcon priority={task.priority} /> {PRIORITY[task.priority]?.label}
                   </span>
                 </td>
@@ -306,13 +306,13 @@ export default function Board() {
                   <div style={{ display: 'flex' }}>
                     {(task.assignees || []).slice(0, 3).map(a => (
                       <div key={a.id} title={a.name || a.email}
-                        style={{ width: 22, height: 22, borderRadius: '50%', background: '#1e40af', border: '1px solid #161b27', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700, color: '#93c5fd', marginLeft: -4 }}>
+                        style={{ width: 22, height: 22, borderRadius: '50%', background: '#112640', border: '1px solid #0d1e35', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700, color: '#FFDF00', marginLeft: -4 }}>
                         {(a.name || a.email).charAt(0).toUpperCase()}
                       </div>
                     ))}
                   </div>
                 </td>
-                <td style={{ padding: '12px 16px', color: isOverdue ? '#f87171' : '#64748b' }}>
+                <td style={{ padding: '12px 16px', color: isOverdue ? '#EF4444' : '#4A6B87' }}>
                   {task.due_date ? new Date(task.due_date).toLocaleDateString('pt-BR') : '—'}
                 </td>
               </tr>
@@ -323,17 +323,17 @@ export default function Board() {
     </div>
   )
 
-  if (loading) return <div style={{ color: '#64748b' }}>Carregando board...</div>
-  if (!board) return <div style={{ color: '#f87171' }}>Board não encontrado.</div>
+  if (loading) return <div style={{ color: '#4A6B87' }}>Carregando board...</div>
+  if (!board) return <div style={{ color: '#EF4444' }}>Board não encontrado.</div>
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
-        <button onClick={() => navigate('/taskflow')} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontSize: 14 }}>
+        <button onClick={() => navigate('/taskflow')} style={{ background: 'none', border: 'none', color: '#4A6B87', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontSize: 14 }}>
           <ArrowLeft size={16} /> Boards
         </button>
-        <h1 style={{ fontSize: 20, fontWeight: 700, color: '#e2e8f0', flex: 1 }}>{board.name}</h1>
+        <h1 style={{ fontSize: 20, fontWeight: 700, color: '#EEF2FF', flex: 1 }}>{board.name}</h1>
 
         {/* Filters */}
         <input placeholder="Buscar tarefa..." value={filters.search}
@@ -345,10 +345,10 @@ export default function Board() {
         </select>
 
         {/* View toggle */}
-        <div style={{ display: 'flex', border: '1px solid #1e293b', borderRadius: 8, overflow: 'hidden' }}>
+        <div style={{ display: 'flex', border: '1px solid #1a3a5c', borderRadius: 8, overflow: 'hidden' }}>
           {[['kanban', LayoutGrid], ['list', List]].map(([v, Icon]) => (
             <button key={v} onClick={() => setView(v)}
-              style={{ background: view === v ? '#1e293b' : 'transparent', border: 'none', color: view === v ? '#00d4ff' : '#64748b', cursor: 'pointer', padding: '7px 12px', display: 'flex', alignItems: 'center' }}>
+              style={{ background: view === v ? '#112640' : 'transparent', border: 'none', color: view === v ? '#FFDF00' : '#4A6B87', cursor: 'pointer', padding: '7px 12px', display: 'flex', alignItems: 'center' }}>
               <Icon size={15} />
             </button>
           ))}
@@ -368,11 +368,11 @@ export default function Board() {
             {/* Add column */}
             <div style={{ width: 280, flexShrink: 0 }}>
               {showColForm ? (
-                <form onSubmit={addColumn} style={{ background: '#161b27', border: '1px solid #1e293b', borderRadius: 10, padding: 12 }}>
+                <form onSubmit={addColumn} style={{ background: '#0d1e35', border: '1px solid #1a3a5c', borderRadius: 10, padding: 12 }}>
                   <input autoFocus style={{ ...inp, marginBottom: 8 }} placeholder="Nome da coluna"
                     value={newColName} onChange={e => setNewColName(e.target.value)} />
                   <div style={{ display: 'flex', gap: 8 }}>
-                    <button type="submit" style={{ ...btnSm, background: '#00d4ff', color: '#0f1117' }}>Adicionar</button>
+                    <button type="submit" style={{ ...btnSm, background: '#FFDF00', color: '#020c1b', fontWeight: 700 }}>Adicionar</button>
                     <button type="button" onClick={() => setShowColForm(false)} style={btnSm}><X size={14} /></button>
                   </div>
                 </form>
@@ -387,7 +387,7 @@ export default function Board() {
           <DragOverlay>
             {activeTask && (
               <div style={{ ...cardStyle, boxShadow: '0 8px 32px rgba(0,0,0,0.5)', transform: 'rotate(2deg)' }}>
-                <p style={{ fontSize: 13, color: '#e2e8f0' }}>{activeTask.title}</p>
+                <p style={{ fontSize: 13, color: '#EEF2FF' }}>{activeTask.title}</p>
               </div>
             )}
           </DragOverlay>
@@ -410,9 +410,9 @@ export default function Board() {
   )
 }
 
-const cardStyle = { background: '#161b27', border: '1px solid #1e293b', borderRadius: 8, padding: '10px 12px', marginBottom: 6, cursor: 'pointer', transition: 'border-color .15s' }
-const iconBtn   = { background: 'none', border: 'none', color: '#475569', cursor: 'pointer', padding: 3, borderRadius: 4, display: 'flex', alignItems: 'center' }
-const addCardBtn = { width: '100%', background: 'none', border: '1px dashed #1e293b', borderRadius: 8, color: '#475569', cursor: 'pointer', padding: '8px 12px', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, transition: 'all .15s' }
-const addColBtn  = { width: '100%', background: 'none', border: '1px dashed #334155', borderRadius: 10, color: '#475569', cursor: 'pointer', padding: '14px', fontSize: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }
-const btnSm = { background: '#1e293b', border: 'none', color: '#e2e8f0', borderRadius: 6, padding: '6px 12px', cursor: 'pointer', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }
-const inp   = { padding: '8px 12px', background: '#0f1117', border: '1px solid #1e293b', borderRadius: 8, color: '#e2e8f0', fontSize: 13, boxSizing: 'border-box' }
+const cardStyle  = { background: '#0d1e35', border: '1px solid #1a3a5c', borderRadius: 8, padding: '10px 12px', marginBottom: 6, cursor: 'pointer', transition: 'border-color .15s' }
+const iconBtn    = { background: 'none', border: 'none', color: '#4A6B87', cursor: 'pointer', padding: 3, borderRadius: 4, display: 'flex', alignItems: 'center' }
+const addCardBtn = { width: '100%', background: 'none', border: '1px dashed #1a3a5c', borderRadius: 8, color: '#4A6B87', cursor: 'pointer', padding: '8px 12px', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, transition: 'all .15s' }
+const addColBtn  = { width: '100%', background: 'none', border: '1px dashed #254d6e', borderRadius: 10, color: '#4A6B87', cursor: 'pointer', padding: '14px', fontSize: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }
+const btnSm      = { background: '#112640', border: 'none', color: '#EEF2FF', borderRadius: 6, padding: '6px 12px', cursor: 'pointer', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }
+const inp        = { padding: '8px 12px', background: '#06101e', border: '1px solid #1a3a5c', borderRadius: 8, color: '#EEF2FF', fontSize: 13, boxSizing: 'border-box' }

@@ -23,7 +23,7 @@ function fmtLive(seconds) {
   const h = Math.floor(seconds / 3600)
   const m = Math.floor((seconds % 3600) / 60)
   const s = seconds % 60
-  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+  return `${String(h).padStart(2, '00')}:${String(m).padStart(2, '00')}:${String(s).padStart(2, '00')}`
 }
 
 export default function TaskDetail({ task, board, columns, labels: boardLabels, onClose, onUpdate, onLabelsChange }) {
@@ -39,7 +39,7 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
   const [manualEntry, setManualEntry] = useState({ description: '', minutes: '' })
   const [showManual, setShowManual] = useState(false)
   const [showLabelPicker, setShowLabelPicker] = useState(false)
-  const [newLabelForm, setNewLabelForm] = useState({ name: '', color: '#00d4ff' })
+  const [newLabelForm, setNewLabelForm] = useState({ name: '', color: '#FFDF00' })
   const [showNewLabel, setShowNewLabel] = useState(false)
   const [showAssigneePicker, setShowAssigneePicker] = useState(false)
   const fileRef = useRef()
@@ -161,7 +161,7 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
     const { data } = await api.post(`/tf/boards/${board.id}/labels`, newLabelForm)
     onLabelsChange(prev => [...prev, data])
     setShowNewLabel(false)
-    setNewLabelForm({ name: '', color: '#00d4ff' })
+    setNewLabelForm({ name: '', color: '#FFDF00' })
   }
 
   const deleteLabel = async (labelId) => {
@@ -241,23 +241,23 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
       {/* Panel */}
       <div style={{
         position: 'fixed', top: 0, right: 0, bottom: 0, width: 520,
-        background: '#161b27', borderLeft: '1px solid #1e293b',
+        background: '#0d1e35', borderLeft: '1px solid #1a3a5c',
         display: 'flex', flexDirection: 'column', zIndex: 901,
         overflowY: 'auto',
       }}>
         {loading ? (
-          <div style={{ padding: 32, color: '#64748b' }}>Carregando...</div>
+          <div style={{ padding: 32, color: '#4A6B87' }}>Carregando...</div>
         ) : !detail ? null : (
           <>
             {/* Header */}
-            <div style={{ padding: '20px 24px 16px', borderBottom: '1px solid #1e293b', position: 'sticky', top: 0, background: '#161b27', zIndex: 10 }}>
+            <div style={{ padding: '20px 24px 16px', borderBottom: '1px solid #1a3a5c', position: 'sticky', top: 0, background: '#0d1e35', zIndex: 10 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
                 {titleEdit ? (
                   <input autoFocus value={titleVal} onChange={e => setTitleVal(e.target.value)}
                     onBlur={saveTitle} onKeyDown={e => e.key === 'Enter' && saveTitle()}
-                    style={{ ...inp, flex: 1, fontSize: 17, fontWeight: 700, background: '#0f1117' }} />
+                    style={{ ...inp, flex: 1, fontSize: 17, fontWeight: 700, background: '#06101e' }} />
                 ) : (
-                  <h2 onClick={() => setTitleEdit(true)} style={{ fontSize: 17, fontWeight: 700, color: '#e2e8f0', flex: 1, cursor: 'text', lineHeight: 1.4 }}>
+                  <h2 onClick={() => setTitleEdit(true)} style={{ fontSize: 17, fontWeight: 700, color: '#EEF2FF', flex: 1, cursor: 'text', lineHeight: 1.4 }}>
                     {detail.title}
                   </h2>
                 )}
@@ -301,27 +301,27 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
                 <label style={lb}><Users size={12} /> Responsáveis</label>
                 <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
                   {detail.assignees?.map(a => (
-                    <div key={a.id} title={a.name || a.email} style={{ display: 'flex', alignItems: 'center', gap: 4, background: '#1e293b', borderRadius: 20, padding: '4px 10px', fontSize: 12, color: '#e2e8f0' }}>
-                      <div style={{ width: 18, height: 18, borderRadius: '50%', background: '#1e40af', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 700, color: '#93c5fd' }}>
+                    <div key={a.id} title={a.name || a.email} style={{ display: 'flex', alignItems: 'center', gap: 4, background: '#1a3a5c', borderRadius: 20, padding: '4px 10px', fontSize: 12, color: '#EEF2FF' }}>
+                      <div style={{ width: 18, height: 18, borderRadius: '50%', background: '#112640', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 700, color: '#93c5fd' }}>
                         {(a.name || a.email).charAt(0).toUpperCase()}
                       </div>
                       {a.name || a.email}
-                      <button onClick={() => toggleAssignee(a.id)} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', padding: 0, lineHeight: 1 }}>×</button>
+                      <button onClick={() => toggleAssignee(a.id)} style={{ background: 'none', border: 'none', color: '#4A6B87', cursor: 'pointer', padding: 0, lineHeight: 1 }}>×</button>
                     </div>
                   ))}
                   <button onClick={() => { setShowAssigneePicker(p => !p); loadUsers() }}
-                    style={{ ...iconBtn, border: '1px dashed #334155', borderRadius: 20, padding: '4px 10px', fontSize: 12, color: '#64748b' }}>
+                    style={{ ...iconBtn, border: '1px dashed #254d6e', borderRadius: 20, padding: '4px 10px', fontSize: 12, color: '#4A6B87' }}>
                     <Plus size={12} /> Adicionar
                   </button>
                 </div>
                 {showAssigneePicker && (
-                  <div style={{ background: '#0f1117', border: '1px solid #1e293b', borderRadius: 8, marginTop: 8, maxHeight: 160, overflowY: 'auto' }}>
+                  <div style={{ background: '#06101e', border: '1px solid #1a3a5c', borderRadius: 8, marginTop: 8, maxHeight: 160, overflowY: 'auto' }}>
                     {allUsers.map(u => {
                       const has = detail.assignees?.some(a => a.id === u.id)
                       return (
                         <div key={u.id} onClick={() => toggleAssignee(u.id)}
-                          style={{ padding: '8px 12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: has ? '#00d4ff' : '#e2e8f0', background: has ? '#00d4ff11' : 'transparent' }}>
-                          <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#1e40af', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700, color: '#93c5fd' }}>
+                          style={{ padding: '8px 12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: has ? '#FFDF00' : '#EEF2FF', background: has ? '#FFDF0011' : 'transparent' }}>
+                          <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#112640', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700, color: '#93c5fd' }}>
                             {(u.name || u.email).charAt(0).toUpperCase()}
                           </div>
                           {u.name || u.email}
@@ -344,22 +344,22 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
                     </span>
                   ))}
                   <button onClick={() => setShowLabelPicker(p => !p)}
-                    style={{ ...iconBtn, border: '1px dashed #334155', borderRadius: 20, padding: '3px 10px', fontSize: 12, color: '#64748b' }}>
+                    style={{ ...iconBtn, border: '1px dashed #254d6e', borderRadius: 20, padding: '3px 10px', fontSize: 12, color: '#4A6B87' }}>
                     <Plus size={12} /> Label
                   </button>
                 </div>
                 {showLabelPicker && (
-                  <div style={{ background: '#0f1117', border: '1px solid #1e293b', borderRadius: 8, marginTop: 8, padding: 8 }}>
+                  <div style={{ background: '#06101e', border: '1px solid #1a3a5c', borderRadius: 8, marginTop: 8, padding: 8 }}>
                     {boardLabels.map(l => {
                       const has = detail.labels?.some(dl => dl.id === l.id)
                       return (
                         <div key={l.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '5px 4px', cursor: 'pointer' }}
                           onClick={() => toggleLabel(l.id)}>
                           <span style={{ width: 12, height: 12, borderRadius: 3, background: l.color, flexShrink: 0 }} />
-                          <span style={{ flex: 1, fontSize: 13, color: has ? '#00d4ff' : '#e2e8f0' }}>{l.name}</span>
-                          {has && <span style={{ color: '#00d4ff', fontSize: 12 }}>✓</span>}
+                          <span style={{ flex: 1, fontSize: 13, color: has ? '#FFDF00' : '#EEF2FF' }}>{l.name}</span>
+                          {has && <span style={{ color: '#FFDF00', fontSize: 12 }}>✓</span>}
                           <button onClick={e => { e.stopPropagation(); deleteLabel(l.id) }}
-                            style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', padding: 0 }}>
+                            style={{ background: 'none', border: 'none', color: '#4A6B87', cursor: 'pointer', padding: 0 }}>
                             <Trash2 size={12} />
                           </button>
                         </div>
@@ -371,11 +371,11 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
                           style={{ width: 28, height: 28, border: 'none', background: 'none', cursor: 'pointer', padding: 0 }} />
                         <input style={{ ...inp, flex: 1 }} placeholder="Nome" value={newLabelForm.name}
                           onChange={e => setNewLabelForm(f => ({ ...f, name: e.target.value }))} required />
-                        <button type="submit" style={{ ...btnSm, background: '#00d4ff', color: '#0f1117' }}>OK</button>
+                        <button type="submit" style={{ ...btnSm, background: '#FFDF00', color: '#020c1b' }}>OK</button>
                       </form>
                     ) : (
                       <button onClick={() => setShowNewLabel(true)}
-                        style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: 12, padding: '6px 0', marginTop: 4 }}>
+                        style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'none', border: 'none', color: '#4A6B87', cursor: 'pointer', fontSize: 12, padding: '6px 0', marginTop: 4 }}>
                         <Plus size={12} /> Nova label
                       </button>
                     )}
@@ -395,24 +395,24 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
               {/* Time Tracking */}
               <div>
                 <label style={lb}><Clock size={12} /> Time Tracking</label>
-                <div style={{ background: '#0f1117', borderRadius: 10, border: '1px solid #1e293b', padding: '14px 16px' }}>
+                <div style={{ background: '#06101e', borderRadius: 10, border: '1px solid #1a3a5c', padding: '14px 16px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
                     {running ? (
                       <>
-                        <div style={{ fontFamily: 'monospace', fontSize: 22, color: '#00d4ff', fontWeight: 700, letterSpacing: 2 }}>
+                        <div style={{ fontFamily: 'monospace', fontSize: 22, color: '#FFDF00', fontWeight: 700, letterSpacing: 2 }}>
                           {fmtLive(timerSeconds)}
                         </div>
-                        <button onClick={stopTimer} style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#ef444433', border: '1px solid #ef4444', borderRadius: 8, color: '#f87171', cursor: 'pointer', padding: '7px 14px', fontSize: 13, fontWeight: 600 }}>
+                        <button onClick={stopTimer} style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#EF444433', border: '1px solid #EF4444', borderRadius: 8, color: '#f87171', cursor: 'pointer', padding: '7px 14px', fontSize: 13, fontWeight: 600 }}>
                           <Square size={14} /> Parar
                         </button>
                       </>
                     ) : (
                       <>
-                        <div style={{ color: '#64748b', fontSize: 14 }}>Total: <strong style={{ color: '#e2e8f0' }}>{fmtDuration(totalTime)}</strong></div>
-                        <button onClick={startTimer} style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#00d4ff22', border: '1px solid #00d4ff55', borderRadius: 8, color: '#00d4ff', cursor: 'pointer', padding: '7px 14px', fontSize: 13, fontWeight: 600 }}>
+                        <div style={{ color: '#4A6B87', fontSize: 14 }}>Total: <strong style={{ color: '#EEF2FF' }}>{fmtDuration(totalTime)}</strong></div>
+                        <button onClick={startTimer} style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#FFDF0022', border: '1px solid #FFDF0055', borderRadius: 8, color: '#FFDF00', cursor: 'pointer', padding: '7px 14px', fontSize: 13, fontWeight: 600 }}>
                           <Play size={14} /> Iniciar
                         </button>
-                        <button onClick={() => setShowManual(p => !p)} style={{ ...iconBtn, border: '1px solid #1e293b', borderRadius: 8, padding: '7px 12px', fontSize: 12, color: '#64748b' }}>
+                        <button onClick={() => setShowManual(p => !p)} style={{ ...iconBtn, border: '1px solid #1a3a5c', borderRadius: 8, padding: '7px 12px', fontSize: 12, color: '#4A6B87' }}>
                           + Manual
                         </button>
                       </>
@@ -425,15 +425,15 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
                         onChange={e => setManualEntry(f => ({ ...f, description: e.target.value }))} />
                       <input type="number" style={{ ...inp, width: 90 }} placeholder="Minutos" min={1} value={manualEntry.minutes}
                         onChange={e => setManualEntry(f => ({ ...f, minutes: e.target.value }))} required />
-                      <button type="submit" style={{ ...btnSm, background: '#00d4ff', color: '#0f1117' }}>OK</button>
+                      <button type="submit" style={{ ...btnSm, background: '#FFDF00', color: '#020c1b' }}>OK</button>
                     </form>
                   )}
 
                   {detail.time_entries?.filter(e => !e.is_running).length > 0 && (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                       {detail.time_entries.filter(e => !e.is_running).map(e => (
-                        <div key={e.id} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#64748b' }}>
-                          <span style={{ color: '#00d4ff', fontWeight: 600 }}>{fmtDuration(e.duration_minutes || 0)}</span>
+                        <div key={e.id} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#4A6B87' }}>
+                          <span style={{ color: '#FFDF00', fontWeight: 600 }}>{fmtDuration(e.duration_minutes || 0)}</span>
                           <span style={{ flex: 1 }}>{e.description || 'Sem descrição'}</span>
                           <span>{e.user_name || ''}</span>
                           <button onClick={() => deleteTimeEntry(e.id)} style={{ background: 'none', border: 'none', color: '#475569', cursor: 'pointer', padding: 2 }}>
@@ -451,10 +451,10 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
                 <label style={lb}><CheckSquare size={12} /> Subtarefas ({detail.subtasks?.filter(s => !s.deleted_at).length || 0})</label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                   {detail.subtasks?.filter(s => !s.deleted_at).map(sub => (
-                    <div key={sub.id} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#0f1117', borderRadius: 6, padding: '7px 10px' }}>
+                    <div key={sub.id} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#06101e', borderRadius: 6, padding: '7px 10px' }}>
                       <input type="checkbox" checked={!!sub.column_is_done} onChange={() => toggleSubtask(sub)}
-                        style={{ accentColor: '#00d4ff', cursor: 'pointer' }} />
-                      <span style={{ flex: 1, fontSize: 13, color: sub.column_is_done ? '#475569' : '#e2e8f0', textDecoration: sub.column_is_done ? 'line-through' : 'none' }}>
+                        style={{ accentColor: '#FFDF00', cursor: 'pointer' }} />
+                      <span style={{ flex: 1, fontSize: 13, color: sub.column_is_done ? '#4A6B87' : '#EEF2FF', textDecoration: sub.column_is_done ? 'line-through' : 'none' }}>
                         {sub.title}
                       </span>
                       <button onClick={() => deleteSubtask(sub.id)} style={{ background: 'none', border: 'none', color: '#475569', cursor: 'pointer', padding: 2 }}>
@@ -466,7 +466,7 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
                 <form onSubmit={addSubtask} style={{ display: 'flex', gap: 8, marginTop: 8 }}>
                   <input style={{ ...inp, flex: 1 }} placeholder="Nova subtarefa..." value={subtitleNew}
                     onChange={e => setSubtitleNew(e.target.value)} />
-                  <button type="submit" style={{ ...btnSm, background: '#1e293b' }}><Plus size={14} /></button>
+                  <button type="submit" style={{ ...btnSm, background: '#1a3a5c' }}><Plus size={14} /></button>
                 </form>
               </div>
 
@@ -477,13 +477,13 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
                   {detail.attachments?.map(att => {
                     const isImg = att.mime_type?.startsWith('image/')
                     return (
-                      <div key={att.id} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#0f1117', borderRadius: 8, padding: '8px 12px' }}>
+                      <div key={att.id} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#06101e', borderRadius: 8, padding: '8px 12px' }}>
                         {isImg && <img src={att.file_url} alt={att.filename} style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: 4 }} />}
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <p style={{ fontSize: 13, color: '#e2e8f0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{att.filename}</p>
-                          {att.file_size && <p style={{ fontSize: 11, color: '#64748b' }}>{(att.file_size / 1024).toFixed(1)} KB</p>}
+                          <p style={{ fontSize: 13, color: '#EEF2FF', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{att.filename}</p>
+                          {att.file_size && <p style={{ fontSize: 11, color: '#4A6B87' }}>{(att.file_size / 1024).toFixed(1)} KB</p>}
                         </div>
-                        <a href={att.file_url} download={att.filename} style={{ color: '#64748b', display: 'flex' }} title="Download">
+                        <a href={att.file_url} download={att.filename} style={{ color: '#4A6B87', display: 'flex' }} title="Download">
                           <Download size={15} />
                         </a>
                         <button onClick={() => deleteAttachment(att.id)} style={{ background: 'none', border: 'none', color: '#475569', cursor: 'pointer', padding: 2 }}>
@@ -496,7 +496,7 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
                 <input ref={fileRef} type="file" multiple style={{ display: 'none' }}
                   onChange={e => { Array.from(e.target.files).forEach(uploadFile); e.target.value = '' }} />
                 <button onClick={() => fileRef.current.click()}
-                  style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: '1px dashed #334155', borderRadius: 8, color: '#64748b', cursor: 'pointer', padding: '8px 14px', fontSize: 13, marginTop: 8 }}>
+                  style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: '1px dashed #254d6e', borderRadius: 8, color: '#4A6B87', cursor: 'pointer', padding: '8px 14px', fontSize: 13, marginTop: 8 }}>
                   <Paperclip size={14} /> Anexar arquivo
                 </button>
               </div>
@@ -506,18 +506,18 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
                 <label style={lb}><MessageSquare size={12} /> Comentários ({detail.comments?.length || 0})</label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 12 }}>
                   {detail.comments?.map(c => (
-                    <div key={c.id} style={{ background: c.is_internal ? '#1a1500' : '#0f1117', border: `1px solid ${c.is_internal ? '#eab30833' : '#1e293b'}`, borderRadius: 8, padding: '10px 12px' }}>
+                    <div key={c.id} style={{ background: c.is_internal ? '#112640' : '#06101e', border: `1px solid ${c.is_internal ? '#FFDF0022' : '#1a3a5c'}`, borderRadius: 8, padding: '10px 12px' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                        <span style={{ fontSize: 12, fontWeight: 600, color: '#94a3b8' }}>{c.user_name || 'Usuário'}</span>
+                        <span style={{ fontSize: 12, fontWeight: 600, color: '#8BAFC8' }}>{c.user_name || 'Usuário'}</span>
                         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                          {c.is_internal && <span style={{ fontSize: 10, color: '#eab308', background: '#eab30822', padding: '1px 6px', borderRadius: 4 }}>Interno</span>}
-                          <span style={{ fontSize: 11, color: '#475569' }}>{new Date(c.created_at).toLocaleDateString('pt-BR')}</span>
+                          {c.is_internal && <span style={{ fontSize: 10, color: '#FFDF00', background: '#FFDF0022', padding: '1px 6px', borderRadius: 4 }}>Interno</span>}
+                          <span style={{ fontSize: 11, color: '#4A6B87' }}>{new Date(c.created_at).toLocaleDateString('pt-BR')}</span>
                           <button onClick={() => deleteComment(c.id)} style={{ background: 'none', border: 'none', color: '#475569', cursor: 'pointer', padding: 0 }}>
                             <Trash2 size={12} />
                           </button>
                         </div>
                       </div>
-                      <p style={{ fontSize: 13, color: '#e2e8f0', lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>{c.content}</p>
+                      <p style={{ fontSize: 13, color: '#EEF2FF', lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>{c.content}</p>
                     </div>
                   ))}
                 </div>
@@ -526,12 +526,12 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
                     placeholder="Adicionar comentário..." value={comment}
                     onChange={e => setComment(e.target.value)} />
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#64748b', cursor: 'pointer' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#4A6B87', cursor: 'pointer' }}>
                       <input type="checkbox" checked={commentInternal} onChange={e => setCommentInternal(e.target.checked)}
-                        style={{ accentColor: '#eab308' }} />
+                        style={{ accentColor: '#FFDF00' }} />
                       Nota interna
                     </label>
-                    <button type="submit" style={{ ...btnSm, background: '#00d4ff', color: '#0f1117', fontWeight: 700 }}>
+                    <button type="submit" style={{ ...btnSm, background: '#FFDF00', color: '#020c1b', fontWeight: 700 }}>
                       Comentar
                     </button>
                   </div>
@@ -546,7 +546,7 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
   )
 }
 
-const lb     = { fontSize: 12, color: '#64748b', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 4 }
-const inp    = { padding: '8px 12px', background: '#0f1117', border: '1px solid #1e293b', borderRadius: 8, color: '#e2e8f0', fontSize: 13, boxSizing: 'border-box' }
-const iconBtn = { background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', padding: 4, borderRadius: 6, display: 'flex', alignItems: 'center', gap: 4 }
-const btnSm  = { background: '#1e293b', border: 'none', color: '#e2e8f0', borderRadius: 6, padding: '6px 12px', cursor: 'pointer', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }
+const lb     = { fontSize: 12, color: '#4A6B87', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 4 }
+const inp    = { padding: '8px 12px', background: '#06101e', border: '1px solid #1a3a5c', borderRadius: 8, color: '#EEF2FF', fontSize: 13, boxSizing: 'border-box' }
+const iconBtn = { background: 'none', border: 'none', color: '#4A6B87', cursor: 'pointer', padding: 4, borderRadius: 6, display: 'flex', alignItems: 'center', gap: 4 }
+const btnSm  = { background: '#1a3a5c', border: 'none', color: '#EEF2FF', borderRadius: 6, padding: '6px 12px', cursor: 'pointer', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }

@@ -26,17 +26,17 @@ export default function Login({ onLogin }) {
   return (
     <div style={{ maxWidth: 420, margin: '0 auto' }}>
       <h2 style={{ fontSize: 24, fontWeight: 700, marginBottom: 6 }}>Entrar</h2>
-      <p style={{ color: '#64748b', fontSize: 14, marginBottom: 28 }}>
+      <p style={{ color: '#4A6B87', fontSize: 14, marginBottom: 28 }}>
         Acesse sua área para ver todos os seus chamados.
       </p>
 
       {/* Opção sem conta */}
-      <div style={{ background: '#0f1a2e', border: '1px solid #00d4ff33', borderRadius: 10, padding: '14px 18px', marginBottom: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+      <div style={{ background: '#081526', border: '1px solid #FFDF0033', borderRadius: 10, padding: '14px 18px', marginBottom: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
         <div>
-          <p style={{ fontSize: 13, fontWeight: 600, color: '#00d4ff', marginBottom: 2 }}>Não tem conta?</p>
-          <p style={{ fontSize: 12, color: '#64748b', margin: 0 }}>Abra um chamado com nome e email — sem cadastro.</p>
+          <p style={{ fontSize: 13, fontWeight: 600, color: '#FFDF00', marginBottom: 2 }}>Não tem conta?</p>
+          <p style={{ fontSize: 12, color: '#4A6B87', margin: 0 }}>Abra um chamado com nome e email — sem cadastro.</p>
         </div>
-        <Link to="/novo" style={{ background: '#00d4ff', border: 'none', borderRadius: 8, color: '#0f1117', fontWeight: 700, textDecoration: 'none', padding: '8px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
+        <Link to="/novo" style={{ background: '#FFDF00', border: 'none', borderRadius: 8, color: '#020c1b', fontWeight: 800, textDecoration: 'none', padding: '8px 16px', fontSize: 13, whiteSpace: 'nowrap' }}>
           Abrir sem conta
         </Link>
       </div>
@@ -56,13 +56,13 @@ export default function Login({ onLogin }) {
           {loading ? 'Entrando...' : 'Entrar'}
         </button>
       </form>
-      <p style={{ textAlign: 'center', marginTop: 20, fontSize: 14, color: '#64748b' }}>
-        Não tem conta? <Link to="/cadastro" style={{ color: '#00d4ff' }}>Cadastrar</Link>
+      <p style={{ textAlign: 'center', marginTop: 20, fontSize: 14, color: '#4A6B87' }}>
+        Não tem conta? <Link to="/cadastro" style={{ color: '#FFDF00' }}>Cadastrar</Link>
       </p>
     </div>
   )
 }
 
-const lb = { fontSize: 13, color: '#94a3b8', marginBottom: 6, display: 'block' }
-const inp = { width: '100%', padding: '11px 14px', background: '#161b27', border: '1px solid #1e293b', borderRadius: 8, color: '#e2e8f0', fontSize: 14, boxSizing: 'border-box' }
-const btnPrimary = { background: '#00d4ff', border: 'none', borderRadius: 8, color: '#0f1117', fontWeight: 700, cursor: 'pointer', padding: '12px', fontSize: 15, width: '100%' }
+const lb = { fontSize: 13, color: '#8BAFC8', marginBottom: 6, display: 'block' }
+const inp = { width: '100%', padding: '11px 14px', background: '#06101e', border: '1px solid #1a3a5c', borderRadius: 8, color: '#EEF2FF', fontSize: 14, boxSizing: 'border-box' }
+const btnPrimary = { background: '#FFDF00', border: 'none', borderRadius: 8, color: '#020c1b', fontWeight: 800, cursor: 'pointer', padding: '12px', fontSize: 15, width: '100%' }
