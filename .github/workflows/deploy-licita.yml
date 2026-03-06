@@ -1,0 +1,58 @@
+name: Deploy → licita.jonaspacheco.cloud
+
+on:
+  push:
+    branches: [main]
+    paths: ['licita/**']
+
+jobs:
+  deploy:
+    name: Build & Deploy Licita
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build frontend
+        run: |
+          cd licita
+          npm ci --silent
+          npm run build
+
+      - name: Configurar SSH
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$VPS_SSH_KEY" | base64 -d > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          echo "StrictHostKeyChecking no" >> ~/.ssh/config
+
+      - name: Deploy para VPS
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          VPS_HOST=$(echo "$VPS_HOST" | tr -d '[:space:]')
+          VPS_PORT=$(echo "$VPS_PORT" | tr -d '[:space:]')
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -p ${VPS_PORT} -o StrictHostKeyChecking=no" \
+            --exclude='node_modules/' \
+            --exclude='.env' \
+            --exclude='.git' \
+            licita/ \
+            root@${VPS_HOST}:/var/www/licita.jonaspacheco.cloud/
+
+      - name: Restart PM2 + npm install
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          VPS_HOST=$(echo "$VPS_HOST" | tr -d '[:space:]')
+          VPS_PORT=$(echo "$VPS_PORT" | tr -d '[:space:]')
+          ssh -i ~/.ssh/deploy_key -p ${VPS_PORT} -o StrictHostKeyChecking=no root@${VPS_HOST} \
+            "cd /var/www/licita.jonaspacheco.cloud && npm install --omit=dev --silent && pm2 restart licita-app || PORT=3100 pm2 start npm --name licita-app -- start && pm2 save"
