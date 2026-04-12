@@ -64,12 +64,7 @@ window.addEventListener('scroll', highlightNavLink);
 // TYPING ANIMATION
 // ==========================================
 
-const typingTexts = [
-    '"Software Engineer"',
-    '"Security Specialist"',
-    '"Cybersecurity Expert"',
-    '"DevSecOps Engineer"'
-];
+const typingTexts = [];
 
 let textIndex = 0;
 let charIndex = 0;
@@ -79,7 +74,7 @@ let typingSpeed = 100;
 const typingElement = document.querySelector('.typing-text');
 
 function typeText() {
-    if (!typingElement) return;
+    if (!typingElement || typingTexts.length === 0) return;
 
     const currentText = typingTexts[textIndex];
 
@@ -226,10 +221,10 @@ if (contactForm) {
                 showNotification(data.message, 'success');
                 contactForm.reset();
             } else {
-                showNotification(data.message || 'Erro ao enviar. Tente pelo WhatsApp.', 'error');
+                showNotification(data.message || 'Erro ao enviar. Tente por email ou LinkedIn.', 'error');
             }
         } catch (err) {
-            showNotification('Erro de conexão. Tente pelo WhatsApp ou email diretamente.', 'error');
+            showNotification('Erro de conexão. Tente por email ou LinkedIn diretamente.', 'error');
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalHTML;
@@ -529,7 +524,7 @@ if (!('scrollBehavior' in document.documentElement.style)) {
 console.log('%c👋 Olá, Developer!', 'color: #00d4ff; font-size: 20px; font-weight: bold;');
 console.log('%c💼 Interessado em trabalhar comigo? Entre em contato!', 'color: #00ff88; font-size: 14px;');
 console.log('%c🔗 GitHub: https://github.com/jonasbrito1', 'color: #ffd600; font-size: 14px;');
-console.log('%c🔗 LinkedIn: https://www.linkedin.com/in/jonaspacheco1/', 'color: #ffd600; font-size: 14px;');
+console.log('%c🔗 LinkedIn: https://www.linkedin.com/in/jonasbrito1/', 'color: #ffd600; font-size: 14px;');
 
 // ==========================================
 // ANALYTICS READY
@@ -566,59 +561,60 @@ const translations = {
             contact: "Contato"
         },
         hero: {
-            badge: "Engenheiro de Software",
-            description: "Transformo desafios técnicos em soluções seguras e escaláveis.<br>Especializado em desenvolvimento full-stack, DevSecOps e inteligência artificial.",
-            cta1: "Entre em Contato",
+            badge: "Desenvolvedor Full Stack",
+            subtitle: "Desenvolvedor Full Stack focado em segurança, automação e sistemas escaláveis",
+            description: "Desenvolvo aplicações web seguras, performáticas e preparadas para crescer.<br>Atuo do frontend ao deploy, aplicando práticas de DevSecOps para garantir estabilidade, eficiência e proteção contra vulnerabilidades.",
+            cta1: "Entrar em Contato",
             cta2: "Ver Projetos"
         },
         about: {
             tag: "<sobre>",
-            title: "Sobre Mim",
-            subtitle: "Construindo soluções que resolvem problemas reais",
-            description1: "Com mais de <strong>50 projetos</strong> desenvolvidos, ajudo empresas a transformar desafios complexos em soluções eficientes. Meu trabalho vai além de escrever código — entendo do seu negócio, identifico os reais problemas e entrego sistemas que fazem a diferença no dia a dia.",
-            description2: "Especializado em <strong>desenvolvimento full-stack, segurança e automação</strong>, trabalho com tecnologias modernas para criar aplicações escaláveis, seguras e fáceis de manter. Se você precisa de um sistema ERP personalizado, automação de processos ou uma solução de compliance, posso ajudar.",
+            title: "Sobre",
+            subtitle: "Tecnologia com clareza, segurança e manutenção real",
+            description1: "Sou desenvolvedor full stack, com experiência em desenvolvimento de aplicações, automação de processos e construção de código seguro.",
+            description2: "Trabalho com tecnologias modernas como <strong>React, Vue, Node.js, Python e PHP</strong>, além de práticas de DevOps com Docker, CI/CD e infraestrutura automatizada. Meu foco é construir soluções que não apenas funcionam, mas que são seguras, escaláveis e fáceis de manter.",
             highlight1Title: "Desenvolvimento Seguro",
-            highlight1Text: "Segurança integrada em todas as etapas do ciclo de desenvolvimento",
-            highlight2Title: "Escalabilidade",
-            highlight2Text: "Arquiteturas preparadas para crescimento",
-            highlight3Title: "Automação",
-            highlight3Text: "Processos eficientes e otimizados",
-            stat1: "Projetos Entregues",
-            stat2: "Satisfação do Cliente",
-            stat3: "Uptime Garantido",
-            stat4: "Incidentes de Segurança",
-            value1: "Código limpo e documentado",
-            value2: "Entrega dentro do prazo",
-            value3: "Suporte pós-entrega"
+            highlight1Text: "Proteção e boas práticas incorporadas desde a arquitetura até o deploy.",
+            highlight2Title: "Automação de Processos",
+            highlight2Text: "Redução de tarefas manuais com scripts, integrações e pipelines bem definidos.",
+            highlight3Title: "Escalabilidade",
+            highlight3Text: "Sistemas preparados para crescer sem virar um problema de manutenção.",
+            stat1: "Atuação",
+            stat2: "Stack",
+            stat3: "Objetivo",
+            stat4: "",
+            value1: "Visão de produto e implementação completa",
+            value2: "Segurança aplicada desde o desenvolvimento",
+            value3: "Arquitetura simples de operar e evoluir"
         },
         expertise: {
             tag: "<especialidades>",
-            title: "Áreas de Expertise",
-            subtitle: "Especializado em desenvolvimento seguro e escalável com IA",
-            backend: "Desenvolvimento Backend",
-            backendDesc: "APIs RESTful, microserviços e arquitetura escalável com PHP, Python e Node.js. Integração com IA e Machine Learning. Foco em performance e segurança.",
-            frontend: "Desenvolvimento Frontend",
-            frontendDesc: "Interfaces modernas e responsivas com React, Next.js, JavaScript e HTML/CSS. Experiência do usuário aprimorada com IA e acessibilidade.",
-            erp: "Sistemas ERP",
-            erpDesc: "Desenvolvimento de soluções empresariais completas com análise preditiva por IA, gestão integrada e automação inteligente de processos.",
-            devsecops: "DevSecOps",
-            devsecopsDesc: "Integração de segurança no pipeline de desenvolvimento. CI/CD, containerização, infraestrutura como código e monitoramento automatizado.",
-            mobile: "Desenvolvimento Mobile",
-            mobileDesc: "Aplicativos nativos Android com Kotlin e recursos de IA. Design responsivo e performance otimizada para dispositivos móveis.",
-            automation: "IA & Automação",
-            automationDesc: "Soluções inteligentes com IA, Machine Learning e automação avançada. Frameworks personalizados para otimização de processos e compliance."
+            title: "Especialidades",
+            subtitle: "Capacidades centrais para construir software mais confiável",
+            backend: "Desenvolvimento Web Full Stack",
+            backendDesc: "Criação de aplicações modernas com React, Vue, Node.js e Python, focadas em performance e escalabilidade.",
+            frontend: "Automação de Processos",
+            frontendDesc: "Eliminação de tarefas manuais com scripts, integrações e pipelines automatizados.",
+            erp: "Segurança Aplicada ao Desenvolvimento",
+            erpDesc: "Proteção contra vulnerabilidades como XSS, CSRF e SQL Injection, além da implementação de autenticação segura com JWT e OAuth.",
+            devsecops: "",
+            devsecopsDesc: "",
+            mobile: "",
+            mobileDesc: "",
+            automation: "",
+            automationDesc: ""
         },
         projects: {
             tag: "<projetos>",
-            title: "Projetos em Destaque",
-            subtitle: "Alguns dos trabalhos que desenvolvi",
+            title: "Projetos",
+            subtitle: "Seleção de sistemas com foco em operação, estrutura e automação",
             viewAll: "Ver Todos os Projetos",
-            medsys: "Sistema completo de gestão médica e hospitalar que aumentou em 60% a eficiência no atendimento. Gestão de pacientes, prontuários eletrônicos e agendamentos com segurança LGPD garantida.",
-            easycompliance: "Plataforma que reduziu em 30 horas semanais o tempo gasto com compliance. Automação completa de processos de auditoria, controles internos e relatórios regulatórios com zero erros.",
-            evolutionerp: "Sistema ERP que reduziu custos operacionais em 40% e integrou todos os processos da empresa. Módulos de finanças, estoque, vendas e RH trabalhando em perfeita sincronia.",
-            attackdetection: "Sistema de detecção e prevenção de ataques SSH. Monitoramento em tempo real, análise de padrões e bloqueio automático de tentativas maliciosas.",
-            gbcidadenova: "Portal institucional com gestão de conteúdo e serviços integrados. Arquitetura moderna e interface responsiva para melhor experiência do usuário.",
-            i9script: "Framework de automação e scripts personalizados para otimização de processos. Ferramentas inteligentes para desenvolvimento e operações de sistemas."
+            medsys: "Sistema de gestão médica para organização de pacientes, prontuários e atendimentos.",
+            easycompliance: "Plataforma para gerenciamento e automação de processos de compliance.",
+            evolutionerp: "Plataforma completa de vendas online com sistema de produtos e pedidos.",
+            attackdetection: "Implementação de pipeline automatizado para deploy contínuo.",
+            gbcidadenova: "",
+            i9script: ""
         },
         testimonials: {
             tag: "<depoimentos>",
@@ -642,19 +638,19 @@ const translations = {
         },
         technologies: {
             tag: "<tecnologias>",
-            title: "Stack Tecnológico",
-            subtitle: "Ferramentas e tecnologias que domino",
+            title: "Tecnologias",
+            subtitle: "Base técnica focada em desenvolvimento moderno e entrega confiável",
             languages: "Linguagens",
             frameworks: "Frameworks",
             databases: "Banco de Dados",
-            devops: "DevOps & Ferramentas"
+            devops: "Segurança"
         },
         contact: {
             tag: "<contato>",
-            title: "Vamos Trabalhar Juntos?",
-            subtitle: "Consultoria gratuita + Garantias de qualidade",
-            intro: "Entre em contato agora e receba uma consultoria gratuita sobre seu projeto. Vou analisar suas necessidades e propor a melhor solução técnica, sem compromisso.",
-            readyTitle: "Pronto para começar?",
+            title: "Contato",
+            subtitle: "Vamos construir algo sólido e seguro juntos",
+            intro: "Se você precisa de um sistema profissional, seguro e bem estruturado, posso te ajudar do planejamento ao deploy.",
+            readyTitle: "Vamos construir algo sólido e seguro juntos.",
             name: "Nome",
             email: "Email",
             subject: "Assunto",
@@ -688,59 +684,60 @@ const translations = {
             contact: "Contact"
         },
         hero: {
-            badge: "Software Engineer",
-            description: "I transform technical challenges into secure and scalable solutions.<br>Specialized in full-stack development, DevSecOps, and artificial intelligence.",
+            badge: "Full Stack Developer",
+            subtitle: "Full Stack Developer focused on security, automation, and scalable systems",
+            description: "I build secure, performant web applications designed to grow.<br>I work from frontend to deployment, applying DevSecOps practices to ensure stability, efficiency, and protection against vulnerabilities.",
             cta1: "Get in Touch",
             cta2: "View Projects"
         },
         about: {
             tag: "<about>",
-            title: "About Me",
-            subtitle: "Building solutions that solve real problems",
-            description1: "With over <strong>50 projects</strong> delivered, I help companies transform complex challenges into efficient solutions. My work goes beyond writing code — I understand your business, identify real problems, and deliver systems that make a difference in daily operations.",
-            description2: "Specialized in <strong>full-stack development, security, and automation</strong>, I work with modern technologies to create scalable, secure, and easy-to-maintain applications. Whether you need a custom ERP system, process automation, or a compliance solution, I can help.",
+            title: "About",
+            subtitle: "Technology with clarity, security, and long-term maintainability",
+            description1: "I am a full stack developer with experience in application development, process automation, and secure code practices.",
+            description2: "I work with modern technologies such as <strong>React, Vue, Node.js, Python, and PHP</strong>, along with DevOps practices using Docker, CI/CD, and automated infrastructure. My focus is to build solutions that not only work, but are also secure, scalable, and easy to maintain.",
             highlight1Title: "Secure Development",
-            highlight1Text: "Security integrated in all stages of the development cycle",
-            highlight2Title: "Scalability",
-            highlight2Text: "Architectures prepared for growth",
-            highlight3Title: "Automation",
-            highlight3Text: "Efficient and optimized processes",
-            stat1: "Projects Delivered",
-            stat2: "Client Satisfaction",
-            stat3: "Guaranteed Uptime",
-            stat4: "Security Incidents",
-            value1: "Clean and documented code",
-            value2: "On-time delivery",
-            value3: "Post-delivery support"
+            highlight1Text: "Protection and best practices built in from architecture to deployment.",
+            highlight2Title: "Process Automation",
+            highlight2Text: "Reduction of manual work with scripts, integrations, and well-defined pipelines.",
+            highlight3Title: "Scalability",
+            highlight3Text: "Systems designed to grow without becoming a maintenance problem.",
+            stat1: "Scope",
+            stat2: "Stack",
+            stat3: "Goal",
+            stat4: "",
+            value1: "Product mindset with end-to-end delivery",
+            value2: "Security applied from the start",
+            value3: "Architecture that is simple to operate and evolve"
         },
         expertise: {
             tag: "<expertise>",
-            title: "Areas of Expertise",
-            subtitle: "Specialized in secure and scalable development with AI",
-            backend: "Backend Development",
-            backendDesc: "RESTful APIs, microservices, and scalable architecture with PHP, Python, and Node.js. AI and Machine Learning integration. Focus on performance and security.",
-            frontend: "Frontend Development",
-            frontendDesc: "Modern and responsive interfaces with React, Next.js, JavaScript, and HTML/CSS. AI-enhanced user experience and accessibility.",
-            erp: "ERP Systems",
-            erpDesc: "Development of complete enterprise solutions with AI-powered predictive analytics, integrated management, and intelligent process automation.",
-            devsecops: "DevSecOps",
-            devsecopsDesc: "Security integration in the development pipeline. CI/CD, containerization, infrastructure as code, and automated monitoring.",
-            mobile: "Mobile Development",
-            mobileDesc: "Native Android applications with Kotlin and AI features. Responsive design and optimized performance for mobile devices.",
-            automation: "AI & Automation",
-            automationDesc: "Intelligent solutions with AI, Machine Learning, and advanced automation. Custom frameworks for process optimization and compliance."
+            title: "Expertise",
+            subtitle: "Core capabilities for building more reliable software",
+            backend: "Full Stack Web Development",
+            backendDesc: "Modern applications built with React, Vue, Node.js, and Python, focused on performance and scalability.",
+            frontend: "Process Automation",
+            frontendDesc: "Elimination of manual tasks through scripts, integrations, and automated pipelines.",
+            erp: "Security Applied to Development",
+            erpDesc: "Protection against vulnerabilities such as XSS, CSRF, and SQL Injection, along with secure authentication using JWT and OAuth.",
+            devsecops: "",
+            devsecopsDesc: "",
+            mobile: "",
+            mobileDesc: "",
+            automation: "",
+            automationDesc: ""
         },
         projects: {
             tag: "<projects>",
-            title: "Featured Projects",
-            subtitle: "Some of the work I've developed",
+            title: "Projects",
+            subtitle: "Selected systems with focus on operations, structure, and automation",
             viewAll: "View All Projects",
-            medsys: "Complete medical and hospital management system that increased care efficiency by 60%. Patient management, electronic medical records, and appointments with guaranteed LGPD security.",
-            easycompliance: "Platform that reduced compliance time by 30 hours per week. Complete automation of audit processes, internal controls, and regulatory reports with zero errors.",
-            evolutionerp: "ERP system that reduced operational costs by 40% and integrated all company processes. Finance, inventory, sales, and HR modules working in perfect sync.",
-            attackdetection: "SSH attack detection and prevention system. Real-time monitoring, pattern analysis, and automatic blocking of malicious attempts.",
-            gbcidadenova: "Institutional portal with content management and integrated services. Modern architecture and responsive interface for better user experience.",
-            i9script: "Automation framework and custom scripts for process optimization. Intelligent tools for system development and operations."
+            medsys: "Medical management system for organizing patients, records, and appointments.",
+            easycompliance: "Platform for managing and automating compliance processes.",
+            evolutionerp: "Complete online sales platform with product and order management.",
+            attackdetection: "Implementation of an automated pipeline for continuous deployment.",
+            gbcidadenova: "",
+            i9script: ""
         },
         testimonials: {
             tag: "<testimonials>",
@@ -764,19 +761,19 @@ const translations = {
         },
         technologies: {
             tag: "<technologies>",
-            title: "Technology Stack",
-            subtitle: "Tools and technologies I master",
+            title: "Technologies",
+            subtitle: "Technical foundation focused on modern development and reliable delivery",
             languages: "Languages",
             frameworks: "Frameworks",
             databases: "Databases",
-            devops: "DevOps & Tools"
+            devops: "Security"
         },
         contact: {
             tag: "<contact>",
-            title: "Let's Work Together?",
-            subtitle: "Free consultation + Quality guarantees",
-            intro: "Get in touch now and receive a free consultation about your project. I'll analyze your needs and propose the best technical solution, with no commitment.",
-            readyTitle: "Ready to start?",
+            title: "Contact",
+            subtitle: "Let's build something solid and secure together",
+            intro: "If you need a professional, secure, and well-structured system, I can help from planning to deployment.",
+            readyTitle: "Let's build something solid and secure together.",
             name: "Name",
             email: "Email",
             subject: "Subject",
@@ -886,6 +883,9 @@ function updateHeroSection(lang) {
     // Badge
     const badge = document.querySelector('.greeting-badge');
     if (badge) badge.textContent = t.badge;
+
+    const subtitle = document.querySelector('.hero-subtitle');
+    if (subtitle) subtitle.textContent = t.subtitle;
 
     // Description
     const description = document.querySelector('.hero-description');
