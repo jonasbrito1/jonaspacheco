@@ -45,7 +45,7 @@ jobs:
             --exclude='.env' \
             --exclude='.git' \
             licita/ \
-            root@${VPS_HOST}:/var/www/licita.jonaspacheco.cloud/
+            root@${VPS_HOST}:/var/www/jonaspacheco/current/licita/
 
       - name: Restart PM2 + npm install
         env:
@@ -55,4 +55,4 @@ jobs:
           VPS_HOST=$(echo "$VPS_HOST" | tr -d '[:space:]')
           VPS_PORT=$(echo "$VPS_PORT" | tr -d '[:space:]')
           ssh -i ~/.ssh/deploy_key -p ${VPS_PORT} -o StrictHostKeyChecking=no root@${VPS_HOST} \
-            "cd /var/www/licita.jonaspacheco.cloud && npm install --omit=dev --silent && pm2 restart licita-app || PORT=3100 pm2 start npm --name licita-app -- start && pm2 save"
+            "cd /var/www/jonaspacheco/current/licita && npm install --silent && npm run build && pm2 restart licita || pm2 start node_modules/next/dist/bin/next --name licita -- start -p 3101 && pm2 save"

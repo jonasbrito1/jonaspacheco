@@ -44,7 +44,7 @@ jobs:
             --exclude='node_modules/' \
             --exclude='.env' \
             hub/backend/ \
-            root@${VPS_HOST}:/var/www/hub.jonaspacheco.cloud/backend/
+            root@${VPS_HOST}:/var/www/jonaspacheco/current/hub/backend/
 
       - name: Deploy frontend
         env:
@@ -56,7 +56,7 @@ jobs:
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key -p ${VPS_PORT} -o StrictHostKeyChecking=no" \
             hub/frontend/dist/ \
-            root@${VPS_HOST}:/var/www/hub.jonaspacheco.cloud/frontend/
+            root@${VPS_HOST}:/var/www/admin.jonaspacheco.cloud/
 
       - name: Restart PM2 + npm install
         env:
@@ -66,4 +66,4 @@ jobs:
           VPS_HOST=$(echo "$VPS_HOST" | tr -d '[:space:]')
           VPS_PORT=$(echo "$VPS_PORT" | tr -d '[:space:]')
           ssh -i ~/.ssh/deploy_key -p ${VPS_PORT} -o StrictHostKeyChecking=no root@${VPS_HOST} \
-            "cd /var/www/hub.jonaspacheco.cloud/backend && npm install --omit=dev --silent && pm2 restart hub-api || pm2 start src/index.js --name hub-api"
+            "cd /var/www/jonaspacheco/current/hub/backend && npm install --omit=dev --silent && pm2 restart hub-backend || pm2 start src/index.js --name hub-backend"
