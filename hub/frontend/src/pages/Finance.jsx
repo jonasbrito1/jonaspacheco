@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import api from '../services/api'
 import { Plus, Pencil, Trash2, CheckCircle } from 'lucide-react'
+import { formatDateBR, isoToDateInput, normalizeDateInput, parseDateInputToYmd, todayDateInput } from '../utils/date'
 
-const empty = { project_id: '', type: 'receita', description: '', amount: '', date: new Date().toISOString().split('T')[0], paid: false }
+const empty = { project_id: '', type: 'receita', description: '', amount: '', date: todayDateInput(), paid: false }
 
 export default function Finance() {
   const [transactions, setTransactions] = useState([])
@@ -21,11 +22,12 @@ export default function Finance() {
   useEffect(() => { load() }, [])
 
   const openNew = () => { setForm(empty); setEditing(null); setModal(true) }
-  const openEdit = t => { setForm({ ...t, date: t.date?.split('T')[0] }); setEditing(t.id); setModal(true) }
+  const openEdit = t => { setForm({ ...t, date: isoToDateInput(t.date) }); setEditing(t.id); setModal(true) }
 
   const save = async e => {
     e.preventDefault()
-    editing ? await api.put(`/finance/${editing}`, form) : await api.post('/finance', form)
+    const payload = { ...form, date: parseDateInputToYmd(form.date) }
+    editing ? await api.put(`/finance/${editing}`, payload) : await api.post('/finance', payload)
     setModal(false); load()
   }
 
@@ -76,7 +78,7 @@ export default function Finance() {
               <tr key={t.id} style={{ borderBottom: '1px solid #020c1b' }}>
                 <td style={{ ...s.td, color: '#EEF2FF' }}>{t.description}</td>
                 <td style={{ ...s.td, color: '#4A6B87' }}>{t.project_name || '—'}</td>
-                <td style={{ ...s.td, color: '#4A6B87' }}>{new Date(t.date).toLocaleDateString('pt-BR')}</td>
+                <td style={{ ...s.td, color: '#4A6B87' }}>{formatDateBR(t.date)}</td>
                 <td style={s.td}>
                   <span style={{ background: t.type === 'receita' ? '#009C3B22' : '#EF444422', color: t.type === 'receita' ? '#009C3B' : '#EF4444', padding: '2px 10px', borderRadius: 20, fontSize: 12 }}>
                     {t.type}
@@ -109,7 +111,16 @@ export default function Finance() {
               </select>
               <input style={s.input} placeholder="Descrição *" value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} required />
               <input style={s.input} type="number" step="0.01" placeholder="Valor (R$) *" value={form.amount} onChange={e => setForm(f => ({ ...f, amount: e.target.value }))} required />
-              <input style={s.input} type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} required />
+              <input
+                style={s.input}
+                type="text"
+                inputMode="numeric"
+                maxLength={10}
+                placeholder="dd/mm/aaaa"
+                value={form.date}
+                onChange={e => setForm(f => ({ ...f, date: normalizeDateInput(e.target.value) }))}
+                required
+              />
               <select style={s.input} value={form.project_id} onChange={e => setForm(f => ({ ...f, project_id: e.target.value }))}>
                 <option value="">Sem projeto</option>
                 {projects.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}

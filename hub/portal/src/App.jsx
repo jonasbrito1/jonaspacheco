@@ -1,12 +1,19 @@
-import React, { useState } from 'react'
-import { Routes, Route, Link, useNavigate, Navigate } from 'react-router-dom'
-import { Code2, LogOut, Mail, User, Ticket, Search } from 'lucide-react'
+import React, { Suspense, lazy, useMemo, useState } from 'react'
+import { Routes, Route, Link, useNavigate, Navigate, useLocation } from 'react-router-dom'
+import { Code2, LogOut, Mail, User, Ticket, Search, NotebookText } from 'lucide-react'
 import OpenTicket from './pages/OpenTicket'
 import Track from './pages/Track'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import MyTickets from './pages/MyTickets'
 import TicketDetail from './pages/TicketDetail'
+import LoadingScreen from './components/LoadingScreen'
+
+const BlogHome = lazy(() => import('./pages/blog/BlogHome'))
+const BlogArticle = lazy(() => import('./pages/blog/BlogArticle'))
+const BlogCategory = lazy(() => import('./pages/blog/BlogCategory'))
+const BlogTag = lazy(() => import('./pages/blog/BlogTag'))
+const BlogSearch = lazy(() => import('./pages/blog/BlogSearch'))
 
 function Header({ user, onLogout }) {
   return (
@@ -22,6 +29,7 @@ function Header({ user, onLogout }) {
       </Link>
       <nav className="portal-nav" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <Link to="/novo" style={navLink}>Abrir Chamado</Link>
+        <Link to="/blog" style={navLink}><span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><NotebookText size={14} /> Blog</span></Link>
         {user ? (
           <>
             <Link to="/meus-chamados" style={navLink}>Meus Chamados</Link>
@@ -40,11 +48,17 @@ function Header({ user, onLogout }) {
   )
 }
 
+function lazyPage(element) {
+  return <Suspense fallback={<LoadingScreen label="Carregando Blog..." />}>{element}</Suspense>
+}
+
 export default function App() {
   const [user, setUser] = useState(() => {
     try { return JSON.parse(localStorage.getItem('portal_user')) } catch { return null }
   })
   const navigate = useNavigate()
+  const location = useLocation()
+  const isBlogRoute = location.pathname === '/blog' || location.pathname.startsWith('/blog/')
 
   const login = (token, userData) => {
     localStorage.setItem('portal_token', token)
@@ -59,10 +73,25 @@ export default function App() {
     navigate('/')
   }
 
+  if (isBlogRoute) {
+    return (
+      <BlogSiteLayout>
+        <Routes>
+          <Route path="/blog" element={lazyPage(<BlogHome />)} />
+          <Route path="/blog/:slug" element={lazyPage(<BlogArticle />)} />
+          <Route path="/blog/categoria/:slug" element={lazyPage(<BlogCategory />)} />
+          <Route path="/blog/tag/:slug" element={lazyPage(<BlogTag />)} />
+          <Route path="/blog/busca" element={lazyPage(<BlogSearch />)} />
+          <Route path="*" element={<Navigate to="/blog" replace />} />
+        </Routes>
+      </BlogSiteLayout>
+    )
+  }
+
   return (
     <div style={{ minHeight: '100vh', background: '#020c1b' }}>
       <Header user={user} onLogout={logout} />
-      <main style={{ maxWidth: 860, margin: '0 auto', padding: '40px 20px' }}>
+      <main style={{ maxWidth: 1120, margin: '0 auto', padding: '40px 20px' }}>
         <Routes>
           <Route path="/" element={<Home user={user} />} />
           <Route path="/novo" element={<OpenTicket />} />
@@ -71,8 +100,75 @@ export default function App() {
           <Route path="/cadastro" element={<Register onLogin={login} />} />
           <Route path="/meus-chamados" element={user ? <MyTickets /> : <Navigate to="/entrar" />} />
           <Route path="/meus-chamados/:id" element={user ? <TicketDetail /> : <Navigate to="/entrar" />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
+    </div>
+  )
+}
+
+function BlogSiteLayout({ children }) {
+  const location = useLocation()
+  const navItems = useMemo(() => ([
+    { label: 'Início', href: 'https://jonaspacheco.cloud/#home' },
+    { label: 'Sobre', href: 'https://jonaspacheco.cloud/#about' },
+    { label: 'Especialidades', href: 'https://jonaspacheco.cloud/#expertise' },
+    { label: 'Projetos', href: 'https://jonaspacheco.cloud/#projects' },
+    { label: 'Blog', href: '/blog', active: true },
+    { label: 'Contato', href: 'https://jonaspacheco.cloud/#contact' },
+  ]), [])
+
+  return (
+    <div style={{ minHeight: '100vh', background: '#020c1b', color: '#EEF2FF' }}>
+      <header className="blog-site-header" style={blogHeader}>
+        <div className="blog-site-header-inner" style={blogHeaderInner}>
+          <a href="https://jonaspacheco.cloud" style={{ display: 'inline-flex', alignItems: 'center' }}>
+            <img src="https://jonaspacheco.cloud/jp-logo.png" alt="Jonas Pacheco" style={{ width: 186, height: 34, objectFit: 'contain' }} />
+          </a>
+          <nav className="blog-site-nav" style={blogNav}>
+            {navItems.map(item => {
+              const isActive = item.active || location.pathname.startsWith('/blog')
+              const style = isActive && item.label === 'Blog' ? { ...blogNavLink, ...blogNavLinkActive } : blogNavLink
+              return item.href.startsWith('/')
+                ? <Link key={item.label} to={item.href} style={style}>{item.label}</Link>
+                : <a key={item.label} href={item.href} style={style}>{item.label}</a>
+            })}
+          </nav>
+          <a href="https://jonaspacheco.cloud/#contact" style={blogCta}>Entrar em contato</a>
+        </div>
+      </header>
+
+      <main style={{ maxWidth: 1180, margin: '0 auto', padding: '40px 20px 72px' }}>
+        {children}
+      </main>
+
+      <footer style={blogFooter}>
+        <div className="blog-site-footer-inner" style={blogFooterInner}>
+          <div style={{ display: 'grid', gap: 14 }}>
+            <a href="https://jonaspacheco.cloud" style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <img src="https://jonaspacheco.cloud/jp-logo.png" alt="Jonas Pacheco" style={{ width: 186, height: 34, objectFit: 'contain' }} />
+            </a>
+            <p style={{ color: '#8BAFC8', fontSize: 14, lineHeight: 1.7, maxWidth: 420 }}>
+              Artigos sobre desenvolvimento fullstack, arquitetura, automação e DevSecOps dentro do ecossistema Jonas Pacheco.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gap: 12 }}>
+            <p style={footerTitle}>Navegação</p>
+            <a href="https://jonaspacheco.cloud/#about" style={footerLink}>Sobre</a>
+            <a href="https://jonaspacheco.cloud/#projects" style={footerLink}>Projetos</a>
+            <Link to="/blog" style={footerLink}>Blog</Link>
+            <a href="https://jonaspacheco.cloud/#contact" style={footerLink}>Contato</a>
+          </div>
+
+          <div style={{ display: 'grid', gap: 12 }}>
+            <p style={footerTitle}>Acompanhe</p>
+            <a href="https://github.com/jonasbrito1" target="_blank" rel="noopener noreferrer" style={footerLink}>GitHub</a>
+            <a href="https://www.linkedin.com/in/jonasbrito1/" target="_blank" rel="noopener noreferrer" style={footerLink}>LinkedIn</a>
+            <a href="https://www.instagram.com/jonasbritopacheco/" target="_blank" rel="noopener noreferrer" style={footerLink}>Instagram</a>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
@@ -80,7 +176,6 @@ export default function App() {
 function Home({ user }) {
   return (
     <div>
-      {/* Hero */}
       <div style={{ textAlign: 'center', marginBottom: 48 }}>
         <h1 style={{ fontSize: 32, fontWeight: 800, marginBottom: 12 }}>
           Portal de <span style={{ color: '#FFDF00' }}>Suporte</span>
@@ -90,9 +185,7 @@ function Home({ user }) {
         </p>
       </div>
 
-      {/* Duas opções principais */}
       <div className="portal-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 40 }}>
-        {/* Sem conta */}
         <div style={{
           background: '#0d1e35', border: '2px solid #FFDF0044', borderRadius: 16, padding: 32,
           display: 'flex', flexDirection: 'column', gap: 16,
@@ -122,7 +215,6 @@ function Home({ user }) {
           </div>
         </div>
 
-        {/* Com conta */}
         <div style={{
           background: '#0d1e35', border: '1px solid #1a3a5c', borderRadius: 16, padding: 32,
           display: 'flex', flexDirection: 'column', gap: 16,
@@ -171,7 +263,6 @@ function Home({ user }) {
         </div>
       </div>
 
-      {/* Como funciona */}
       <div style={{ background: '#0d1e35', border: '1px solid #1a3a5c', borderRadius: 12, padding: '24px 28px' }}>
         <p style={{ fontSize: 12, color: '#475569', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 20 }}>Como funciona</p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 20 }}>
@@ -180,12 +271,12 @@ function Home({ user }) {
             { n: '2', t: 'Receba confirmação', d: 'Um email com link chega imediatamente na sua caixa.' },
             { n: '3', t: 'Equipe analisa', d: 'Nossa equipe responde diretamente no chamado.' },
             { n: '4', t: 'Acompanhe', d: 'Use o link para ver respostas e adicionar informações.' },
-          ].map(s => (
-            <div key={s.n} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-              <span style={{ width: 28, height: 28, borderRadius: '50%', background: '#FFDF0022', color: '#FFDF00', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{s.n}</span>
+          ].map(step => (
+            <div key={step.n} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+              <span style={{ width: 28, height: 28, borderRadius: '50%', background: '#FFDF0022', color: '#FFDF00', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{step.n}</span>
               <div>
-                <p style={{ fontWeight: 600, fontSize: 14, marginBottom: 4 }}>{s.t}</p>
-                <p style={{ color: '#4A6B87', fontSize: 13, lineHeight: 1.5, margin: 0 }}>{s.d}</p>
+                <p style={{ fontWeight: 600, fontSize: 14, marginBottom: 4 }}>{step.t}</p>
+                <p style={{ color: '#4A6B87', fontSize: 13, lineHeight: 1.5, margin: 0 }}>{step.d}</p>
               </div>
             </div>
           ))}
@@ -201,3 +292,13 @@ const btnPrimary = { background: '#FFDF00', border: 'none', borderRadius: 8, col
 const btnCyan = { background: '#FFDF00', border: 'none', borderRadius: 8, color: '#020c1b', fontWeight: 800, cursor: 'pointer', padding: '12px 20px', fontSize: 14 }
 const btnPurple = { background: '#1E6FD922', border: '1px solid #1E6FD944', borderRadius: 8, color: '#1E6FD9', fontWeight: 700, cursor: 'pointer', padding: '12px 20px', fontSize: 14 }
 const btnOutline = { background: 'none', border: '1px solid #1a3a5c', borderRadius: 8, color: '#4A6B87', cursor: 'pointer', padding: '10px 20px' }
+const blogHeader = { position: 'sticky', top: 0, zIndex: 80, backdropFilter: 'blur(16px)', background: 'rgba(2,12,27,0.86)', borderBottom: '1px solid rgba(26,58,92,0.9)' }
+const blogHeaderInner = { maxWidth: 1180, margin: '0 auto', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 18, flexWrap: 'wrap' }
+const blogNav = { display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }
+const blogNavLink = { color: '#8BAFC8', fontSize: 14, textDecoration: 'none', padding: '8px 10px', borderRadius: 999, transition: 'all 0.2s ease' }
+const blogNavLinkActive = { color: '#00d4ff', background: 'rgba(0,212,255,0.1)', border: '1px solid rgba(0,212,255,0.22)' }
+const blogCta = { padding: '10px 16px', borderRadius: 999, background: 'linear-gradient(135deg, #00d4ff 0%, #00ff88 100%)', color: '#04111f', fontWeight: 800, fontSize: 14, textDecoration: 'none', whiteSpace: 'nowrap' }
+const blogFooter = { borderTop: '1px solid rgba(26,58,92,0.9)', background: '#06101e' }
+const blogFooterInner = { maxWidth: 1180, margin: '0 auto', padding: '42px 20px 52px', display: 'grid', gridTemplateColumns: 'minmax(0, 1.4fr) repeat(2, minmax(0, 1fr))', gap: 28 }
+const footerTitle = { color: '#EEF2FF', fontSize: 13, fontWeight: 700, letterSpacing: 0.5, textTransform: 'uppercase' }
+const footerLink = { color: '#8BAFC8', fontSize: 14, textDecoration: 'none' }

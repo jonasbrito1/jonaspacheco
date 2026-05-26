@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { Send, Paperclip, X, Globe, ArrowLeft } from 'lucide-react'
 import api from '../services/api'
+import { formatDateTimeBR } from '../utils/date'
 
 const STATUS_COLOR = { aberto: '#FFDF00', em_andamento: '#F97316', resolvido: '#009C3B', fechado: '#4A6B87' }
 const STATUS_LABEL = { aberto: 'Aberto', em_andamento: 'Em Andamento', resolvido: 'Resolvido', fechado: 'Fechado' }
@@ -80,7 +81,7 @@ export default function TicketDetail() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
           <div>
             <p style={{ color: '#4A6B87', fontSize: 12, marginBottom: 6 }}>
-              Chamado #{ticket.id} · {new Date(ticket.created_at).toLocaleString('pt-BR')}
+              Chamado #{ticket.id} · {formatDateTimeBR(ticket.created_at)}
             </p>
             <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 0 }}>{ticket.title}</h2>
           </div>
@@ -119,7 +120,7 @@ export default function TicketDetail() {
                   </span>
                   {isSupport && <span style={{ fontSize: 10, background: '#FFDF0022', color: '#FFDF00', padding: '1px 6px', borderRadius: 4 }}>equipe</span>}
                 </div>
-                <span style={{ fontSize: 11, color: '#4A6B87' }}>{new Date(msg.created_at).toLocaleString('pt-BR')}</span>
+                <span style={{ fontSize: 11, color: '#4A6B87' }}>{formatDateTimeBR(msg.created_at)}</span>
               </div>
               {msg.message && <p style={{ fontSize: 14, color: '#EEF2FF', whiteSpace: 'pre-wrap', lineHeight: 1.7, margin: 0 }}>{msg.message}</p>}
               {msg.attachment_url && <AttachmentDisplay url={msg.attachment_url} name={msg.attachment_name} type={msg.attachment_type} />}

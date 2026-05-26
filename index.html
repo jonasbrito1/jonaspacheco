@@ -92,6 +92,7 @@
                 <a href="#about" class="nav-link" data-i18n="nav.about">Sobre</a>
                 <a href="#expertise" class="nav-link" data-i18n="nav.expertise">Especialidades</a>
                 <a href="#projects" class="nav-link" data-i18n="nav.projects">Projetos</a>
+                <a href="/blog" class="nav-link" data-i18n="nav.blog">Blog</a>
                 <a href="#contact" class="nav-link" data-i18n="nav.contact">Contato</a>
             </div>
             <button class="lang-toggle" id="langToggle" aria-label="Alternar idioma">
@@ -147,6 +148,10 @@
                         <a href="#contact" class="btn btn-primary">
                             <span data-i18n="hero.cta1">Entrar em Contato</span>
                             <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="/blog" class="hero-blog-link">
+                            <span data-i18n="hero.cta3">Ler artigos no Blog</span>
+                            <i class="fas fa-book-open"></i>
                         </a>
                     </div>
                     <div class="hero-social" data-aos="fade-up" data-aos-delay="500">
@@ -324,29 +329,37 @@
                 <div class="project-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="project-image">
                         <div class="project-overlay">
-                            <a href="https://github.com/jonasbrito1/medsys" target="_blank" class="project-link">
+                            <a href="https://horizontedosaber.com.br" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Acessar Horizonte do Saber">
                                 <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>
-                        <div class="project-placeholder medsys">
-                            <i class="fas fa-heartbeat"></i>
-                        </div>
+                        <img
+                            src="assets/projects/horizonte-do-saber.svg"
+                            alt="Miniatura real do site Horizonte do Saber"
+                            class="project-thumbnail"
+                            loading="lazy"
+                        >
                     </div>
                     <div class="project-content">
                         <div class="project-header">
-                            <h3 class="project-title">MedSys</h3>
+                            <div>
+                                <h3 class="project-title">Horizonte do Saber</h3>
+                                <a href="https://horizontedosaber.com.br" target="_blank" rel="noopener noreferrer" class="project-url">horizontedosaber.com.br</a>
+                            </div>
                         </div>
                         <p class="project-description">
-                            Sistema de gestão médica para organização de pacientes, prontuários e atendimentos.
+                            Site institucional educacional com conteúdo gerenciável para apresentar a escola, diferenciais, galeria e contato em uma base preparada para evolução administrativa.
                         </p>
                         <div class="project-metrics-small">
-                            <span><i class="fas fa-layer-group"></i> arquitetura estruturada</span>
-                            <span><i class="fas fa-heartbeat"></i> fluxo clinico organizado</span>
+                            <span><i class="fas fa-school"></i> site institucional educacional</span>
+                            <span><i class="fas fa-database"></i> base preparada para gestão</span>
                         </div>
                         <div class="project-tech">
+                            <span class="tech-tag">Node.js</span>
                             <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">Backend Web</span>
-                            <span class="tech-tag">Banco de Dados</span>
+                            <span class="tech-tag">Express</span>
+                            <span class="tech-tag">Prisma</span>
+                            <span class="tech-tag">MySQL</span>
                         </div>
                     </div>
                 </div>
@@ -354,29 +367,37 @@
                 <div class="project-card" data-aos="fade-up" data-aos-delay="200">
                     <div class="project-image">
                         <div class="project-overlay">
-                            <a href="https://github.com/jonasbrito1/easycompliance" target="_blank" class="project-link">
+                            <a href="https://gbcidadenovaam.com.br" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Acessar Gracie Barra Cidade Nova">
                                 <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>
-                        <div class="project-placeholder easycompliance">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
+                        <img
+                            src="assets/projects/gb-cidade-nova.svg"
+                            alt="Miniatura real do sistema Gracie Barra Cidade Nova"
+                            class="project-thumbnail"
+                            loading="lazy"
+                        >
                     </div>
                     <div class="project-content">
                         <div class="project-header">
-                            <h3 class="project-title">EasyCompliance</h3>
+                            <div>
+                                <h3 class="project-title">Gracie Barra Cidade Nova</h3>
+                                <a href="https://gbcidadenovaam.com.br" target="_blank" rel="noopener noreferrer" class="project-url">gbcidadenovaam.com.br</a>
+                            </div>
                         </div>
                         <p class="project-description">
-                            Plataforma para gerenciamento e automação de processos de compliance.
+                            Sistema de gestão para academia com alunos, turmas, frequência, financeiro, cobranças e integrações de pagamento em uma operação centralizada.
                         </p>
                         <div class="project-metrics-small">
-                            <span><i class="fas fa-sitemap"></i> processos centralizados</span>
-                            <span><i class="fas fa-gear"></i> melhoria operacional</span>
+                            <span><i class="fas fa-users"></i> operação da academia centralizada</span>
+                            <span><i class="fas fa-credit-card"></i> pagamentos e recorrência</span>
                         </div>
                         <div class="project-tech">
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">Compliance</span>
-                            <span class="tech-tag">Automação</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">Express</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">Mercado Pago</span>
+                            <span class="tech-tag">Google OAuth</span>
                         </div>
                     </div>
                 </div>
@@ -384,29 +405,37 @@
                 <div class="project-card" data-aos="fade-up" data-aos-delay="300">
                     <div class="project-image">
                         <div class="project-overlay">
-                            <a href="https://github.com/jonasbrito1" target="_blank" class="project-link">
+                            <a href="https://healthix.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Acessar Healthix">
                                 <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>
-                        <div class="project-placeholder i9script">
-                            <i class="fas fa-cart-shopping"></i>
-                        </div>
+                        <img
+                            src="assets/projects/healthix.svg"
+                            alt="Miniatura real do sistema Healthix"
+                            class="project-thumbnail"
+                            loading="lazy"
+                        >
                     </div>
                     <div class="project-content">
                         <div class="project-header">
-                            <h3 class="project-title">E-commerce Platform</h3>
+                            <div>
+                                <h3 class="project-title">Healthix</h3>
+                                <a href="https://healthix.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer" class="project-url">healthix.jonaspacheco.cloud</a>
+                            </div>
                         </div>
                         <p class="project-description">
-                            Plataforma completa de vendas online com sistema de produtos e pedidos.
+                            Plataforma de gestão hospitalar com dashboards, filas e módulos operacionais integrados para acompanhamento em tempo real.
                         </p>
                         <div class="project-metrics-small">
-                            <span><i class="fas fa-expand"></i> estrutura escalavel</span>
-                            <span><i class="fas fa-box-open"></i> funcionalidades essenciais</span>
+                            <span><i class="fas fa-hospital"></i> gestão hospitalar inteligente</span>
+                            <span><i class="fas fa-wave-square"></i> monitoramento em tempo real</span>
                         </div>
                         <div class="project-tech">
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">Backend Web</span>
-                            <span class="tech-tag">Pedidos</span>
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Vite</span>
+                            <span class="tech-tag">Express</span>
+                            <span class="tech-tag">Socket.IO</span>
                         </div>
                     </div>
                 </div>
@@ -414,29 +443,113 @@
                 <div class="project-card" data-aos="fade-up" data-aos-delay="400">
                     <div class="project-image">
                         <div class="project-overlay">
-                            <a href="https://github.com/jonasbrito1" target="_blank" class="project-link">
+                            <a href="https://bjjmasters.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Acessar BJJ Masters">
                                 <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>
-                        <div class="project-placeholder easycompliance">
-                            <i class="fas fa-code-branch"></i>
-                        </div>
+                        <img
+                            src="assets/projects/bjj-masters.svg"
+                            alt="Miniatura real do sistema BJJ Masters"
+                            class="project-thumbnail"
+                            loading="lazy"
+                        >
                     </div>
                     <div class="project-content">
                         <div class="project-header">
-                            <h3 class="project-title">CI/CD Pipeline Project</h3>
+                            <div>
+                                <h3 class="project-title">BJJ Masters</h3>
+                                <a href="https://bjjmasters.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer" class="project-url">bjjmasters.jonaspacheco.cloud</a>
+                            </div>
                         </div>
                         <p class="project-description">
-                            Implementação de pipeline automatizado para deploy contínuo.
+                            SaaS multi-tenant para academias de jiu-jitsu com white-label, portal do aluno, controle de presença e gestão financeira por unidade.
                         </p>
                         <div class="project-metrics-small">
-                            <span><i class="fas fa-rocket"></i> build e deploy automatizados</span>
-                            <span><i class="fas fa-boxes-stacked"></i> fluxo confiável</span>
+                            <span><i class="fas fa-layer-group"></i> multi-tenant e white-label</span>
+                            <span><i class="fas fa-user-check"></i> alunos, turmas e mensalidades</span>
                         </div>
                         <div class="project-tech">
-                            <span class="tech-tag">Docker</span>
-                            <span class="tech-tag">GitHub Actions</span>
-                            <span class="tech-tag">Deploy</span>
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Prisma</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">NextAuth</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <a href="https://www.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Acessar Evolution Engenharia">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                        <img
+                            src="assets/projects/evolution-engenharia.svg"
+                            alt="Miniatura real do site Evolution Engenharia"
+                            class="project-thumbnail"
+                            loading="lazy"
+                        >
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <div>
+                                <h3 class="project-title">Evolution Engenharia</h3>
+                                <a href="https://www.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer" class="project-url">www.evolutionengenharia.com.br</a>
+                            </div>
+                        </div>
+                        <p class="project-description">
+                            Site institucional da Evolution Engenharia com vitrine de serviços, provas sociais, captação de orçamento e assistente comercial.
+                        </p>
+                        <div class="project-metrics-small">
+                            <span><i class="fas fa-building"></i> presença digital da engenharia</span>
+                            <span><i class="fas fa-comments"></i> foco em conversão comercial</span>
+                        </div>
+                        <div class="project-tech">
+                            <span class="tech-tag">HTML</span>
+                            <span class="tech-tag">CSS</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">Font Awesome</span>
+                            <span class="tech-tag">Hostinger</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <a href="https://hidro.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Acessar Hidro Evolution">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                        <img
+                            src="assets/projects/hidro-evolution.svg"
+                            alt="Miniatura real do site Hidro Evolution"
+                            class="project-thumbnail"
+                            loading="lazy"
+                        >
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <div>
+                                <h3 class="project-title">Hidro Evolution</h3>
+                                <a href="https://hidro.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer" class="project-url">hidro.evolutionengenharia.com.br</a>
+                            </div>
+                        </div>
+                        <p class="project-description">
+                            Site comercial da Hidro Evolution voltado à apresentação de produtos e soluções em bebedouros, sistemas hidráulicos e energia.
+                        </p>
+                        <div class="project-metrics-small">
+                            <span><i class="fas fa-faucet-drip"></i> catálogo e posicionamento técnico</span>
+                            <span><i class="fas fa-bolt"></i> hidráulica e energia</span>
+                        </div>
+                        <div class="project-tech">
+                            <span class="tech-tag">HTML</span>
+                            <span class="tech-tag">CSS</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">Poppins</span>
+                            <span class="tech-tag">Hostinger</span>
                         </div>
                     </div>
                 </div>
@@ -738,6 +851,14 @@
                         <div class="tech-item">
                             <i class="fas fa-leaf"></i>
                             <span>MongoDB</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-bolt"></i>
+                            <span>Supabase</span>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-fire"></i>
+                            <span>Firebase</span>
                         </div>
                     </div>
                 </div>

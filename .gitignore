@@ -28,6 +28,10 @@ hub/portal/node_modules/
 hub/frontend/dist/
 hub/portal/dist/
 hub/backend/.env
+licita/.env
+licita/.next/
+licita/node_modules/
+licita/next-env.d.ts
 
 # Scripts Windows específicos
 *.bat
@@ -60,3 +64,6 @@ node_modules/
 # Backup files
 *.bak
 *.backup
+
+# Runtime local
+*.pid

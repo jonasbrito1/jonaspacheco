@@ -7,8 +7,8 @@ const app = express();
 app.use(cors({ origin: process.env.FRONTEND_URL || '*' }));
 app.use(express.json());
 
-// Serve uploaded files
-app.use('/uploads', express.static(path.join(__dirname, '../../uploads')));
+// Serve uploaded files from hub/backend/uploads, which is where the app stores them.
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.use('/api/auth',      require('./routes/auth'));
 app.use('/api/dashboard', require('./routes/dashboard'));
@@ -19,6 +19,8 @@ app.use('/api/tickets',   require('./routes/tickets'));
 app.use('/api/users',     require('./routes/users'));
 app.use('/api/portal',    require('./routes/portal'));
 app.use('/api/tf',        require('./routes/taskflow'));
+app.use('/api/admin/blog', require('./modules/blog/admin'));
+app.use('/api/blog',       require('./modules/blog/public'));
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Miniatura Healthix</title>
+  <desc id="desc">Preview visual da plataforma de gestão hospitalar Healthix.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#042f2e"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="#061526"/>
+  <rect x="48" y="46" width="1104" height="583" rx="36" fill="url(#bg)"/>
+  <text x="100" y="142" fill="#ccfbf1" font-family="Arial, sans-serif" font-size="26" font-weight="800">Healthix</text>
+  <text x="100" y="228" fill="#fff" font-family="Arial, sans-serif" font-size="60" font-weight="900">Gestão hospitalar</text>
+  <text x="104" y="280" fill="#99f6e4" font-family="Arial, sans-serif" font-size="28" font-weight="700">filas, dashboards e operação em tempo real</text>
+  <rect x="104" y="350" width="230" height="146" rx="28" fill="#14b8a6"/>
+  <rect x="374" y="350" width="230" height="146" rx="28" fill="#0ea5e9"/>
+  <rect x="644" y="350" width="230" height="146" rx="28" fill="#22c55e"/>
+  <text x="138" y="432" fill="#fff" font-family="Arial, sans-serif" font-size="34" font-weight="900">Fila</text>
+  <text x="408" y="432" fill="#fff" font-family="Arial, sans-serif" font-size="34" font-weight="900">Leitos</text>
+  <text x="678" y="432" fill="#fff" font-family="Arial, sans-serif" font-size="34" font-weight="900">Equipe</text>
+  <path d="M965 210h58v58h58v72h-58v58h-58v-58h-58v-72h58z" fill="#fff" opacity=".9"/>
+  <path d="M110 565h210l60-70 78 48 74-110 92 132h464" fill="none" stroke="#ccfbf1" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" opacity=".65"/>
+</svg>

@@ -185,6 +185,202 @@ async function migrate() {
     );
   `);
 
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS blog_categories (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      slug VARCHAR(255) UNIQUE NOT NULL,
+      description TEXT,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    );
+
+    CREATE TABLE IF NOT EXISTS blog_tags (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      slug VARCHAR(255) UNIQUE NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    );
+
+    CREATE TABLE IF NOT EXISTS blog_posts (
+      id SERIAL PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      slug VARCHAR(255) UNIQUE NOT NULL,
+      excerpt TEXT,
+      content TEXT NOT NULL,
+      cover_image_url TEXT,
+      status VARCHAR(30) NOT NULL DEFAULT 'draft',
+      category_id INT REFERENCES blog_categories(id) ON DELETE SET NULL,
+      author_id INT REFERENCES users(id) ON DELETE SET NULL,
+      seo_title VARCHAR(255),
+      seo_description TEXT,
+      canonical_url TEXT,
+      og_image_url TEXT,
+      reading_time_minutes INT DEFAULT 1,
+      published_at TIMESTAMP NULL,
+      scheduled_at TIMESTAMP NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW(),
+      deleted_at TIMESTAMP NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS blog_post_tags (
+      post_id INT REFERENCES blog_posts(id) ON DELETE CASCADE,
+      tag_id INT REFERENCES blog_tags(id) ON DELETE CASCADE,
+      PRIMARY KEY (post_id, tag_id)
+    );
+
+    CREATE TABLE IF NOT EXISTS blog_media (
+      id SERIAL PRIMARY KEY,
+      original_name VARCHAR(255) NOT NULL,
+      file_name VARCHAR(255) NOT NULL,
+      mime_type VARCHAR(100) NOT NULL,
+      size INT NOT NULL,
+      url TEXT NOT NULL,
+      created_by INT REFERENCES users(id) ON DELETE SET NULL,
+      created_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_blog_posts_status ON blog_posts(status);
+    CREATE INDEX IF NOT EXISTS idx_blog_posts_slug ON blog_posts(slug);
+    CREATE INDEX IF NOT EXISTS idx_blog_posts_category_id ON blog_posts(category_id);
+    CREATE INDEX IF NOT EXISTS idx_blog_posts_published_at ON blog_posts(published_at);
+    CREATE INDEX IF NOT EXISTS idx_blog_posts_scheduled_at ON blog_posts(scheduled_at);
+    CREATE INDEX IF NOT EXISTS idx_blog_media_created_by ON blog_media(created_by);
+  `);
+
+  await pool.query(`
+    INSERT INTO blog_categories (name, slug, description)
+    VALUES
+      ('Ecossistema Dev', 'ecossistema-dev', 'Artigos sobre produtos, processos e arquitetura do ecossistema Jonas Pacheco.'),
+      ('Fullstack', 'fullstack', 'Conteúdos sobre desenvolvimento fullstack, frontend e backend.'),
+      ('DevSecOps', 'devsecops', 'Segurança, automação e cultura DevSecOps.')
+    ON CONFLICT (slug) DO NOTHING;
+
+    INSERT INTO blog_tags (name, slug)
+    VALUES
+      ('Arquitetura', 'arquitetura'),
+      ('React', 'react'),
+      ('Node.js', 'node-js'),
+      ('Segurança', 'seguranca'),
+      ('Automação', 'automacao'),
+      ('DevSecOps', 'devsecops')
+    ON CONFLICT (slug) DO NOTHING;
+  `);
+
+  const { rows: blogCountRows } = await pool.query('SELECT COUNT(*)::int AS count FROM blog_posts');
+  if (!blogCountRows[0]?.count) {
+    const { rows: adminRows } = await pool.query(`SELECT id FROM users WHERE role = 'admin' ORDER BY id LIMIT 1`);
+    const authorId = adminRows[0]?.id || null;
+    const { rows: catRows } = await pool.query(`SELECT id, slug FROM blog_categories`);
+    const categories = Object.fromEntries(catRows.map((row) => [row.slug, row.id]));
+    const { rows: tagRows } = await pool.query(`SELECT id, slug FROM blog_tags`);
+    const tags = Object.fromEntries(tagRows.map((row) => [row.slug, row.id]));
+
+    const samplePosts = [
+      {
+        title: 'Como estou construindo meu ecossistema dev',
+        slug: 'como-estou-construindo-meu-ecossistema-dev',
+        excerpt: 'Uma visão prática de como estou conectando produtos, automações e operações em um ecossistema único.',
+        content: `# Como estou construindo meu ecossistema dev
+
+Estou organizando meus produtos em uma estrutura que une landing page, hub operacional, atendimento e automações.
+
+## O foco
+
+- centralizar informação
+- reduzir retrabalho
+- acelerar operação
+- manter segurança desde o início
+
+## O que isso muda
+
+Quando cada sistema conversa com clareza, o trabalho deixa de depender de improviso e ganha previsibilidade.`,
+        categoryId: categories['ecossistema-dev'] || null,
+        status: 'published',
+        seoTitle: 'Como estou construindo meu ecossistema dev',
+        seoDescription: 'Bastidores da construção do ecossistema de produtos e operação de Jonas Pacheco.',
+        tags: [tags.arquitetura, tags.automacao].filter(Boolean),
+      },
+      {
+        title: 'Tendências para desenvolvimento fullstack',
+        slug: 'tendencias-para-desenvolvimento-fullstack',
+        excerpt: 'As mudanças que mais impactam produtividade, DX e integração entre frontend e backend.',
+        content: `# Tendências para desenvolvimento fullstack
+
+O desenvolvimento fullstack ficou menos sobre fazer tudo manualmente e mais sobre integrar camadas com inteligência.
+
+## O que observo
+
+- frontends mais orientados a produto
+- backends mais modulares
+- observabilidade desde cedo
+- pipelines mais confiáveis
+
+Esses pontos melhoram velocidade sem abrir mão de consistência.`,
+        categoryId: categories.fullstack || null,
+        status: 'published',
+        seoTitle: 'Tendências para desenvolvimento fullstack',
+        seoDescription: 'Panorama das tendências práticas para times e profissionais fullstack.',
+        tags: [tags.react, tags['node-js']].filter(Boolean),
+      },
+      {
+        title: 'DevSecOps: segurança desde o início',
+        slug: 'devsecops-seguranca-desde-o-inicio',
+        excerpt: 'Segurança não precisa ser uma etapa final. Ela pode nascer junto com o produto e o pipeline.',
+        content: `# DevSecOps: segurança desde o início
+
+Tratar segurança apenas no fim do projeto costuma gerar custo, atraso e risco.
+
+## Uma abordagem melhor
+
+- políticas mínimas já no primeiro deploy
+- revisão de dependências
+- gestão de segredos
+- validação contínua no pipeline
+
+Segurança cedo significa menos retrabalho e mais confiança para evoluir.`,
+        categoryId: categories.devsecops || null,
+        status: 'published',
+        seoTitle: 'DevSecOps: segurança desde o início',
+        seoDescription: 'Por que DevSecOps deve começar no primeiro commit e não no fim do projeto.',
+        tags: [tags.devsecops, tags.seguranca].filter(Boolean),
+      },
+    ];
+
+    for (const post of samplePosts) {
+      const { rows: insertedRows } = await pool.query(
+        `INSERT INTO blog_posts
+          (title, slug, excerpt, content, status, category_id, author_id, seo_title, seo_description,
+           reading_time_minutes, published_at)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,NOW())
+         RETURNING id`,
+        [
+          post.title,
+          post.slug,
+          post.excerpt,
+          post.content,
+          post.status,
+          post.categoryId,
+          authorId,
+          post.seoTitle,
+          post.seoDescription,
+          Math.max(1, Math.ceil(post.content.split(/\s+/).length / 200)),
+        ]
+      );
+
+      for (const tagId of post.tags) {
+        await pool.query(
+          'INSERT INTO blog_post_tags (post_id, tag_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
+          [insertedRows[0].id, tagId]
+        );
+      }
+    }
+  }
+
   console.log('Migrations aplicadas.');
   process.exit(0);
 }

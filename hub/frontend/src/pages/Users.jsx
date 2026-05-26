@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import api from '../services/api'
 import { Plus, Pencil, Trash2, Shield } from 'lucide-react'
+import { formatDateBR } from '../utils/date'
 
 const ROLES = {
   admin:       { label: 'Admin',          color: '#F97316' },
@@ -95,7 +96,7 @@ export default function Users() {
                   {u.role === 'colaborador' && 'Tickets'}
                 </td>
                 <td style={{ ...s.td, color: '#4A6B87', fontSize: 12 }}>
-                  {new Date(u.created_at).toLocaleDateString('pt-BR')}
+                  {formatDateBR(u.created_at)}
                 </td>
                 <td style={s.td}>
                   <div style={{ display: 'flex', gap: 8 }}>

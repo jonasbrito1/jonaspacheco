@@ -1,297 +1,465 @@
-# Portfolio Jonas Pacheco - Landing Page Profissional
+# Jonas Pacheco - Estrutura do Projeto
 
-Landing page profissional desenvolvida para apresentar o portfólio de Jonas Pacheco, Desenvolvedor Fullstack e especialista em DevSecOps.
+Este repositório reúne a presença web e aplicações de apoio do ecossistema Jonas Pacheco. Hoje ele funciona mais como um pequeno monorepo, com uma landing page principal e outros sistemas separados por pasta.
 
-## Características
+## Objetivo
 
-### Design Moderno e Tecnológico
-- Interface dark mode com paleta de cores profissional (Preto, Azul Ciano, Verde Neon, Amarelo)
-- Animações suaves e interativas
-- Design 100% responsivo (Mobile, Tablet, Desktop)
-- Tipografia moderna com fontes Inter e Fira Code
+O projeto centraliza:
 
-### Seções Implementadas
+- a landing page pública de portfólio
+- o formulário de contato e páginas institucionais
+- um hub interno com backend, painel administrativo e portal
+- o sistema `licita`, voltado para fluxo de licitações com IA
 
-1. **Hero Section**
-   - Apresentação com efeito de digitação dinâmica
-   - Terminal animado mostrando stack tecnológico
-   - Links para redes sociais (GitHub, LinkedIn, Instagram)
-   - CTAs para contato e projetos
+## Visão Geral da Estrutura
 
-2. **Sobre**
-   - Descrição profissional completa
-   - Cards com destaques (Segurança, Escalabilidade, Automação)
-   - Estatísticas animadas com contadores
-
-3. **Especialidades**
-   - 6 áreas de expertise detalhadas:
-     - Desenvolvimento Backend
-     - Desenvolvimento Frontend
-     - Sistemas ERP
-     - DevSecOps
-     - Desenvolvimento Mobile
-     - Automação & Compliance
-
-4. **Projetos**
-   - Showcase de 6 projetos principais do GitHub
-   - Links diretos para os repositórios
-   - Informações sobre tecnologias utilizadas
-
-5. **Tecnologias**
-   - Stack completo organizado por categorias:
-     - Linguagens (PHP, Python, JavaScript, Kotlin, HTML, CSS)
-     - Frameworks (React, Node.js, Laravel, Django)
-     - Banco de Dados (MySQL, PostgreSQL, MongoDB)
-     - DevOps & Tools (Docker, Git, CI/CD, Linux)
-
-6. **Contato**
-   - Formulário funcional com validação
-   - Múltiplos canais de contato
-   - Notificações de sucesso/erro
-
-### Funcionalidades JavaScript
-
-- **Animações on scroll** - Elementos animam conforme aparecem na tela
-- **Efeito de digitação** - Títulos profissionais animados no hero
-- **Contadores animados** - Estatísticas com animação de números
-- **Menu mobile responsivo** - Navegação otimizada para mobile
-- **Formulário de contato** - Com validação e feedback visual
-- **Botão voltar ao topo** - Aparece após scroll
-- **Smooth scrolling** - Navegação suave entre seções
-- **Parallax effect** - Efeito de profundidade no background
-- **Lazy loading** - Otimização de carregamento de imagens
-- **Navegação por teclado** - Suporte para atalhos (ESC, Ctrl+K)
-
-## Estrutura de Arquivos
-
-```
-jonas/
-├── index.html                         # Estrutura HTML principal
-├── styles.css                         # Estilos CSS com design system
-├── script.js                          # Funcionalidades JavaScript
-├── .htaccess                          # Configurações Apache
-├── favicon.svg                        # Ícone do site
-├── jonas-pro.jpg                      # Foto profissional
-│
-├── deploy/                            # Arquivos prontos para produção
-│   ├── index.html
-│   ├── styles.css
-│   ├── script.js
-│   ├── favicon.svg
-│   ├── jonas-pro.jpg
-│   └── .htaccess
-│
-├── logo-jonas-dvlpr.svg              # Logo com background
-├── logo-jonas-dvlpr-transparent.svg  # Logo transparente
-├── logo-jonas-icon.svg               # Ícone/avatar
-├── logos.html                         # Página de download de logos
-│
-├── .gitignore                         # Arquivos ignorados pelo Git
-└── README.md                          # Esta documentação
+```text
+jonaspacheco/
+├── index.html                  # Landing page principal
+├── styles.css                  # Estilos da landing page
+├── script.js                   # Interações da landing page
+├── contact.php                 # Endpoint PHP do formulário de contato
+├── .htaccess                   # Regras Apache da raiz
+├── sitemap.xml                 # Sitemap público
+├── privacy-policy*.html        # Políticas de privacidade
+├── terms-of-service*.html      # Termos de uso
+├── logos.html                  # Página utilitária para logos
+├── assets/                     # Assets usados na landing
+├── deploy/                     # Snapshot pronto para publicação da landing
+├── hub/
+│   ├── backend/                # API Node.js/Express
+│   ├── frontend/               # Painel admin React + Vite
+│   └── portal/                 # Portal React + Vite
+├── licita/                     # App Next.js + TypeScript
+├── start-local.sh              # Sobe ambiente local completo
+├── stop-local.sh               # Para os processos locais
+└── README.md                   # Esta documentação
 ```
 
-## 🎨 Logos e Branding
+## Módulos
 
-O projeto inclui um sistema completo de identidade visual com logos profissionais:
+### 1. Landing Page
 
-### Variações Disponíveis
+Arquivos principais:
 
-1. **Logo Completa - Background Escuro** (`logo-jonas-dvlpr.svg`)
-   - Dimensões: 400x120px
-   - Background preto (#0a0a0a)
-   - Ideal para fundos claros e apresentações
+- [index.html](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/index.html:1)
+- [styles.css](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/styles.css:1)
+- [script.js](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/script.js:1)
 
-2. **Logo Completa - Transparente** (`logo-jonas-dvlpr-transparent.svg`)
-   - Dimensões: 400x120px
-   - Fundo transparente
-   - Versátil para qualquer contexto (Canva, redes sociais)
+Responsável pela apresentação pública do portfólio, branding, projetos, stack técnica e canais de contato.
 
-3. **Ícone/Avatar** (`logo-jonas-icon.svg`)
-   - Dimensões: 200x200px circular
-   - Para perfis, avatares e redes sociais
+Recursos principais:
 
-### Download de Logos
+- hero com apresentação profissional
+- seções de sobre, especialidades, projetos e tecnologias
+- animações e navegação responsiva
+- integração com formulário de contato
+- páginas legais e sitemap
 
-Acesse [logos.html](logos.html) no navegador para fazer download em múltiplos formatos:
+### 2. Contato e Páginas Institucionais
 
-- **SVG:** Vetor escalável, sem perda de qualidade
-- **PNG:** Disponível em 3 resoluções:
-  - **1x (Padrão):** Para web e perfis
-  - **2x (Alta):** Para Retina displays e posts HD
-  - **4x (Máxima):** Ideal para Canva, impressão e banners (até 1600x480px)
+Arquivos principais:
 
-### Paleta de Cores
+- [contact.php](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/contact.php:1)
+- [privacy-policy.html](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/privacy-policy.html:1)
+- [privacy-policy-en.html](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/privacy-policy-en.html:1)
+- [terms-of-service.html](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/terms-of-service.html:1)
+- [terms-of-service-en.html](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/terms-of-service-en.html:1)
 
-| Cor | Hexadecimal | Uso |
-|-----|-------------|-----|
-| Cyan Blue | `#00d4ff` | Cor primária, destaques |
-| Neon Green | `#00ff88` | Cor secundária, CTAs |
-| Dark Background | `#0a0a0a` | Fundo principal |
-| Gradient | `#00d4ff → #00ff88` | Logos, títulos especiais |
+O formulário de contato:
 
-### Uso no Canva
+- recebe `POST` via PHP
+- valida campos
+- aplica rate limit simples por IP
+- envia email via SMTP usando PHPMailer
+- pode abrir ticket automaticamente no `hub/backend`
 
-1. Abra `logos.html` no navegador
-2. Clique em "Download PNG" e escolha resolução **Máxima (4x)**
-3. No Canva: Upload → Faça upload de arquivos
-4. Arraste o PNG para seu design
-5. Use versão **transparente** para sobrepor em qualquer fundo
+Dependências operacionais dessa parte:
 
-## Como Usar
+- `config.php` fora do Git com credenciais SMTP
+- `vendor/autoload.php` do Composer para PHPMailer
+- backend do hub acessível em `http://localhost:3200` se o auto-ticket estiver ativo
 
-### 1. Visualização Local
+### 3. Hub
 
-Basta abrir o arquivo `index.html` em qualquer navegador moderno:
+O `hub` é dividido em três aplicações.
+
+#### `hub/backend`
+
+Stack:
+
+- Node.js
+- Express
+- PostgreSQL
+
+Arquivos-chave:
+
+- [hub/backend/src/index.js](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/hub/backend/src/index.js:1)
+- [hub/backend/src/db/migrate.js](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/hub/backend/src/db/migrate.js:1)
+- [hub/backend/.env.example](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/hub/backend/.env.example:1)
+
+Função:
+
+- autenticação
+- dashboard
+- projetos
+- financeiro
+- monitoramento
+- tickets
+- usuários
+- portal
+- task flow
+
+Porta padrão:
+
+- `3200`
+
+#### `hub/frontend`
+
+Stack:
+
+- React
+- Vite
+
+Função:
+
+- painel administrativo do hub
+
+Porta local usada pelo script:
+
+- `5175`
+
+#### `hub/portal`
+
+Stack:
+
+- React
+- Vite
+
+Função:
+
+- portal público ou portal do cliente para chamados e acompanhamento
+
+Porta local usada pelo script:
+
+- `5174`
+
+### 4. Licita
+
+Arquivos principais:
+
+- [licita/package.json](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/licita/package.json:1)
+- [licita/database/schema.sql](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/licita/database/schema.sql:1)
+- [licita/.env.example](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/licita/.env.example:1)
+
+Stack:
+
+- Next.js 14
+- React 18
+- TypeScript
+- Tailwind CSS
+- Supabase
+- Anthropic SDK
+
+Função:
+
+- fluxo de licitações
+- análise de documentos
+- uso de IA
+- dashboard e áreas autenticadas
+
+Porta padrão:
+
+- `3100`
+
+## Execução Local
+
+### Padrão recomendado
+
+O repositório já possui um fluxo local padronizado:
+
+- [start-local.sh](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/start-local.sh:1)
+- [stop-local.sh](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/stop-local.sh:1)
+
+O `start-local.sh` faz o seguinte:
+
+- sobe um PostgreSQL Docker em `localhost:55432`
+- cria `.env` do `hub/backend` e `licita` se não existirem
+- executa migração do hub
+- cria um usuário admin local
+- inicia landing, API, frontend, portal e licita
+
+Para subir tudo:
 
 ```bash
-# No Windows
-start index.html
-
-# Ou clique duas vezes no arquivo index.html
+cd jonaspacheco
+bash start-local.sh
 ```
 
-### 2. Servidor Local (Recomendado)
+URLs locais:
 
-Para melhor performance e funcionalidade completa:
+- Landing: `http://localhost:8080`
+- Hub API: `http://localhost:3200`
+- Hub Admin: `http://localhost:5175`
+- Hub Portal: `http://localhost:5174`
+- Licita: `http://localhost:3100`
+
+Credenciais locais do hub:
+
+- `admin@local.dev`
+- `admin123`
+
+Credenciais demo do licita:
+
+- `licitacoes@local.dev`
+- `123456`
+
+Logs:
+
+- `/tmp/jonaspacheco-local`
+
+Para parar os processos locais:
 
 ```bash
-# Python
-python -m http.server 8000
-
-# Node.js (http-server)
-npx http-server
-
-# PHP
-php -S localhost:8000
-
-# VS Code - Live Server extension
-# Clique com botão direito no index.html > Open with Live Server
+cd jonaspacheco
+bash stop-local.sh
 ```
 
-Acesse: `http://localhost:8000`
+### Subir módulos separadamente
 
-### 3. Deploy
+Landing page:
 
-#### GitHub Pages
 ```bash
-# 1. Crie um repositório no GitHub
-# 2. Faça upload dos arquivos
-# 3. Vá em Settings > Pages
-# 4. Selecione a branch main
-# 5. Seu site estará em: https://username.github.io/repository-name
+cd jonaspacheco
+python3 -m http.server 8080
 ```
 
-#### Netlify (Recomendado)
-1. Acesse [netlify.com](https://netlify.com)
-2. Arraste a pasta do projeto
-3. Site publicado instantaneamente!
+Hub backend:
 
-#### Vercel
 ```bash
-npm i -g vercel
-vercel
+cd jonaspacheco/hub/backend
+npm install
+npm run dev
 ```
 
-## Personalização
+Hub frontend:
 
-### Alterar Cores
-
-Edite as variáveis CSS no arquivo `styles.css`:
-
-```css
-:root {
-    --color-blue-primary: #00d4ff;    /* Azul principal */
-    --color-green-primary: #00ff88;   /* Verde destaque */
-    --color-yellow-primary: #ffd600;  /* Amarelo */
-    /* Personalize conforme necessário */
-}
+```bash
+cd jonaspacheco/hub/frontend
+npm install
+npm run dev -- --host 0.0.0.0 --port 5175
 ```
 
-### Atualizar Conteúdo
+Hub portal:
 
-1. **Informações pessoais**: Edite o HTML em `index.html`
-2. **Projetos**: Atualize a seção `#projects`
-3. **Tecnologias**: Modifique a seção `#technologies`
-4. **Links sociais**: Atualize os links no hero e footer
-
-### Configurar Formulário de Contato
-
-O formulário atualmente exibe mensagens de sucesso localmente. Para envios reais:
-
-#### Opção 1: Formspree
-```html
-<form action="https://formspree.io/f/seu-id" method="POST">
+```bash
+cd jonaspacheco/hub/portal
+npm install
+npm run dev -- --host 0.0.0.0 --port 5174
 ```
 
-#### Opção 2: EmailJS
-```javascript
-// Adicione no script.js
-emailjs.send("service_id", "template_id", formData)
-    .then(response => {
-        showNotification('Mensagem enviada!', 'success');
-    });
+Licita:
+
+```bash
+cd jonaspacheco/licita
+npm install
+npm run dev
 ```
 
-#### Opção 3: Backend próprio
-```javascript
-fetch('https://sua-api.com/contact', {
-    method: 'POST',
-    body: JSON.stringify(formData)
-})
+## Variáveis de Ambiente
+
+### Landing e raiz
+
+Existe um arquivo [`.env.example`](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/.env.example:1), mas ele parece representar uma configuração mais ampla ou legado de uma estrutura anterior. Ele pode servir como referência, mas hoje os módulos com uso mais claro de ambiente são `hub/backend` e `licita`.
+
+### Hub backend
+
+Base:
+
+- `DATABASE_URL`
+- `JWT_SECRET`
+- `FRONTEND_URL`
+- `PORT`
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_USER`
+- `SMTP_PASS`
+- `NOTIFY_EMAIL`
+- `PUBLIC_TICKET_KEY`
+
+Arquivo base:
+
+- [hub/backend/.env.example](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/hub/backend/.env.example:1)
+
+### Licita
+
+Base:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `NEXT_PUBLIC_LOCAL_MODE`
+- `ANTHROPIC_API_KEY`
+- `NODE_ENV`
+- `PORT`
+
+Arquivo base:
+
+- [licita/.env.example](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/licita/.env.example:1)
+
+## Padrão de Deploy
+
+Como o repositório mistura stacks diferentes, o deploy recomendado é por módulo.
+
+### 1. Landing page
+
+Padrão recomendado:
+
+- hospedar como site estático
+- usar Apache ou Nginx
+- publicar a raiz do projeto ou a pasta `deploy/`
+
+Quando usar `deploy/`:
+
+- quando quiser subir apenas os arquivos finais da landing
+- quando não precisar incluir `hub/` e `licita/` no servidor web público
+
+Arquivos esperados:
+
+- `index.html`
+- `styles.css`
+- `script.js`
+- `assets/`
+- `favicon.svg`
+- imagens
+- `.htaccess` se usar Apache
+
+Observações:
+
+- `contact.php` precisa de PHP habilitado
+- envio de email precisa de `config.php` e dependências Composer no servidor
+
+### 2. Hub backend
+
+Padrão recomendado:
+
+- deploy como serviço Node.js persistente
+- executar atrás de Nginx/Apache reverse proxy
+- usar PostgreSQL dedicado
+- gerenciar processo com `pm2`, `systemd` ou Docker
+
+Fluxo mínimo:
+
+```bash
+cd hub/backend
+npm install --production
+node src/db/migrate.js
+npm start
 ```
 
-## Otimizações Implementadas
+Checklist:
 
-- ✅ CSS minificável
-- ✅ JavaScript modular e otimizado
-- ✅ Lazy loading de imagens
-- ✅ Debounce em eventos de scroll
-- ✅ Intersection Observer para animações
-- ✅ Responsivo em todos os dispositivos
-- ✅ Performance web otimizada
-- ✅ SEO-friendly com meta tags
-- ✅ Acessibilidade (ARIA labels)
+- configurar `.env`
+- garantir banco PostgreSQL acessível
+- liberar porta interna da API
+- apontar proxy para a porta `3200` ou a porta definida em `PORT`
+
+### 3. Hub frontend e portal
+
+Padrão recomendado:
+
+- gerar build estática com Vite
+- servir conteúdo via Nginx, Apache, Netlify ou Vercel
+
+Build do admin:
+
+```bash
+cd hub/frontend
+npm install
+npm run build
+```
+
+Build do portal:
+
+```bash
+cd hub/portal
+npm install
+npm run build
+```
+
+Publicar:
+
+- `hub/frontend/dist/`
+- `hub/portal/dist/`
+
+Importante:
+
+- os frontends precisam apontar para a URL correta do backend
+- se o domínio mudar, revise CORS e endpoints consumidos
+
+### 4. Licita
+
+Padrão recomendado:
+
+- deploy como aplicação Next.js
+- ideal para Vercel, VPS com Node.js ou container
+
+Fluxo mínimo:
+
+```bash
+cd licita
+npm install
+npm run build
+npm start
+```
+
+Checklist:
+
+- configurar variáveis de Supabase
+- configurar `ANTHROPIC_API_KEY` se IA estiver habilitada
+- publicar na porta `3100` ou via proxy reverso
+
+## Branding e Assets
+
+O projeto inclui materiais de identidade visual:
+
+- `logo-jonas-dvlpr.svg`
+- `logo-jonas-dvlpr-transparent.svg`
+- `logo-jonas-icon.svg`
+- `logos.html`
+
+Uso típico:
+
+- site
+- avatar
+- Canva
+- materiais institucionais
 
 ## Tecnologias Utilizadas
 
-- **HTML5** - Estrutura semântica
-- **CSS3** - Design system moderno com variáveis CSS
-- **JavaScript (ES6+)** - Interatividade e animações
-- **Font Awesome 6** - Ícones profissionais
-- **Google Fonts** - Inter & Fira Code
+Por módulo:
 
-## Compatibilidade
+- Landing: HTML5, CSS3, JavaScript, PHP
+- Hub backend: Node.js, Express, PostgreSQL
+- Hub frontend/portal: React, Vite
+- Licita: Next.js, TypeScript, Tailwind, Supabase, Anthropic
 
-- ✅ Chrome/Edge 90+
-- ✅ Firefox 88+
-- ✅ Safari 14+
-- ✅ Opera 76+
-- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
+## Observações Importantes
 
-## Próximos Passos (Sugestões)
+- Este repositório não é mais apenas uma landing page.
+- O `README` anterior documentava bem a parte pública, mas não cobria `hub/` e `licita/`.
+- O caminho mais seguro de manutenção é tratar cada pasta principal como um módulo com deploy próprio.
 
-1. **Analytics**: Adicionar Google Analytics ou Plausible
-2. **SEO**: Adicionar sitemap.xml e robots.txt
-3. **Performance**: Implementar service worker para PWA
-4. **Blog**: Adicionar seção de artigos/blog
-5. **Certificações**: Adicionar seção de certificados
-6. **Depoimentos**: Incluir feedback de clientes
-7. **Dark/Light Mode Toggle**: Implementar alternância de tema
+## Próximos Passos Recomendados
 
-## Suporte
+- criar um `README` próprio dentro de `hub/backend`
+- criar um `README` próprio dentro de `hub/frontend`
+- criar um `README` próprio dentro de `hub/portal`
+- criar um `README` próprio dentro de `licita`
+- documentar variáveis obrigatórias de produção por ambiente
+- adicionar exemplo de reverse proxy para Nginx
 
-Para dúvidas ou sugestões:
+## Documentação Adicional
 
-- **Email**: [contato@i9script.com](mailto:contato@i9script.com)
-- **GitHub**: [@jonasbrito1](https://github.com/jonasbrito1)
-- **LinkedIn**: [Jonas Pacheco](https://www.linkedin.com/in/jonaspacheco1/)
-- **Instagram**: [@jonasbritopacheco](https://www.instagram.com/jonasbritopacheco/)
-- **Website**: [i9script.com/jonas](https://i9script.com/jonas)
-
-## Licença
-
-Este projeto foi desenvolvido exclusivamente para Jonas Pacheco. Todos os direitos reservados © 2025.
-
----
-
-**Desenvolvido com 💙 por Claude Code**
+- [docs/blog.md](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/docs/blog.md:1) — estrutura, rotas e fluxo do módulo Blog integrado ao Hub
+- [docs/deploy-production.md](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/docs/deploy-production.md:1) — deploy em VPS com Nginx, PM2, PostgreSQL, HTTPS e subdomínios
+- [docs/nginx-production.conf](/home/jonjon/Desktop/Projects/jonas-pacheco/jonaspacheco/docs/nginx-production.conf:1) — exemplo de configuração Nginx para produção

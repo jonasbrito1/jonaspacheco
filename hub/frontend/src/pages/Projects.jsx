@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import api from '../services/api'
 import { Plus, Pencil, Trash2, ExternalLink } from 'lucide-react'
+import { isoToDateInput, normalizeDateInput, parseDateInputToYmd } from '../utils/date'
 
 const STATUS = { em_desenvolvimento: { label: 'Em Dev', color: '#00d4ff' }, concluido: { label: 'Concluído', color: '#10b981' }, pausado: { label: 'Pausado', color: '#f59e0b' }, manutencao: { label: 'Manutenção', color: '#a78bfa' } }
 
@@ -16,11 +17,19 @@ export default function Projects() {
   useEffect(() => { load() }, [])
 
   const openNew = () => { setForm(empty); setEditing(null); setModal(true) }
-  const openEdit = p => { setForm({ ...p, technologies: p.technologies?.join(', ') || '' }); setEditing(p.id); setModal(true) }
+  const openEdit = p => {
+    setForm({ ...p, technologies: p.technologies?.join(', ') || '', deadline: isoToDateInput(p.deadline) })
+    setEditing(p.id)
+    setModal(true)
+  }
 
   const save = async e => {
     e.preventDefault()
-    const payload = { ...form, technologies: form.technologies.split(',').map(t => t.trim()).filter(Boolean) }
+    const payload = {
+      ...form,
+      deadline: parseDateInputToYmd(form.deadline),
+      technologies: form.technologies.split(',').map(t => t.trim()).filter(Boolean),
+    }
     editing ? await api.put(`/projects/${editing}`, payload) : await api.post('/projects', payload)
     setModal(false); load()
   }
@@ -74,7 +83,15 @@ export default function Projects() {
               </select>
               <input style={s.input} placeholder="Tecnologias (separadas por vírgula)" value={form.technologies} onChange={e => setForm(f => ({ ...f, technologies: e.target.value }))} />
               <textarea style={{ ...s.input, resize: 'vertical', minHeight: 80 }} placeholder="Descrição" value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} />
-              <input style={s.input} type="date" value={form.deadline} onChange={e => setForm(f => ({ ...f, deadline: e.target.value }))} />
+              <input
+                style={s.input}
+                type="text"
+                inputMode="numeric"
+                maxLength={10}
+                placeholder="dd/mm/aaaa"
+                value={form.deadline}
+                onChange={e => setForm(f => ({ ...f, deadline: normalizeDateInput(e.target.value) }))}
+              />
               <input style={s.input} type="number" placeholder="Valor mensal (R$)" value={form.monthly_value} onChange={e => setForm(f => ({ ...f, monthly_value: e.target.value }))} />
               <input style={s.input} placeholder="URL do projeto" value={form.url} onChange={e => setForm(f => ({ ...f, url: e.target.value }))} />
               <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import api from '../services/api'
 import { Plus, X, Send, Trash2, Lock, Globe, Clock, Paperclip, Image } from 'lucide-react'
+import { formatDateTimeBR } from '../utils/date'
 
 const STATUS = {
   aberto:       { label: 'Aberto',       color: '#FFDF00' },
@@ -283,7 +284,7 @@ export default function Tickets() {
           <div style={{ marginBottom: 16 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div style={{ flex: 1, marginRight: 12 }}>
-                <p style={{ color: '#4A6B87', fontSize: 12, marginBottom: 4 }}>{'Ticket #' + detail.id + ' - ' + new Date(detail.created_at).toLocaleString('pt-BR')}</p>
+                <p style={{ color: '#4A6B87', fontSize: 12, marginBottom: 4 }}>{'Ticket #' + detail.id + ' - ' + formatDateTimeBR(detail.created_at)}</p>
                 <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 10 }}>{detail.title}</h3>
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                   <Badge label={CATEGORY[detail.category] ? CATEGORY[detail.category].label : 'suporte'} color={CATEGORY[detail.category] ? CATEGORY[detail.category].color : '#1E6FD9'} />
@@ -374,7 +375,7 @@ export default function Tickets() {
                       </span>
                       {msg.is_internal && <span style={{ fontSize: 10, background: '#F9731622', color: '#F97316', padding: '1px 6px', borderRadius: 4 }}>nota interna</span>}
                     </div>
-                    <span style={{ fontSize: 11, color: '#4A6B87' }}>{new Date(msg.created_at).toLocaleString('pt-BR')}</span>
+                    <span style={{ fontSize: 11, color: '#4A6B87' }}>{formatDateTimeBR(msg.created_at)}</span>
                   </div>
                   {msg.message && <p style={{ fontSize: 14, color: '#EEF2FF', whiteSpace: 'pre-wrap', lineHeight: 1.7, margin: 0 }}>{msg.message}</p>}
                   {msg.attachment_url && (

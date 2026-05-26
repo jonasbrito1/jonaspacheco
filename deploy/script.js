@@ -601,15 +601,15 @@ const translations = {
         },
         projects: {
             tag: "<projetos>",
-            title: "Projetos em Destaque",
-            subtitle: "Alguns dos trabalhos que desenvolvi",
+            title: "Projetos",
+            subtitle: "Seleção de sistemas com foco em operação, estrutura e automação",
             viewAll: "Ver Todos os Projetos",
-            medsys: "Sistema completo de gestão médica e hospitalar que aumentou em 60% a eficiência no atendimento. Gestão de pacientes, prontuários eletrônicos e agendamentos com segurança LGPD garantida.",
-            easycompliance: "Plataforma que reduziu em 30 horas semanais o tempo gasto com compliance. Automação completa de processos de auditoria, controles internos e relatórios regulatórios com zero erros.",
-            evolutionerp: "Sistema ERP que reduziu custos operacionais em 40% e integrou todos os processos da empresa. Módulos de finanças, estoque, vendas e RH trabalhando em perfeita sincronia.",
-            attackdetection: "Sistema de detecção e prevenção de ataques SSH. Monitoramento em tempo real, análise de padrões e bloqueio automático de tentativas maliciosas.",
-            gbcidadenova: "Portal institucional com gestão de conteúdo e serviços integrados. Arquitetura moderna e interface responsiva para melhor experiência do usuário.",
-            i9script: "Framework de automação e scripts personalizados para otimização de processos. Ferramentas inteligentes para desenvolvimento e operações de sistemas."
+            horizon: "Site institucional educacional com conteúdo gerenciável para apresentar a escola, diferenciais, galeria e contato em uma base preparada para evolução administrativa.",
+            gbc: "Sistema de gestão para academia com alunos, turmas, frequência, financeiro, cobranças e integrações de pagamento em uma operação centralizada.",
+            healthix: "Plataforma de gestão hospitalar com dashboards, filas e módulos operacionais integrados para acompanhamento em tempo real.",
+            bjjmasters: "SaaS multi-tenant para academias de jiu-jitsu com white-label, portal do aluno, controle de presença e gestão financeira por unidade.",
+            evolution: "Site institucional da Evolution Engenharia com vitrine de serviços, provas sociais, captação de orçamento e assistente comercial.",
+            hidro: "Site comercial da Hidro Evolution voltado à apresentação de produtos e soluções em bebedouros, sistemas hidráulicos e energia."
         },
         testimonials: {
             tag: "<depoimentos>",
@@ -723,15 +723,15 @@ const translations = {
         },
         projects: {
             tag: "<projects>",
-            title: "Featured Projects",
-            subtitle: "Some of the work I've developed",
+            title: "Projects",
+            subtitle: "Selected systems with focus on operations, structure, and automation",
             viewAll: "View All Projects",
-            medsys: "Complete medical and hospital management system that increased care efficiency by 60%. Patient management, electronic medical records, and appointments with guaranteed LGPD security.",
-            easycompliance: "Platform that reduced compliance time by 30 hours per week. Complete automation of audit processes, internal controls, and regulatory reports with zero errors.",
-            evolutionerp: "ERP system that reduced operational costs by 40% and integrated all company processes. Finance, inventory, sales, and HR modules working in perfect sync.",
-            attackdetection: "SSH attack detection and prevention system. Real-time monitoring, pattern analysis, and automatic blocking of malicious attempts.",
-            gbcidadenova: "Institutional portal with content management and integrated services. Modern architecture and responsive interface for better user experience.",
-            i9script: "Automation framework and custom scripts for process optimization. Intelligent tools for system development and operations."
+            horizon: "Educational institutional website with manageable content for presenting the school, its differentiators, gallery, and contact on a base prepared for administrative evolution.",
+            gbc: "Management system for a martial arts academy with students, classes, attendance, finance, billing, and payment integrations in one centralized operation.",
+            healthix: "Hospital management platform with dashboards, queues, and integrated operational modules for real-time monitoring.",
+            bjjmasters: "Multi-tenant SaaS for jiu-jitsu academies with white-label branding, student portal, attendance tracking, and per-unit financial management.",
+            evolution: "Institutional website for Evolution Engenharia with a service showcase, trust signals, lead capture, and a commercial assistant.",
+            hidro: "Commercial website for Hidro Evolution focused on presenting products and solutions for drinking fountains, hydraulic systems, and energy."
         },
         testimonials: {
             tag: "<testimonials>",
@@ -993,12 +993,12 @@ function updateProjectsSection(lang) {
     // Project descriptions
     const projects = document.querySelectorAll('#projects .project-description');
     const projectDescriptions = [
-        t.medsys,
-        t.easycompliance,
-        t.evolutionerp,
-        t.attackdetection,
-        t.gbcidadenova,
-        t.i9script
+        t.horizon,
+        t.gbc,
+        t.healthix,
+        t.bjjmasters,
+        t.evolution,
+        t.hidro
     ];
 
     projects.forEach((project, index) => {

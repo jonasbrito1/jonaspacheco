@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Miniatura Gracie Barra Cidade Nova</title>
+  <desc id="desc">Preview visual do sistema de gestão da academia Gracie Barra Cidade Nova.</desc>
+  <rect width="1200" height="675" fill="#07111f"/>
+  <rect x="48" y="46" width="1104" height="583" rx="36" fill="#101827"/>
+  <rect x="48" y="46" width="318" height="583" rx="36" fill="#b91c1c"/>
+  <circle cx="207" cy="190" r="84" fill="#fff" opacity=".12"/>
+  <text x="126" y="205" fill="#fff" font-family="Arial, sans-serif" font-size="58" font-weight="900">GB</text>
+  <text x="102" y="330" fill="#fff" font-family="Arial, sans-serif" font-size="34" font-weight="900">Cidade Nova</text>
+  <text x="102" y="372" fill="#fecaca" font-family="Arial, sans-serif" font-size="22" font-weight="700">Academia, alunos e financeiro</text>
+  <rect x="426" y="106" width="626" height="84" rx="22" fill="#172033"/>
+  <text x="462" y="158" fill="#fff" font-family="Arial, sans-serif" font-size="32" font-weight="800">Dashboard da academia</text>
+  <rect x="426" y="234" width="180" height="128" rx="24" fill="#ef4444"/>
+  <rect x="638" y="234" width="180" height="128" rx="24" fill="#2563eb"/>
+  <rect x="850" y="234" width="180" height="128" rx="24" fill="#16a34a"/>
+  <text x="462" y="307" fill="#fff" font-family="Arial, sans-serif" font-size="28" font-weight="900">Alunos</text>
+  <text x="676" y="307" fill="#fff" font-family="Arial, sans-serif" font-size="28" font-weight="900">Turmas</text>
+  <text x="888" y="307" fill="#fff" font-family="Arial, sans-serif" font-size="28" font-weight="900">Pagos</text>
+  <rect x="426" y="410" width="626" height="42" rx="21" fill="#fff" opacity=".16"/>
+  <rect x="426" y="478" width="526" height="42" rx="21" fill="#fff" opacity=".12"/>
+  <rect x="426" y="546" width="586" height="42" rx="21" fill="#fff" opacity=".12"/>
+</svg>

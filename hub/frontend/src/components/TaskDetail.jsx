@@ -4,6 +4,7 @@ import {
   X, Play, Square, Clock, Plus, Trash2, Paperclip, MessageSquare,
   CheckSquare, Tag, Users, Calendar, Flag, ChevronRight, Download,
 } from 'lucide-react'
+import { formatDateBR, isoToDateInput, normalizeDateInput, parseDateInputToYmd } from '../utils/date'
 
 const PRIORITY_OPTS = [
   { value: 'none',    label: 'Nenhuma', color: '#475569' },
@@ -42,6 +43,7 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
   const [newLabelForm, setNewLabelForm] = useState({ name: '', color: '#FFDF00' })
   const [showNewLabel, setShowNewLabel] = useState(false)
   const [showAssigneePicker, setShowAssigneePicker] = useState(false)
+  const [dueDateInput, setDueDateInput] = useState('')
   const fileRef = useRef()
   const timerRef = useRef()
 
@@ -61,6 +63,10 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
   }, [task.id])
 
   useEffect(() => { load() }, [load])
+
+  useEffect(() => {
+    setDueDateInput(isoToDateInput(detail?.due_date))
+  }, [detail?.due_date])
 
   // Live timer tick
   useEffect(() => {
@@ -291,8 +297,16 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
                 </div>
                 <div style={{ flex: 1, minWidth: 130 }}>
                   <label style={lb}><Calendar size={12} /> Prazo</label>
-                  <input type="date" style={inp} value={detail.due_date?.slice(0, 10) || ''}
-                    onChange={e => save({ due_date: e.target.value || null })} />
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={10}
+                    placeholder="dd/mm/aaaa"
+                    style={inp}
+                    value={dueDateInput}
+                    onChange={e => setDueDateInput(normalizeDateInput(e.target.value))}
+                    onBlur={() => save({ due_date: parseDateInputToYmd(dueDateInput) || null })}
+                  />
                 </div>
               </div>
 
@@ -511,7 +525,7 @@ export default function TaskDetail({ task, board, columns, labels: boardLabels, 
                         <span style={{ fontSize: 12, fontWeight: 600, color: '#8BAFC8' }}>{c.user_name || 'Usuário'}</span>
                         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                           {c.is_internal && <span style={{ fontSize: 10, color: '#FFDF00', background: '#FFDF0022', padding: '1px 6px', borderRadius: 4 }}>Interno</span>}
-                          <span style={{ fontSize: 11, color: '#4A6B87' }}>{new Date(c.created_at).toLocaleDateString('pt-BR')}</span>
+                          <span style={{ fontSize: 11, color: '#4A6B87' }}>{formatDateBR(c.created_at)}</span>
                           <button onClick={() => deleteComment(c.id)} style={{ background: 'none', border: 'none', color: '#475569', cursor: 'pointer', padding: 0 }}>
                             <Trash2 size={12} />
                           </button>

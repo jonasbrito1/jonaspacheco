@@ -558,6 +558,7 @@ const translations = {
             about: "Sobre",
             expertise: "Especialidades",
             projects: "Projetos",
+            blog: "Blog",
             contact: "Contato"
         },
         hero: {
@@ -565,7 +566,8 @@ const translations = {
             subtitle: "Desenvolvedor Full Stack focado em segurança, automação e sistemas escaláveis",
             description: "Desenvolvo aplicações web seguras, performáticas e preparadas para crescer.<br>Atuo do frontend ao deploy, aplicando práticas de DevSecOps para garantir estabilidade, eficiência e proteção contra vulnerabilidades.",
             cta1: "Entrar em Contato",
-            cta2: "Ver Projetos"
+            cta2: "Ver Projetos",
+            cta3: "Ler artigos no Blog"
         },
         about: {
             tag: "<sobre>",
@@ -609,12 +611,12 @@ const translations = {
             title: "Projetos",
             subtitle: "Seleção de sistemas com foco em operação, estrutura e automação",
             viewAll: "Ver Todos os Projetos",
-            medsys: "Sistema de gestão médica para organização de pacientes, prontuários e atendimentos.",
-            easycompliance: "Plataforma para gerenciamento e automação de processos de compliance.",
-            evolutionerp: "Plataforma completa de vendas online com sistema de produtos e pedidos.",
-            attackdetection: "Implementação de pipeline automatizado para deploy contínuo.",
-            gbcidadenova: "",
-            i9script: ""
+            horizon: "Site institucional educacional com conteúdo gerenciável para apresentar a escola, diferenciais, galeria e contato em uma base preparada para evolução administrativa.",
+            gbc: "Sistema de gestão para academia com alunos, turmas, frequência, financeiro, cobranças e integrações de pagamento em uma operação centralizada.",
+            healthix: "Plataforma de gestão hospitalar com dashboards, filas e módulos operacionais integrados para acompanhamento em tempo real.",
+            bjjmasters: "SaaS multi-tenant para academias de jiu-jitsu com white-label, portal do aluno, controle de presença e gestão financeira por unidade.",
+            evolution: "Site institucional da Evolution Engenharia com vitrine de serviços, provas sociais, captação de orçamento e assistente comercial.",
+            hidro: "Site comercial da Hidro Evolution voltado à apresentação de produtos e soluções em bebedouros, sistemas hidráulicos e energia."
         },
         testimonials: {
             tag: "<depoimentos>",
@@ -681,6 +683,7 @@ const translations = {
             about: "About",
             expertise: "Expertise",
             projects: "Projects",
+            blog: "Blog",
             contact: "Contact"
         },
         hero: {
@@ -688,7 +691,8 @@ const translations = {
             subtitle: "Full Stack Developer focused on security, automation, and scalable systems",
             description: "I build secure, performant web applications designed to grow.<br>I work from frontend to deployment, applying DevSecOps practices to ensure stability, efficiency, and protection against vulnerabilities.",
             cta1: "Get in Touch",
-            cta2: "View Projects"
+            cta2: "View Projects",
+            cta3: "Read Blog Articles"
         },
         about: {
             tag: "<about>",
@@ -732,12 +736,12 @@ const translations = {
             title: "Projects",
             subtitle: "Selected systems with focus on operations, structure, and automation",
             viewAll: "View All Projects",
-            medsys: "Medical management system for organizing patients, records, and appointments.",
-            easycompliance: "Platform for managing and automating compliance processes.",
-            evolutionerp: "Complete online sales platform with product and order management.",
-            attackdetection: "Implementation of an automated pipeline for continuous deployment.",
-            gbcidadenova: "",
-            i9script: ""
+            horizon: "Educational institutional website with manageable content for presenting the school, its differentiators, gallery, and contact on a base prepared for administrative evolution.",
+            gbc: "Management system for a martial arts academy with students, classes, attendance, finance, billing, and payment integrations in one centralized operation.",
+            healthix: "Hospital management platform with dashboards, queues, and integrated operational modules for real-time monitoring.",
+            bjjmasters: "Multi-tenant SaaS for jiu-jitsu academies with white-label branding, student portal, attendance tracking, and per-unit financial management.",
+            evolution: "Institutional website for Evolution Engenharia with a service showcase, trust signals, lead capture, and a commercial assistant.",
+            hidro: "Commercial website for Hidro Evolution focused on presenting products and solutions for drinking fountains, hydraulic systems, and energy."
         },
         testimonials: {
             tag: "<testimonials>",
@@ -1002,12 +1006,12 @@ function updateProjectsSection(lang) {
     // Project descriptions
     const projects = document.querySelectorAll('#projects .project-description');
     const projectDescriptions = [
-        t.medsys,
-        t.easycompliance,
-        t.evolutionerp,
-        t.attackdetection,
-        t.gbcidadenova,
-        t.i9script
+        t.horizon,
+        t.gbc,
+        t.healthix,
+        t.bjjmasters,
+        t.evolution,
+        t.hidro
     ];
 
     projects.forEach((project, index) => {

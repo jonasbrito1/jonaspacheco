@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Miniatura Horizonte do Saber</title>
+  <desc id="desc">Preview visual do site educacional Horizonte do Saber.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#143a8f"/>
+      <stop offset="0.55" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="#061526"/>
+  <rect x="48" y="46" width="1104" height="583" rx="36" fill="url(#bg)"/>
+  <circle cx="1010" cy="150" r="128" fill="#fff" opacity=".1"/>
+  <circle cx="930" cy="455" r="190" fill="#fff" opacity=".08"/>
+  <rect x="96" y="92" width="1008" height="62" rx="18" fill="#ffffff" opacity=".16"/>
+  <circle cx="132" cy="123" r="12" fill="#93c5fd"/>
+  <rect x="162" y="110" width="150" height="24" rx="12" fill="#fff" opacity=".82"/>
+  <rect x="760" y="112" width="82" height="20" rx="10" fill="#fff" opacity=".55"/>
+  <rect x="868" y="112" width="82" height="20" rx="10" fill="#fff" opacity=".55"/>
+  <rect x="976" y="112" width="82" height="20" rx="10" fill="#fff" opacity=".55"/>
+  <text x="105" y="265" fill="#fff" font-family="Arial, sans-serif" font-size="62" font-weight="800">Horizonte do Saber</text>
+  <text x="108" y="324" fill="#dbeafe" font-family="Arial, sans-serif" font-size="30" font-weight="600">Educação de qualidade que transforma vidas</text>
+  <rect x="108" y="372" width="250" height="58" rx="29" fill="#facc15"/>
+  <text x="143" y="409" fill="#172554" font-family="Arial, sans-serif" font-size="22" font-weight="800">Conheça a escola</text>
+  <rect x="108" y="488" width="210" height="86" rx="20" fill="#fff" opacity=".16"/>
+  <rect x="346" y="488" width="210" height="86" rx="20" fill="#fff" opacity=".16"/>
+  <rect x="584" y="488" width="210" height="86" rx="20" fill="#fff" opacity=".16"/>
+  <text x="138" y="540" fill="#fff" font-family="Arial, sans-serif" font-size="26" font-weight="800">25 anos</text>
+  <text x="376" y="540" fill="#fff" font-family="Arial, sans-serif" font-size="26" font-weight="800">5000+</text>
+  <text x="614" y="540" fill="#fff" font-family="Arial, sans-serif" font-size="26" font-weight="800">Ensino</text>
+</svg>

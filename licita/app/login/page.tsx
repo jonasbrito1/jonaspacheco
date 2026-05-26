@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Gavel, Mail, Lock, AlertCircle } from 'lucide-react'
-import { getSupabase } from '@/lib/supabase'
+import { getSupabase, isLocalSupabaseMode } from '@/lib/supabase'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -10,6 +10,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const localMode = isLocalSupabaseMode()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -31,8 +32,15 @@ export default function LoginPage() {
     setError('')
     const supabase = getSupabase()
     const { error } = await supabase.auth.signUp({ email, password })
-    if (error) { setError(error.message); setLoading(false) }
-    else { setError(''); setLoading(false); alert('Conta criada! Verifique seu email.') }
+    if (error) {
+      setError(error.message)
+      setLoading(false)
+    } else {
+      setError('')
+      setLoading(false)
+      if (localMode) router.push('/dashboard')
+      else alert('Conta criada! Verifique seu email.')
+    }
   }
 
   return (
@@ -103,6 +111,11 @@ export default function LoginPage() {
                 Criar conta
               </button>
             </p>
+            {localMode && (
+              <p className="text-text3 text-xs mt-3">
+                Modo local ativo. Demo: <strong className="text-text1">licitacoes@local.dev</strong> / <strong className="text-text1">123456</strong>
+              </p>
+            )}
           </div>
         </div>
 
