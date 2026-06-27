@@ -8,7 +8,7 @@
 }
 
 :root {
-    /* Color Palette - Bandeira do Brasil: Azul Marinho, Amarelo, Verde, Branco */
+    /* Color Palette - Profissional: Navy sólido, azul de destaque, verde só em detalhes */
     --color-bg-primary: #020c1b;
     --color-bg-secondary: #081526;
     --color-bg-tertiary: #0d1e35;
@@ -22,16 +22,17 @@
     --color-green-secondary: #007d2f;
     --color-green-dark: #005c22;
 
-    --color-yellow-primary: #FFDF00;
-    --color-yellow-secondary: #e6c900;
-    --color-yellow-dark: #c9a800;
+    /* Amarelo descontinuado: aponta para o azul de destaque */
+    --color-yellow-primary: #1E6FD9;
+    --color-yellow-secondary: #1657a8;
+    --color-yellow-dark: #0d3d7a;
 
     --color-text-primary: #EEF2FF;
     --color-text-secondary: #8BAFC8;
     --color-text-tertiary: #4A6B87;
 
     --color-border: #1a3a5c;
-    --color-shadow: rgba(255, 223, 0, 0.08);
+    --color-shadow: rgba(0, 0, 0, 0.35);
 
     /* Typography - Fluid Typography with clamp() */
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -72,9 +73,10 @@
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-    --shadow-glow-blue: 0 0 20px rgba(30, 111, 217, 0.3);
-    --shadow-glow-green: 0 0 20px rgba(0, 156, 59, 0.3);
-    --shadow-glow-yellow: 0 0 20px rgba(255, 223, 0, 0.3);
+    /* Elevação sólida (sem glow/brilho neon) */
+    --shadow-glow-blue: 0 10px 28px rgba(0, 0, 0, 0.45);
+    --shadow-glow-green: 0 10px 28px rgba(0, 0, 0, 0.45);
+    --shadow-glow-yellow: 0 10px 28px rgba(0, 0, 0, 0.45);
 }
 
 html {
@@ -174,7 +176,7 @@ img {
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(90deg, var(--color-blue-primary), var(--color-green-primary));
+    background: var(--color-blue-primary);
     transition: var(--transition-normal);
 }
 
@@ -271,7 +273,7 @@ img {
 
 .hero-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: var(--spacing-lg);
     align-items: center;
 }
@@ -301,163 +303,27 @@ img {
     color: var(--color-blue-primary);
 }
 
-/* Profile Photo */
-.profile-photo {
-    display: flex;
-    justify-content: center;
-    margin-bottom: var(--spacing-lg);
+/* Hero Avatar - circular, minimalista */
+.hero-avatar {
+    margin-bottom: var(--spacing-md);
 }
 
-.hero-text > .profile-photo {
-    display: none;
-}
-
-.photo-container {
-    position: relative;
-    width: 180px;
-    height: 180px;
-}
-
-.photo-container-large {
-    width: min(100%, 320px);
-    height: auto;
-    aspect-ratio: 1 / 1;
-}
-
-.photo-container-large .profile-img {
-    border-radius: 24px;
-    box-shadow: none;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.photo-container-github .profile-img {
+.hero-avatar-img {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
     object-fit: cover;
     object-position: center top;
-}
-
-.hero-portrait-card {
-    max-width: 340px;
-    margin-left: auto;
-    padding: 14px;
-    border-radius: 26px;
-    background: linear-gradient(180deg, rgba(13, 30, 53, 0.9), rgba(8, 21, 38, 0.75));
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
-}
-
-.hero-card-logo {
-    margin-top: 16px;
-    width: auto;
-    height: 20px;
-    opacity: 0.62;
-}
-
-.hero-note {
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.hero-note-label {
-    display: inline-block;
-    margin-bottom: 6px;
-    color: var(--color-yellow-primary);
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-.hero-note p {
-    color: var(--color-text-secondary);
-    font-size: 0.88rem;
-    line-height: 1.5;
-}
-
-.profile-img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid var(--color-bg-card);
-    box-shadow: 0 0 0 2px var(--color-blue-primary);
-    transition: var(--transition-normal);
-}
-
-.photo-ring {
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    right: -8px;
-    bottom: -8px;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    background: linear-gradient(135deg, var(--color-blue-primary), var(--color-green-primary), var(--color-yellow-primary)) border-box;
-    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    animation: rotate 8s linear infinite;
-    pointer-events: none;
-}
-
-.security-badge {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, var(--color-blue-primary), var(--color-green-primary));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-bg-primary);
-    font-size: 1.25rem;
-    border: 3px solid var(--color-bg-card);
-    box-shadow: var(--shadow-glow-blue);
-    animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-        box-shadow: var(--shadow-glow-blue);
-    }
-    50% {
-        transform: scale(1.05);
-        box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
-    }
-}
-
-.photo-container:hover .profile-img {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 3px var(--color-green-primary);
-}
-
-.photo-container:hover .photo-ring {
-    animation-duration: 3s;
+    border: 1px solid var(--color-border);
 }
 
 .hero-title {
     font-size: 4rem;
     font-weight: 800;
     line-height: 1.1;
+    letter-spacing: -0.02em;
     margin-bottom: var(--spacing-sm);
-    background: linear-gradient(135deg, var(--color-blue-primary), var(--color-green-primary), var(--color-yellow-primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradientShift 5s ease infinite;
-    background-size: 200% 200%;
-}
-
-@keyframes gradientShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+    color: var(--color-blue-primary);
 }
 
 .hero-subtitle {
@@ -522,7 +388,7 @@ img {
 }
 
 .btn-primary {
-    box-shadow: 0 10px 30px rgba(255, 223, 0, 0.12);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
 }
 
 .btn-secondary {
@@ -594,7 +460,7 @@ img {
 .contact-method:hover,
 .tech-category:hover {
     transform: translateY(-4px);
-    border-color: rgba(255, 223, 0, 0.25);
+    border-color: rgba(30, 111, 217, 0.35);
 }
 
 .projects-grid {
@@ -806,7 +672,7 @@ img {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--color-blue-primary), var(--color-green-primary));
+    background: var(--color-blue-primary);
     color: var(--color-bg-primary);
 }
 
@@ -986,7 +852,7 @@ section {
     font-size: 2.5rem;
     font-weight: 800;
     margin-bottom: var(--spacing-sm);
-    background: linear-gradient(135deg, var(--color-text-primary), var(--color-text-secondary));
+    background: var(--color-text-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1134,7 +1000,7 @@ section {
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-md);
-    background: linear-gradient(135deg, var(--color-blue-primary), var(--color-green-primary));
+    background: var(--color-blue-primary);
     font-size: 1.5rem;
     color: var(--color-bg-primary);
 }
@@ -1186,7 +1052,7 @@ section {
     left: 0;
     width: 100%;
     height: 3px;
-    background: linear-gradient(90deg, var(--color-blue-primary), var(--color-green-primary));
+    background: var(--color-blue-primary);
     transform: scaleX(0);
     transform-origin: left;
     transition: var(--transition-normal);
@@ -1218,7 +1084,7 @@ section {
 }
 
 .expertise-card:hover .card-icon {
-    background: linear-gradient(135deg, var(--color-blue-primary), var(--color-green-primary));
+    background: var(--color-blue-primary);
     color: var(--color-bg-primary);
     border-color: transparent;
 }
@@ -1309,7 +1175,7 @@ section {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--color-blue-primary), var(--color-green-primary));
+    background: var(--color-blue-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1404,7 +1270,7 @@ section {
     top: 0;
     bottom: 0;
     width: 2px;
-    background: linear-gradient(180deg, var(--color-blue-primary), var(--color-green-primary));
+    background: var(--color-blue-primary);
 }
 
 .process-step {
@@ -1424,7 +1290,7 @@ section {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--color-blue-primary), var(--color-green-primary));
+    background: var(--color-blue-primary);
     color: var(--color-bg-primary);
     font-size: 2rem;
     font-weight: 800;
@@ -1560,7 +1426,7 @@ section {
     justify-content: center;
     font-size: 4rem;
     color: var(--color-text-tertiary);
-    background: linear-gradient(135deg, var(--color-bg-tertiary), var(--color-bg-secondary));
+    background: var(--color-bg-tertiary);
 }
 
 .project-placeholder.medsys { color: #ff6b6b; }
@@ -1805,7 +1671,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--color-blue-primary), var(--color-green-primary));
+    background: var(--color-blue-primary);
     border-radius: 50%;
     font-size: 1.5rem;
     color: var(--color-bg-primary);
@@ -1877,7 +1743,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--color-blue-primary), var(--color-green-primary));
+    background: var(--color-blue-primary);
     color: var(--color-bg-primary);
     border-radius: var(--radius-md);
     font-size: 1.25rem;
@@ -1931,7 +1797,7 @@ section {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--color-blue-primary);
-    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(30, 111, 217, 0.18);
 }
 
 .form-group textarea {
@@ -2048,7 +1914,7 @@ section {
 }
 
 .developer-name {
-    background: linear-gradient(135deg, var(--color-blue-primary), var(--color-green-primary), var(--color-yellow-primary));
+    background: var(--color-blue-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -2065,7 +1931,7 @@ section {
     right: 2rem;
     width: 48px;
     height: 48px;
-    background: linear-gradient(135deg, var(--color-blue-primary), var(--color-green-primary));
+    background: var(--color-blue-primary);
     color: var(--color-bg-primary);
     border: none;
     border-radius: 50%;
@@ -3151,7 +3017,7 @@ section {
    Utility Classes
    ========================================== */
 .text-gradient {
-    background: linear-gradient(135deg, var(--color-blue-primary), var(--color-green-primary));
+    background: var(--color-blue-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
