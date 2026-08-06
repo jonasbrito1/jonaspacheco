@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  # Permite disparar o deploy manualmente (gh workflow run deploy.yml),
+  # util quando o webhook de push nao cria o run - por exemplo durante
+  # throttling de incidente do proprio GitHub Actions.
+  workflow_dispatch:
 
 jobs:
   deploy:
