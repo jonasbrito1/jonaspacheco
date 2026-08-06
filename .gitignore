@@ -9,6 +9,18 @@ deploy.sh
 config.php
 vendor/
 
+# Rede de segurança: o arquivo real de credenciais da VPS mora em
+# C:\Users\jonas.pacheco\.vps\ (fora do repo). Os padrões abaixo existem
+# só para o caso de alguma cópia acabar caindo aqui dentro por engano.
+.vps/
+*.env
+!.env.example
+*credenciais*
+*.pem
+*.ppk
+id_rsa*
+deploy_key*
+
 # Arquivos de documentação local (apenas para desenvolvimento local)
 *.txt
 !README.txt

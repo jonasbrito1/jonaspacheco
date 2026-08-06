@@ -39,6 +39,11 @@ jobs:
             --exclude='.git' \
             --exclude='.github' \
             --exclude='.env' \
+            --exclude='*.env' \
+            --exclude='.vps/' \
+            --exclude='*.pem' \
+            --exclude='*.ppk' \
+            --exclude='id_rsa*' \
             --exclude='.claude' \
             --exclude='backend/' \
             --exclude='deploy/' \
