@@ -524,7 +524,7 @@ if (!('scrollBehavior' in document.documentElement.style)) {
 console.log('%c👋 Olá, Developer!', 'color: #00d4ff; font-size: 20px; font-weight: bold;');
 console.log('%c💼 Interessado em trabalhar comigo? Entre em contato!', 'color: #00ff88; font-size: 14px;');
 console.log('%c🔗 GitHub: https://github.com/jonasbrito1', 'color: #ffd600; font-size: 14px;');
-console.log('%c🔗 LinkedIn: https://www.linkedin.com/in/jonasbrito1/', 'color: #ffd600; font-size: 14px;');
+console.log('%c🔗 LinkedIn: https://www.linkedin.com/in/jonaspacheco1/', 'color: #ffd600; font-size: 14px;');
 
 // ==========================================
 // ANALYTICS READY
