@@ -4,33 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- SEO base -->
     <title>Jonas Pacheco | Desenvolvedor Full Stack</title>
-    <meta name="description" content="Jonas Pacheco — Desenvolvedor Full Stack focado em segurança, automação e sistemas escaláveis. Aplicações web seguras, performáticas e preparadas para crescer.">
-    <meta name="keywords" content="desenvolvedor full stack, desenvolvimento seguro, DevSecOps, automação, React, Vue, Node.js, Python, PHP, CI/CD">
+    <meta name="description" content="Jonas Pacheco — Desenvolvedor Full Stack. Aplicações web seguras e sistemas de gestão, do frontend ao deploy.">
     <meta name="author" content="Jonas Pacheco">
     <link rel="canonical" href="https://jonaspacheco.cloud/">
 
-    <!-- Open Graph (LinkedIn, WhatsApp, Facebook) -->
     <meta property="og:type"        content="profile">
     <meta property="og:url"         content="https://jonaspacheco.cloud/">
     <meta property="og:title"       content="Jonas Pacheco | Desenvolvedor Full Stack">
-    <meta property="og:description" content="Desenvolvimento web seguro, automação de processos e sistemas escaláveis com foco em clareza técnica e manutenção real.">
+    <meta property="og:description" content="Aplicações web seguras e sistemas de gestão, do frontend ao deploy.">
     <meta property="og:image"       content="https://jonaspacheco.cloud/jonas-pacheco-logo.png">
     <meta property="og:image:width"  content="1134">
     <meta property="og:image:height" content="972">
     <meta property="og:locale"      content="pt_BR">
     <meta property="og:site_name"   content="Jonas Pacheco">
-    <meta property="profile:first_name" content="Jonas">
-    <meta property="profile:last_name"  content="Pacheco">
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:card"        content="summary">
     <meta name="twitter:title"       content="Jonas Pacheco | Desenvolvedor Full Stack">
-    <meta name="twitter:description" content="Desenvolvimento web seguro, automação de processos e sistemas escaláveis com foco em clareza técnica e manutenção real.">
+    <meta name="twitter:description" content="Aplicações web seguras e sistemas de gestão, do frontend ao deploy.">
     <meta name="twitter:image"       content="https://jonaspacheco.cloud/jonas-pacheco-logo.png">
 
-    <!-- Schema.org Person (SEO rich snippet) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -40,971 +33,185 @@
       "image": "https://jonaspacheco.cloud/jonas-pacheco-logo.png",
       "jobTitle": "Desenvolvedor Full Stack",
       "description": "Desenvolvedor Full Stack com experiência em desenvolvimento seguro, automação de processos e sistemas escaláveis.",
-      "email": "contato@jonaspacheco.cloud",
-      "telephone": "+5547988521318",
       "sameAs": [
         "https://github.com/jonasbrito1",
-        "https://www.linkedin.com/in/jonasbrito1/",
-        "https://www.instagram.com/jonasbritopacheco/"
-      ],
-      "knowsAbout": ["Desenvolvimento Full Stack", "Desenvolvimento Seguro", "DevSecOps", "Automação", "React", "Vue", "Node.js", "Python", "PHP", "Docker", "CI/CD"],
-      "worksFor": {
-        "@type": "Organization",
-        "name": "i9Script",
-        "url": "https://i9script.com"
-      }
+        "https://www.linkedin.com/in/jonasbrito1/"
+      ]
     }
     </script>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="jp-logo.png">
-    <link rel="shortcut icon" type="image/png" href="jp-logo.png">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="styles.css?v=20260305">
+    <style>
+        :root {
+            --bg:        #020c1b;
+            --text:      #EEF2FF;
+            --muted:     #8BAFC8;
+            --accent:    #1E6FD9;
+            --border:    #1a3a5c;
+        }
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+        *, *::before, *::after { box-sizing: border-box; }
 
-    <!-- Font Awesome 6.7 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-size: 1rem;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
 
-    <!-- Google Analytics 4 — substitua G-XXXXXXXXXX pelo seu Measurement ID -->
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
-    </script> -->
+        main {
+            max-width: 34rem;
+            margin: 0 auto;
+            padding: 5rem 1.5rem 3rem;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin: 0;
+        }
+
+        .role {
+            color: var(--accent);
+            font-size: 0.9375rem;
+            margin: 0.125rem 0 1.5rem;
+        }
+
+        .summary {
+            color: var(--muted);
+            margin: 0 0 1.75rem;
+        }
+
+        .social {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            font-size: 0.9375rem;
+        }
+
+        h2 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin: 3.5rem 0 0;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .projects {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .projects li {
+            padding: 1.125rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .projects .name {
+            font-weight: 500;
+        }
+
+        .projects p {
+            color: var(--muted);
+            font-size: 0.875rem;
+            margin: 0.125rem 0 0;
+        }
+
+        a {
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border);
+            transition: color 0.15s ease, border-color 0.15s ease;
+        }
+
+        a:hover,
+        a:focus-visible {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        footer {
+            margin-top: 3.5rem;
+            font-size: 0.8125rem;
+            color: var(--muted);
+        }
+
+        footer a {
+            color: var(--muted);
+            border-bottom: none;
+        }
+
+        footer .sep {
+            padding: 0 0.5rem;
+            opacity: 0.4;
+        }
+
+        @media (max-width: 30rem) {
+            main { padding-top: 3.5rem; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <img src="jp-logo.png" alt="Jonas Pacheco" class="brand-logo" width="186" height="34">
-            </div>
-            <div class="nav-links">
-                <a href="#home" class="nav-link" data-i18n="nav.home">Início</a>
-                <a href="#about" class="nav-link" data-i18n="nav.about">Sobre</a>
-                <a href="#expertise" class="nav-link" data-i18n="nav.expertise">Especialidades</a>
-                <a href="#projects" class="nav-link" data-i18n="nav.projects">Projetos</a>
-                <a href="/blog" class="nav-link" data-i18n="nav.blog">Blog</a>
-                <a href="#contact" class="nav-link" data-i18n="nav.contact">Contato</a>
-            </div>
-            <button class="lang-toggle" id="langToggle" aria-label="Alternar idioma">
-                <span class="lang-flag">🇧🇷</span>
-                <span class="lang-text">PT</span>
-            </button>
-            <button class="mobile-menu-toggle" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </nav>
+    <main>
+        <h1>Jonas Pacheco</h1>
+        <p class="role">Desenvolvedor Full Stack</p>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-background">
-            <div class="code-rain"></div>
-        </div>
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <div class="hero-greeting" data-aos="fade-up" data-aos-delay="100">
-                        <span class="greeting-badge">Desenvolvedor Full Stack</span>
-                    </div>
-                    <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
-                        Jonas Pacheco
-                    </h1>
-                    <div class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-                        Desenvolvedor Full Stack focado em segurança, automação e sistemas escaláveis
-                    </div>
-                    <p class="hero-description" data-aos="fade-up" data-aos-delay="300">
-                        Desenvolvo aplicações web seguras, performáticas e preparadas para crescer.<br>
-                        Atuo do frontend ao deploy, aplicando práticas de DevSecOps para garantir estabilidade, eficiência e proteção contra vulnerabilidades.
-                    </p>
-                    <div class="hero-cta" data-aos="fade-up" data-aos-delay="400">
-                        <a href="#projects" class="btn btn-secondary">
-                            <span data-i18n="hero.cta2">Ver Projetos</span>
-                            <i class="fas fa-code"></i>
-                        </a>
-                        <a href="#contact" class="btn btn-primary">
-                            <span data-i18n="hero.cta1">Entrar em Contato</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </a>
-                        <a href="/blog" class="hero-blog-link">
-                            <span data-i18n="hero.cta3">Ler artigos no Blog</span>
-                            <i class="fas fa-book-open"></i>
-                        </a>
-                    </div>
-                    <div class="hero-social" data-aos="fade-up" data-aos-delay="500">
-                        <a href="https://github.com/jonasbrito1" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/jonasbrito1/" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="https://www.instagram.com/jonasbritopacheco/" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <div class="mouse">
-                <div class="wheel"></div>
-            </div>
-        </div>
-    </section>
+        <p class="summary">
+            Construo aplicações web seguras e sistemas de gestão, do frontend ao deploy.
+            Trabalho com React, Vue, Node.js, Python e PHP, com Docker e CI/CD na
+            infraestrutura, priorizando código que é simples de operar e de evoluir.
+        </p>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-tag">&lt;sobre&gt;</span>
-                <h2 class="section-title">Sobre</h2>
-                <p class="section-subtitle">Tecnologia com clareza, segurança e manutenção real</p>
-            </div>
-            <div class="about-content">
-                <div class="about-text" data-aos="fade-right">
-                    <p class="about-description">
-                        Sou desenvolvedor full stack, com experiência em desenvolvimento de aplicações, automação de processos e construção de código seguro.
-                    </p>
-                    <p class="about-description">
-                        Trabalho com tecnologias modernas como <strong>React, Vue, Node.js, Python e PHP</strong>, além de práticas de DevOps com Docker, CI/CD e infraestrutura automatizada. Meu foco é construir soluções que não apenas funcionam, mas que são seguras, escaláveis e fáceis de manter.
-                    </p>
-                    <div class="value-props">
-                        <div class="value-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Visão de produto e implementação completa</span>
-                        </div>
-                        <div class="value-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Segurança aplicada desde o desenvolvimento</span>
-                        </div>
-                        <div class="value-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Arquitetura simples de operar e evoluir</span>
-                        </div>
-                    </div>
-                    <div class="about-highlights">
-                        <div class="highlight-item">
-                            <i class="fas fa-shield-alt"></i>
-                            <div>
-                                <h3>Desenvolvimento Seguro</h3>
-                                <p>Proteção e boas práticas incorporadas desde a arquitetura até o deploy.</p>
-                            </div>
-                        </div>
-                        <div class="highlight-item">
-                            <i class="fas fa-gears"></i>
-                            <div>
-                                <h3>Automação de Processos</h3>
-                                <p>Redução de tarefas manuais com scripts, integrações e pipelines bem definidos.</p>
-                            </div>
-                        </div>
-                        <div class="highlight-item">
-                            <i class="fas fa-layer-group"></i>
-                            <div>
-                                <h3>Escalabilidade</h3>
-                                <p>Sistemas preparados para crescer sem virar um problema de manutenção.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="about-stats about-panel" data-aos="fade-left">
-                    <div class="stat-card">
-                        <div class="stat-label">Atuação</div>
-                        <div class="panel-copy">Desenvolvimento, segurança, automação e operação de sistemas em um fluxo contínuo.</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Stack</div>
-                        <div class="panel-copy">React, Vue, Node.js, Python, PHP, Docker, CI/CD e infraestrutura automatizada.</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Objetivo</div>
-                        <div class="panel-copy">Entregar software profissional, claro de manter e pronto para evoluir com o negócio.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <ul class="social">
+            <li><a href="https://github.com/jonasbrito1" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/jonasbrito1/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        </ul>
 
-    <!-- Expertise Section -->
-    <section id="expertise" class="expertise">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-tag">&lt;especialidades&gt;</span>
-                <h2 class="section-title">Especialidades</h2>
-                <p class="section-subtitle">Capacidades centrais para construir software mais confiável</p>
-            </div>
-            <div class="expertise-grid">
-                <div class="expertise-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="card-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3 class="card-title">Desenvolvimento Web Full Stack</h3>
-                    <p class="card-description">
-                        Criação de aplicações modernas com React, Vue, Node.js e Python, focadas em performance e escalabilidade.
-                    </p>
-                    <div class="card-tech">
-                        <span class="tech-tag">React</span>
-                        <span class="tech-tag">Vue</span>
-                        <span class="tech-tag">Node.js</span>
-                        <span class="tech-tag">Python</span>
-                    </div>
-                </div>
+        <h2>Projetos</h2>
+        <ul class="projects">
+            <li>
+                <a class="name" href="https://healthix.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer">Healthix</a>
+                <p>Plataforma de gestão hospitalar com dashboards e filas em tempo real.</p>
+            </li>
+            <li>
+                <a class="name" href="https://bjjmasters.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer">BJJ Masters</a>
+                <p>SaaS multi-tenant para academias de jiu-jitsu, com portal do aluno e gestão financeira por unidade.</p>
+            </li>
+            <li>
+                <a class="name" href="https://gbcidadenovaam.com.br" target="_blank" rel="noopener noreferrer">Gracie Barra Cidade Nova</a>
+                <p>Gestão de academia: alunos, turmas, frequência, financeiro e pagamentos.</p>
+            </li>
+            <li>
+                <a class="name" href="https://horizontedosaber.com.br" target="_blank" rel="noopener noreferrer">Horizonte do Saber</a>
+                <p>Site institucional educacional com conteúdo gerenciável.</p>
+            </li>
+            <li>
+                <a class="name" href="https://www.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer">Evolution Engenharia</a>
+                <p>Site institucional com vitrine de serviços e captação de orçamento.</p>
+            </li>
+            <li>
+                <a class="name" href="https://hidro.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer">Hidro Evolution</a>
+                <p>Site comercial de bebedouros, sistemas hidráulicos e energia.</p>
+            </li>
+        </ul>
 
-                <div class="expertise-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="card-icon">
-                        <i class="fas fa-gears"></i>
-                    </div>
-                    <h3 class="card-title">Automação de Processos</h3>
-                    <p class="card-description">
-                        Eliminação de tarefas manuais com scripts, integrações e pipelines automatizados.
-                    </p>
-                    <div class="card-tech">
-                        <span class="tech-tag">Scripts</span>
-                        <span class="tech-tag">Integracoes</span>
-                        <span class="tech-tag">CI/CD</span>
-                    </div>
-                </div>
-
-                <div class="expertise-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="card-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="card-title">Segurança Aplicada ao Desenvolvimento</h3>
-                    <p class="card-description">
-                        Proteção contra vulnerabilidades como XSS, CSRF e SQL Injection, além da implementação de autenticação segura com JWT e OAuth.
-                    </p>
-                    <div class="card-tech">
-                        <span class="tech-tag">JWT</span>
-                        <span class="tech-tag">OAuth</span>
-                        <span class="tech-tag">OWASP</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-tag">&lt;projetos&gt;</span>
-                <h2 class="section-title">Projetos</h2>
-                <p class="section-subtitle">Seleção de sistemas com foco em operação, estrutura e automação</p>
-            </div>
-            <div class="projects-grid">
-                <div class="project-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="project-image">
-                        <div class="project-overlay">
-                            <a href="https://horizontedosaber.com.br" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Acessar Horizonte do Saber">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                        <img
-                            src="assets/projects/horizonte-do-saber.svg"
-                            alt="Miniatura real do site Horizonte do Saber"
-                            class="project-thumbnail"
-                            loading="lazy"
-                        >
-                    </div>
-                    <div class="project-content">
-                        <div class="project-header">
-                            <div>
-                                <h3 class="project-title">Horizonte do Saber</h3>
-                                <a href="https://horizontedosaber.com.br" target="_blank" rel="noopener noreferrer" class="project-url">horizontedosaber.com.br</a>
-                            </div>
-                        </div>
-                        <p class="project-description">
-                            Site institucional educacional com conteúdo gerenciável para apresentar a escola, diferenciais, galeria e contato em uma base preparada para evolução administrativa.
-                        </p>
-                        <div class="project-metrics-small">
-                            <span><i class="fas fa-school"></i> site institucional educacional</span>
-                            <span><i class="fas fa-database"></i> base preparada para gestão</span>
-                        </div>
-                        <div class="project-tech">
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">Express</span>
-                            <span class="tech-tag">Prisma</span>
-                            <span class="tech-tag">MySQL</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="project-image">
-                        <div class="project-overlay">
-                            <a href="https://gbcidadenovaam.com.br" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Acessar Gracie Barra Cidade Nova">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                        <img
-                            src="assets/projects/gb-cidade-nova.svg"
-                            alt="Miniatura real do sistema Gracie Barra Cidade Nova"
-                            class="project-thumbnail"
-                            loading="lazy"
-                        >
-                    </div>
-                    <div class="project-content">
-                        <div class="project-header">
-                            <div>
-                                <h3 class="project-title">Gracie Barra Cidade Nova</h3>
-                                <a href="https://gbcidadenovaam.com.br" target="_blank" rel="noopener noreferrer" class="project-url">gbcidadenovaam.com.br</a>
-                            </div>
-                        </div>
-                        <p class="project-description">
-                            Sistema de gestão para academia com alunos, turmas, frequência, financeiro, cobranças e integrações de pagamento em uma operação centralizada.
-                        </p>
-                        <div class="project-metrics-small">
-                            <span><i class="fas fa-users"></i> operação da academia centralizada</span>
-                            <span><i class="fas fa-credit-card"></i> pagamentos e recorrência</span>
-                        </div>
-                        <div class="project-tech">
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">Express</span>
-                            <span class="tech-tag">MySQL</span>
-                            <span class="tech-tag">Mercado Pago</span>
-                            <span class="tech-tag">Google OAuth</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="project-image">
-                        <div class="project-overlay">
-                            <a href="https://healthix.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Acessar Healthix">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                        <img
-                            src="assets/projects/healthix.svg"
-                            alt="Miniatura real do sistema Healthix"
-                            class="project-thumbnail"
-                            loading="lazy"
-                        >
-                    </div>
-                    <div class="project-content">
-                        <div class="project-header">
-                            <div>
-                                <h3 class="project-title">Healthix</h3>
-                                <a href="https://healthix.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer" class="project-url">healthix.jonaspacheco.cloud</a>
-                            </div>
-                        </div>
-                        <p class="project-description">
-                            Plataforma de gestão hospitalar com dashboards, filas e módulos operacionais integrados para acompanhamento em tempo real.
-                        </p>
-                        <div class="project-metrics-small">
-                            <span><i class="fas fa-hospital"></i> gestão hospitalar inteligente</span>
-                            <span><i class="fas fa-wave-square"></i> monitoramento em tempo real</span>
-                        </div>
-                        <div class="project-tech">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">Vite</span>
-                            <span class="tech-tag">Express</span>
-                            <span class="tech-tag">Socket.IO</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="project-image">
-                        <div class="project-overlay">
-                            <a href="https://bjjmasters.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Acessar BJJ Masters">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                        <img
-                            src="assets/projects/bjj-masters.svg"
-                            alt="Miniatura real do sistema BJJ Masters"
-                            class="project-thumbnail"
-                            loading="lazy"
-                        >
-                    </div>
-                    <div class="project-content">
-                        <div class="project-header">
-                            <div>
-                                <h3 class="project-title">BJJ Masters</h3>
-                                <a href="https://bjjmasters.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer" class="project-url">bjjmasters.jonaspacheco.cloud</a>
-                            </div>
-                        </div>
-                        <p class="project-description">
-                            SaaS multi-tenant para academias de jiu-jitsu com white-label, portal do aluno, controle de presença e gestão financeira por unidade.
-                        </p>
-                        <div class="project-metrics-small">
-                            <span><i class="fas fa-layer-group"></i> multi-tenant e white-label</span>
-                            <span><i class="fas fa-user-check"></i> alunos, turmas e mensalidades</span>
-                        </div>
-                        <div class="project-tech">
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">Prisma</span>
-                            <span class="tech-tag">PostgreSQL</span>
-                            <span class="tech-tag">NextAuth</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card" data-aos="fade-up" data-aos-delay="500">
-                    <div class="project-image">
-                        <div class="project-overlay">
-                            <a href="https://www.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Acessar Evolution Engenharia">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                        <img
-                            src="assets/projects/evolution-engenharia.svg"
-                            alt="Miniatura real do site Evolution Engenharia"
-                            class="project-thumbnail"
-                            loading="lazy"
-                        >
-                    </div>
-                    <div class="project-content">
-                        <div class="project-header">
-                            <div>
-                                <h3 class="project-title">Evolution Engenharia</h3>
-                                <a href="https://www.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer" class="project-url">www.evolutionengenharia.com.br</a>
-                            </div>
-                        </div>
-                        <p class="project-description">
-                            Site institucional da Evolution Engenharia com vitrine de serviços, provas sociais, captação de orçamento e assistente comercial.
-                        </p>
-                        <div class="project-metrics-small">
-                            <span><i class="fas fa-building"></i> presença digital da engenharia</span>
-                            <span><i class="fas fa-comments"></i> foco em conversão comercial</span>
-                        </div>
-                        <div class="project-tech">
-                            <span class="tech-tag">HTML</span>
-                            <span class="tech-tag">CSS</span>
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">Font Awesome</span>
-                            <span class="tech-tag">Hostinger</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card" data-aos="fade-up" data-aos-delay="600">
-                    <div class="project-image">
-                        <div class="project-overlay">
-                            <a href="https://hidro.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Acessar Hidro Evolution">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                        <img
-                            src="assets/projects/hidro-evolution.svg"
-                            alt="Miniatura real do site Hidro Evolution"
-                            class="project-thumbnail"
-                            loading="lazy"
-                        >
-                    </div>
-                    <div class="project-content">
-                        <div class="project-header">
-                            <div>
-                                <h3 class="project-title">Hidro Evolution</h3>
-                                <a href="https://hidro.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer" class="project-url">hidro.evolutionengenharia.com.br</a>
-                            </div>
-                        </div>
-                        <p class="project-description">
-                            Site comercial da Hidro Evolution voltado à apresentação de produtos e soluções em bebedouros, sistemas hidráulicos e energia.
-                        </p>
-                        <div class="project-metrics-small">
-                            <span><i class="fas fa-faucet-drip"></i> catálogo e posicionamento técnico</span>
-                            <span><i class="fas fa-bolt"></i> hidráulica e energia</span>
-                        </div>
-                        <div class="project-tech">
-                            <span class="tech-tag">HTML</span>
-                            <span class="tech-tag">CSS</span>
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">Poppins</span>
-                            <span class="tech-tag">Hostinger</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="projects-cta" data-aos="fade-up">
-                <a href="https://github.com/jonasbrito1?tab=repositories" target="_blank" class="btn btn-primary">
-                    <span>Ver Todos os Projetos</span>
-                    <i class="fab fa-github"></i>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section - TEMPORARIAMENTE DESABILITADA -->
-    <!--
-    <section id="testimonials" class="testimonials">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-tag">&lt;depoimentos&gt;</span>
-                <h2 class="section-title">O Que Dizem Sobre Meu Trabalho</h2>
-                <p class="section-subtitle">Resultados reais de projetos entregues</p>
-            </div>
-            <div class="testimonials-grid">
-                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="testimonial-header">
-                        <div class="testimonial-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="testimonial-author">
-                            <h4>Carlos Mendes</h4>
-                            <p>CEO - TechCorp Solutions</p>
-                        </div>
-                        <div class="testimonial-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                    <p class="testimonial-text">
-                        "Jonas desenvolveu nosso sistema ERP completo e superou todas as expectativas.
-                        O projeto foi entregue no prazo, com código limpo e documentação impecável.
-                        Conseguimos reduzir custos operacionais em 40% após a implementação."
-                    </p>
-                    <div class="testimonial-metrics">
-                        <div class="metric">
-                            <span class="metric-value">40%</span>
-                            <span class="metric-label">Redução de custos</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">3 meses</span>
-                            <span class="metric-label">Entregue no prazo</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="testimonial-header">
-                        <div class="testimonial-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="testimonial-author">
-                            <h4>Ana Paula Silva</h4>
-                            <p>Diretora de TI - MedHealth</p>
-                        </div>
-                        <div class="testimonial-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                    <p class="testimonial-text">
-                        "O sistema de gestão hospitalar que Jonas desenvolveu transformou nossa operação.
-                        A segurança dos dados é impecável e a interface é intuitiva. Nossa equipe adaptou-se
-                        rapidamente e a eficiência aumentou 60%."
-                    </p>
-                    <div class="testimonial-metrics">
-                        <div class="metric">
-                            <span class="metric-value">60%</span>
-                            <span class="metric-label">Mais eficiência</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">100%</span>
-                            <span class="metric-label">Dados seguros</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="testimonial-header">
-                        <div class="testimonial-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="testimonial-author">
-                            <h4>Roberto Oliveira</h4>
-                            <p>CTO - FinanceHub</p>
-                        </div>
-                        <div class="testimonial-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                    <p class="testimonial-text">
-                        "Contratamos Jonas para automatizar nossos processos de compliance. O resultado foi
-                        excepcional: economia de 30 horas semanais da equipe e zero erros nos relatórios.
-                        Profissional extremamente competente e confiável."
-                    </p>
-                    <div class="testimonial-metrics">
-                        <div class="metric">
-                            <span class="metric-value">30h/sem</span>
-                            <span class="metric-label">Tempo economizado</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">0</span>
-                            <span class="metric-label">Erros detectados</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    -->
-
-    <!-- Process Section -->
-    <section id="process" class="process">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-tag">&lt;processo&gt;</span>
-                <h2 class="section-title">Como Trabalho</h2>
-                <p class="section-subtitle">Metodologia comprovada para entregar resultados</p>
-            </div>
-            <div class="process-timeline">
-                <div class="process-step" data-aos="fade-up" data-aos-delay="100">
-                    <div class="step-number">01</div>
-                    <div class="step-content">
-                        <h3 class="step-title">Análise & Planejamento</h3>
-                        <p class="step-description">
-                            Entendo profundamente seu negócio, os desafios e objetivos. Documento todos os
-                            requisitos e crio um plano de ação detalhado.
-                        </p>
-                        <ul class="step-deliverables">
-                            <li><i class="fas fa-check"></i> Documentação de requisitos</li>
-                            <li><i class="fas fa-check"></i> Cronograma do projeto</li>
-                            <li><i class="fas fa-check"></i> Proposta técnica</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="process-step" data-aos="fade-up" data-aos-delay="200">
-                    <div class="step-number">02</div>
-                    <div class="step-content">
-                        <h3 class="step-title">Design & Arquitetura</h3>
-                        <p class="step-description">
-                            Projeto a arquitetura do sistema priorizando segurança, escalabilidade e
-                            manutenibilidade. Defino a stack tecnológica ideal.
-                        </p>
-                        <ul class="step-deliverables">
-                            <li><i class="fas fa-check"></i> Arquitetura do sistema</li>
-                            <li><i class="fas fa-check"></i> Diagramas técnicos</li>
-                            <li><i class="fas fa-check"></i> Protótipos de interface</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="process-step" data-aos="fade-up" data-aos-delay="300">
-                    <div class="step-number">03</div>
-                    <div class="step-content">
-                        <h3 class="step-title">Desenvolvimento</h3>
-                        <p class="step-description">
-                            Codifico seguindo as melhores práticas, com testes automatizados e code reviews
-                            constantes. Você acompanha o progresso em tempo real.
-                        </p>
-                        <ul class="step-deliverables">
-                            <li><i class="fas fa-check"></i> Código limpo e documentado</li>
-                            <li><i class="fas fa-check"></i> Testes automatizados</li>
-                            <li><i class="fas fa-check"></i> Atualizações semanais</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="process-step" data-aos="fade-up" data-aos-delay="400">
-                    <div class="step-number">04</div>
-                    <div class="step-content">
-                        <h3 class="step-title">Testes & Validação</h3>
-                        <p class="step-description">
-                            Realizo testes rigorosos de segurança, performance e usabilidade. Corrijo bugs
-                            e otimizo antes do lançamento.
-                        </p>
-                        <ul class="step-deliverables">
-                            <li><i class="fas fa-check"></i> Testes de segurança</li>
-                            <li><i class="fas fa-check"></i> Análise de performance</li>
-                            <li><i class="fas fa-check"></i> Testes de usuário</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="process-step" data-aos="fade-up" data-aos-delay="500">
-                    <div class="step-number">05</div>
-                    <div class="step-content">
-                        <h3 class="step-title">Deploy & Suporte</h3>
-                        <p class="step-description">
-                            Faço o deploy com zero downtime, treino sua equipe e forneço documentação
-                            completa. Suporte pós-entrega está incluído.
-                        </p>
-                        <ul class="step-deliverables">
-                            <li><i class="fas fa-check"></i> Deploy em produção</li>
-                            <li><i class="fas fa-check"></i> Treinamento da equipe</li>
-                            <li><i class="fas fa-check"></i> Suporte e manutenção</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Technologies Section -->
-    <section id="technologies" class="technologies">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-tag">&lt;tecnologias&gt;</span>
-                <h2 class="section-title">Tecnologias</h2>
-                <p class="section-subtitle">Base técnica focada em desenvolvimento moderno e entrega confiável</p>
-            </div>
-            <div class="tech-categories">
-                <div class="tech-category" data-aos="fade-up" data-aos-delay="100">
-                    <h3 class="category-title">
-                        <i class="fas fa-code"></i>
-                        Linguagens
-                    </h3>
-                    <div class="tech-items">
-                        <div class="tech-item">
-                            <i class="fab fa-react"></i>
-                            <span>React</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fab fa-vuejs"></i>
-                            <span>Vue</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fab fa-node-js"></i>
-                            <span>Node.js</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fab fa-python"></i>
-                            <span>Python</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fab fa-php"></i>
-                            <span>PHP</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tech-category" data-aos="fade-up" data-aos-delay="200">
-                    <h3 class="category-title">
-                        <i class="fas fa-layer-group"></i>
-                        Frameworks
-                    </h3>
-                    <div class="tech-items">
-                        <div class="tech-item">
-                            <i class="fab fa-docker"></i>
-                            <span>Docker</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fab fa-github"></i>
-                            <span>CI/CD</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fab fa-github"></i>
-                            <span>GitHub Actions</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fas fa-cubes"></i>
-                            <span>Terraform</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tech-category" data-aos="fade-up" data-aos-delay="300">
-                    <h3 class="category-title">
-                        <i class="fas fa-database"></i>
-                        Banco de Dados
-                    </h3>
-                    <div class="tech-items">
-                        <div class="tech-item">
-                            <i class="fas fa-database"></i>
-                            <span>MySQL</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fas fa-elephant"></i>
-                            <span>PostgreSQL</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fas fa-leaf"></i>
-                            <span>MongoDB</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fas fa-bolt"></i>
-                            <span>Supabase</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fas fa-fire"></i>
-                            <span>Firebase</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tech-category" data-aos="fade-up" data-aos-delay="400">
-                    <h3 class="category-title">
-                        <i class="fas fa-shield-alt"></i>
-                        Segurança
-                    </h3>
-                    <div class="tech-items">
-                        <div class="tech-item">
-                            <i class="fas fa-key"></i>
-                            <span>JWT</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fas fa-user-shield"></i>
-                            <span>OAuth</span>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>OWASP Security</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <span class="section-tag">&lt;contato&gt;</span>
-                <h2 class="section-title">Contato</h2>
-                <p class="section-subtitle">Vamos construir algo sólido e seguro juntos</p>
-            </div>
-
-            <div class="contact-content">
-                <div class="contact-info" data-aos="fade-right">
-                    <div class="contact-text">
-                        <h3>Vamos construir algo sólido e seguro juntos.</h3>
-                        <p>
-                            Se você precisa de um sistema profissional, seguro e bem estruturado, posso te ajudar do planejamento ao deploy.
-                        </p>
-                    </div>
-                    <div class="contact-methods">
-                        <a href="mailto:contato@jonaspacheco.cloud" class="contact-method">
-                            <div class="method-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="method-content">
-                                <h4>Email</h4>
-                                <p>contato@jonaspacheco.cloud</p>
-                            </div>
-                        </a>
-                        <a href="https://www.linkedin.com/in/jonasbrito1/" target="_blank" class="contact-method">
-                            <div class="method-icon">
-                                <i class="fab fa-linkedin"></i>
-                            </div>
-                            <div class="method-content">
-                                <h4>LinkedIn</h4>
-                                <p>linkedin.com/in/jonasbrito1</p>
-                            </div>
-                        </a>
-                        <a href="https://github.com/jonasbrito1" target="_blank" class="contact-method">
-                            <div class="method-icon">
-                                <i class="fab fa-github"></i>
-                            </div>
-                            <div class="method-content">
-                                <h4>GitHub</h4>
-                                <p>github.com/jonasbrito1</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="contact-form-wrapper" data-aos="fade-left">
-                    <form class="contact-form" id="contactForm">
-                        <div class="form-group">
-                            <label for="name">Nome</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject">Assunto</label>
-                            <input type="text" id="subject" name="subject" required value="Novo projeto">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Mensagem</label>
-                            <textarea id="message" name="message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-submit">
-                            <span>Enviar Mensagem</span>
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="brand">
-                        <img src="jp-logo.png" alt="Jonas Pacheco" class="footer-logo" width="186" height="34">
-                    </div>
-                    <p class="footer-tagline">
-                        Desenvolvendo sistemas que resolvem problemas reais
-                    </p>
-                    <div class="footer-contact-links">
-                        <a href="mailto:contato@jonaspacheco.cloud" class="footer-contact-link">
-                            <i class="fas fa-envelope"></i>
-                            <span>contato@jonaspacheco.cloud</span>
-                        </a>
-                        <a href="https://github.com/jonasbrito1" target="_blank" rel="noopener" class="footer-contact-link">
-                            <i class="fab fa-github"></i>
-                            <span>github.com/jonasbrito1</span>
-                        </a>
-                        <a href="https://www.linkedin.com/in/jonasbrito1/" target="_blank" rel="noopener" class="footer-contact-link">
-                            <i class="fab fa-linkedin"></i>
-                            <span>linkedin.com/in/jonasbrito1</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h4>Navegação</h4>
-                        <ul>
-                            <li><a href="#home">Início</a></li>
-                            <li><a href="#about">Sobre</a></li>
-                            <li><a href="#expertise">Especialidades</a></li>
-                            <li><a href="#projects">Projetos</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Legal</h4>
-                        <ul>
-                            <li><a href="privacy-policy.html">Política de Privacidade</a></li>
-                            <li><a href="terms-of-service.html">Termos de Serviço</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Social</h4>
-                        <ul>
-                            <li><a href="https://github.com/jonasbrito1" target="_blank">GitHub</a></li>
-                            <li><a href="https://www.linkedin.com/in/jonasbrito1/" target="_blank">LinkedIn</a></li>
-                            <li><a href="https://www.instagram.com/jonasbritopacheco/" target="_blank">Instagram</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Jonas Pacheco. Todos os direitos reservados.</p>
-                <p class="footer-code">
-                    Desenvolvido por <span class="developer-name">Jonas Pacheco</span>
-                </p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
-    <script src="script.js"></script>
+        <footer>
+            <a href="privacy-policy.html">Privacidade</a>
+            <span class="sep">·</span>
+            <a href="terms-of-service.html">Termos</a>
+        </footer>
+    </main>
 </body>
 </html>
