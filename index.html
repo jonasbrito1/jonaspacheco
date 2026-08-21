@@ -49,28 +49,41 @@
             --muted:     #8BAFC8;
             --accent:    #1E6FD9;
             --border:    #1a3a5c;
+            --tile:      #081526;
         }
 
         *, *::before, *::after { box-sizing: border-box; }
 
-        body {
+        html, body {
+            height: 100%;
             margin: 0;
+            overflow: hidden;
+        }
+
+        body {
             background: var(--bg);
             color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            font-size: 1rem;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
             -webkit-font-smoothing: antialiased;
         }
 
         main {
-            max-width: 34rem;
+            height: 100vh;
+            height: 100dvh;
+            max-width: 72rem;
             margin: 0 auto;
-            padding: 5rem 1.5rem 3rem;
+            padding: clamp(1rem, 3.5vh, 2.5rem) clamp(1rem, 4vw, 2rem);
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.75rem, 2.2vh, 1.5rem);
         }
 
+        /* Cabecalho e rodape nao encolhem; o grid absorve o resto. */
+        header, footer { flex: none; }
+
         h1 {
-            font-size: 1.5rem;
+            font-size: clamp(1.125rem, 1rem + 1vw, 1.5rem);
             font-weight: 600;
             letter-spacing: -0.01em;
             margin: 0;
@@ -78,56 +91,81 @@
 
         .role {
             color: var(--accent);
-            font-size: 0.9375rem;
-            margin: 0.125rem 0 1.5rem;
+            font-size: clamp(0.75rem, 0.7rem + 0.3vw, 0.875rem);
+            margin: 0.1rem 0 0;
         }
 
         .summary {
             color: var(--muted);
-            margin: 0 0 1.75rem;
+            font-size: clamp(0.75rem, 0.7rem + 0.35vw, 0.9375rem);
+            margin: 0.6rem 0 0;
+            max-width: 44rem;
         }
 
         .social {
             display: flex;
             flex-wrap: wrap;
-            gap: 1.25rem;
+            gap: 1rem;
             padding: 0;
-            margin: 0;
+            margin: 0.6rem 0 0;
             list-style: none;
-            font-size: 0.9375rem;
+            font-size: clamp(0.75rem, 0.7rem + 0.3vw, 0.875rem);
         }
 
-        h2 {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--muted);
-            margin: 3.5rem 0 0;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--border);
-        }
-
+        /* O grid ocupa a altura restante e divide entre as linhas.
+           min-height:0 permite que ele encolha abaixo do conteudo. */
         .projects {
+            /* linhas "auto" deixam a miniatura assumir sua proporcao natural
+               16:9; align-content centra o bloco na altura que sobrar. */
+            flex: 1;
+            min-height: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: auto;
+            align-content: start;
+            gap: clamp(0.5rem, 1.6vh, 1.15rem);
             list-style: none;
             padding: 0;
             margin: 0;
         }
 
-        .projects li {
-            padding: 1.125rem 0;
-            border-bottom: 1px solid var(--border);
+        .projects > li { min-width: 0; }
+
+        .card {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            border: none;
+            text-decoration: none;
+            color: var(--text);
         }
 
-        .projects .name {
+        .card img {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            background: var(--tile);
+            transition: border-color 0.15s ease;
+        }
+
+        .card .name {
+            flex: none;
+            font-size: clamp(0.6875rem, 0.65rem + 0.3vw, 0.8125rem);
             font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .projects p {
-            color: var(--muted);
-            font-size: 0.875rem;
-            margin: 0.125rem 0 0;
-        }
+        .card:hover img,
+        .card:focus-visible img { border-color: var(--accent); }
+
+        .card:hover .name,
+        .card:focus-visible .name { color: var(--accent); }
 
         a {
             color: var(--text);
@@ -136,74 +174,94 @@
             transition: color 0.15s ease, border-color 0.15s ease;
         }
 
-        a:hover,
-        a:focus-visible {
+        a:hover, a:focus-visible {
             color: var(--accent);
             border-bottom-color: var(--accent);
         }
 
         footer {
-            margin-top: 3.5rem;
-            font-size: 0.8125rem;
+            margin-top: auto;
+            font-size: clamp(0.6875rem, 0.65rem + 0.2vw, 0.8125rem);
             color: var(--muted);
         }
 
-        footer a {
-            color: var(--muted);
-            border-bottom: none;
+        footer a { color: var(--muted); border-bottom: none; }
+        footer .sep { padding: 0 0.4rem; opacity: 0.4; }
+
+        /* Retrato estreito: 2 colunas x 3 linhas. */
+        @media (max-width: 44rem) and (min-height: 34rem) {
+            .projects {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(3, 1fr);
+            }
         }
 
-        footer .sep {
-            padding: 0 0.5rem;
-            opacity: 0.4;
+        /* Paisagem baixa: 6 colunas numa linha so, para nao espremer a altura. */
+        /* Pouca altura (celular deitado, telas curtas): o resumo sai e o grid
+           achata para 3 colunas, senao as 3 linhas estouram a viewport. */
+        @media (max-height: 34rem) {
+            .summary { display: none; }
+            .projects { grid-template-columns: repeat(3, 1fr); }
         }
 
-        @media (max-width: 30rem) {
-            main { padding-top: 3.5rem; }
+        /* Curto e largo o bastante: tudo numa fileira so. */
+        @media (max-height: 34rem) and (min-width: 40rem) {
+            .projects { grid-template-columns: repeat(6, 1fr); }
         }
+
     </style>
 </head>
 <body>
     <main>
-        <h1>Jonas Pacheco</h1>
-        <p class="role">Desenvolvedor Full Stack</p>
+        <header>
+            <h1>Jonas Pacheco</h1>
+            <p class="role">Desenvolvedor Full Stack</p>
+            <p class="summary">
+                Construo aplicações web seguras e sistemas de gestão, do frontend ao deploy —
+                React, Vue, Node.js, Python e PHP, com Docker e CI/CD na infraestrutura.
+            </p>
+            <ul class="social">
+                <li><a href="https://github.com/jonasbrito1" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                <li><a href="https://www.linkedin.com/in/jonasbrito1/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            </ul>
+        </header>
 
-        <p class="summary">
-            Construo aplicações web seguras e sistemas de gestão, do frontend ao deploy.
-            Trabalho com React, Vue, Node.js, Python e PHP, com Docker e CI/CD na
-            infraestrutura, priorizando código que é simples de operar e de evoluir.
-        </p>
-
-        <ul class="social">
-            <li><a href="https://github.com/jonasbrito1" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-            <li><a href="https://www.linkedin.com/in/jonasbrito1/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-        </ul>
-
-        <h2>Projetos</h2>
         <ul class="projects">
             <li>
-                <a class="name" href="https://healthix.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer">Healthix</a>
-                <p>Plataforma de gestão hospitalar com dashboards e filas em tempo real.</p>
+                <a class="card" href="https://healthix.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/projects/healthix.svg" alt="Miniatura do projeto Healthix" width="1200" height="675" loading="lazy" decoding="async">
+                    <span class="name">Healthix</span>
+                </a>
             </li>
             <li>
-                <a class="name" href="https://bjjmasters.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer">BJJ Masters</a>
-                <p>SaaS multi-tenant para academias de jiu-jitsu, com portal do aluno e gestão financeira por unidade.</p>
+                <a class="card" href="https://bjjmasters.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/projects/bjj-masters.svg" alt="Miniatura do projeto BJJ Masters" width="1200" height="675" loading="lazy" decoding="async">
+                    <span class="name">BJJ Masters</span>
+                </a>
             </li>
             <li>
-                <a class="name" href="https://gbcidadenovaam.com.br" target="_blank" rel="noopener noreferrer">Gracie Barra Cidade Nova</a>
-                <p>Gestão de academia: alunos, turmas, frequência, financeiro e pagamentos.</p>
+                <a class="card" href="https://gbcidadenovaam.com.br" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/projects/gb-cidade-nova.svg" alt="Miniatura do projeto Gracie Barra Cidade Nova" width="1200" height="675" loading="lazy" decoding="async">
+                    <span class="name">Gracie Barra Cidade Nova</span>
+                </a>
             </li>
             <li>
-                <a class="name" href="https://horizontedosaber.com.br" target="_blank" rel="noopener noreferrer">Horizonte do Saber</a>
-                <p>Site institucional educacional com conteúdo gerenciável.</p>
+                <a class="card" href="https://horizontedosaber.com.br" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/projects/horizonte-do-saber.svg" alt="Miniatura do projeto Horizonte do Saber" width="1200" height="675" loading="lazy" decoding="async">
+                    <span class="name">Horizonte do Saber</span>
+                </a>
             </li>
             <li>
-                <a class="name" href="https://www.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer">Evolution Engenharia</a>
-                <p>Site institucional com vitrine de serviços e captação de orçamento.</p>
+                <a class="card" href="https://www.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/projects/evolution-engenharia.svg" alt="Miniatura do projeto Evolution Engenharia" width="1200" height="675" loading="lazy" decoding="async">
+                    <span class="name">Evolution Engenharia</span>
+                </a>
             </li>
             <li>
-                <a class="name" href="https://hidro.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer">Hidro Evolution</a>
-                <p>Site comercial de bebedouros, sistemas hidráulicos e energia.</p>
+                <a class="card" href="https://hidro.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/projects/hidro-evolution.svg" alt="Miniatura do projeto Hidro Evolution" width="1200" height="675" loading="lazy" decoding="async">
+                    <span class="name">Hidro Evolution</span>
+                </a>
             </li>
         </ul>
 
