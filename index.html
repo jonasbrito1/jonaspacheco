@@ -82,6 +82,26 @@
         /* Cabecalho e rodape nao encolhem; o grid absorve o resto. */
         header, footer { flex: none; }
 
+        .identity {
+            display: flex;
+            align-items: flex-start;
+            gap: clamp(0.75rem, 0.6rem + 0.8vw, 1.25rem);
+        }
+
+        .avatar {
+            flex: none;
+            width: clamp(3rem, 2.4rem + 2.4vw, 4.5rem);
+            aspect-ratio: 1;
+            height: auto;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--border);
+        }
+
+        .identity-text { min-width: 0; }
+
+        .identity-text > :first-child { margin-top: 0; }
+
         h1 {
             font-size: clamp(1.125rem, 1rem + 1vw, 1.5rem);
             font-weight: 600;
@@ -115,6 +135,15 @@
         /* O grid ocupa a altura restante e divide entre as linhas.
            min-height:0 permite que ele encolha abaixo do conteudo. */
         .projects {
+            /* --cols/--rows descrevem o arranjo atual; --chrome estima o que
+               cabecalho, rodape e espacamentos consomem. A largura maxima
+               derivada disso impede o grid de estourar a viewport. */
+            --cols: 4;
+            --rows: 2;
+            --chrome: 16rem;
+            width: 100%;
+            max-width: min(100%, calc(((100dvh - var(--chrome)) / var(--rows) - 1.5rem) * 1.7778 * var(--cols)));
+            margin-inline: auto;
             /* linhas "auto" deixam a miniatura assumir sua proporcao natural
                16:9; align-content centra o bloco na altura que sobrar. */
             flex: 1;
@@ -193,6 +222,8 @@
         @media (max-width: 44rem) and (min-height: 34rem) {
             .projects {
                 grid-template-columns: repeat(2, 1fr);
+                --cols: 2;
+                --rows: 4;
             }
         }
 
@@ -200,36 +231,50 @@
            nao cabe junto. Some para o grid inteiro continuar visivel. */
         @media (max-width: 44rem) and (max-height: 46rem) {
             .summary { display: none; }
+            .projects { --chrome: 11rem; }
         }
 
         /* Pouca altura (celular deitado, telas curtas): o resumo sai e o grid
            achata para 4 colunas, senao as linhas estouram a viewport. */
         @media (max-height: 34rem) {
             .summary { display: none; }
-            .projects { grid-template-columns: repeat(4, 1fr); }
+            .projects {
+                grid-template-columns: repeat(4, 1fr);
+                --cols: 4;
+                --rows: 2;
+                --chrome: 10rem;
+            }
         }
 
         /* Curto e largo o bastante: tudo numa fileira so. */
         @media (max-height: 34rem) and (min-width: 40rem) {
-            .projects { grid-template-columns: repeat(8, 1fr); }
+            .projects {
+                grid-template-columns: repeat(8, 1fr);
+                --cols: 8;
+                --rows: 1;
+            }
         }
 
     </style>
 </head>
 <body>
     <main>
-        <header>
-            <h1>Jonas Pacheco</h1>
-            <p class="role">Engenheiro de Software · Sistemas e Segurança</p>
-            <p class="summary">
-                Engenheiro de software e analista de sistemas. Construo aplicações web full stack
-                e sistemas de gestão, do frontend ao deploy — React, Vue, Node.js, Python e PHP,
-                com Docker e CI/CD na infraestrutura.
-            </p>
-            <ul class="social">
-                <li><a href="https://github.com/jonasbrito1" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                <li><a href="https://www.linkedin.com/in/jonaspacheco1/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-            </ul>
+        <header class="identity">
+            <img class="avatar" src="assets/avatar.jpg" alt="Jonas Pacheco"
+                 width="224" height="224" fetchpriority="high" decoding="async">
+            <div class="identity-text">
+                <h1>Jonas Pacheco</h1>
+                <p class="role">Engenheiro de Software · Sistemas e Segurança</p>
+                <p class="summary">
+                    Engenheiro de software e analista de sistemas. Construo aplicações web full stack
+                    e sistemas de gestão, do frontend ao deploy — React, Vue, Node.js, Python e PHP,
+                    com Docker e CI/CD na infraestrutura.
+                </p>
+                <ul class="social">
+                    <li><a href="https://github.com/jonasbrito1" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/in/jonaspacheco1/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                </ul>
+            </div>
         </header>
 
         <ul class="projects">
