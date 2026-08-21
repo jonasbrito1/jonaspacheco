@@ -71,7 +71,7 @@
         main {
             height: 100vh;
             height: 100dvh;
-            max-width: 72rem;
+            max-width: 78rem;
             margin: 0 auto;
             padding: clamp(1rem, 3.5vh, 2.5rem) clamp(1rem, 4vw, 2rem);
             display: flex;
@@ -120,9 +120,10 @@
             flex: 1;
             min-height: 0;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             grid-auto-rows: auto;
-            align-content: start;
+            align-content: center;
+            margin-block: auto;
             gap: clamp(0.5rem, 1.6vh, 1.15rem);
             list-style: none;
             padding: 0;
@@ -192,21 +193,25 @@
         @media (max-width: 44rem) and (min-height: 34rem) {
             .projects {
                 grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(3, 1fr);
             }
         }
 
-        /* Paisagem baixa: 6 colunas numa linha so, para nao espremer a altura. */
+        /* Retrato estreito e nao muito alto: com 4 linhas de projeto o resumo
+           nao cabe junto. Some para o grid inteiro continuar visivel. */
+        @media (max-width: 44rem) and (max-height: 46rem) {
+            .summary { display: none; }
+        }
+
         /* Pouca altura (celular deitado, telas curtas): o resumo sai e o grid
-           achata para 3 colunas, senao as 3 linhas estouram a viewport. */
+           achata para 4 colunas, senao as linhas estouram a viewport. */
         @media (max-height: 34rem) {
             .summary { display: none; }
-            .projects { grid-template-columns: repeat(3, 1fr); }
+            .projects { grid-template-columns: repeat(4, 1fr); }
         }
 
         /* Curto e largo o bastante: tudo numa fileira so. */
         @media (max-height: 34rem) and (min-width: 40rem) {
-            .projects { grid-template-columns: repeat(6, 1fr); }
+            .projects { grid-template-columns: repeat(8, 1fr); }
         }
 
     </style>
@@ -229,39 +234,51 @@
 
         <ul class="projects">
             <li>
-                <a class="card" href="https://healthix.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/healthix.svg" alt="Miniatura do projeto Healthix" width="1200" height="675" loading="lazy" decoding="async">
-                    <span class="name">Healthix</span>
+                <a class="card" href="https://vitaunic.com.br" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/projects/vitaunic.jpg" alt="Captura do site Vitaunic" width="600" height="338" loading="lazy" decoding="async">
+                    <span class="name">Vitaunic</span>
+                </a>
+            </li>
+            <li>
+                <a class="card" href="https://incormanaus.med.br" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/projects/incor-manaus.jpg" alt="Captura do site Incor Manaus" width="600" height="338" loading="lazy" decoding="async">
+                    <span class="name">Incor Manaus</span>
+                </a>
+            </li>
+            <li>
+                <a class="card" href="https://vomariacafe.com.br" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/projects/vo-maria-cafe.jpg" alt="Captura do site Vó Maria Café" width="600" height="338" loading="lazy" decoding="async">
+                    <span class="name">Vó Maria Café</span>
+                </a>
+            </li>
+            <li>
+                <a class="card" href="https://gbcidadenovaam.com.br" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/projects/gb-cidade-nova.jpg" alt="Captura do site Gracie Barra Cidade Nova" width="600" height="338" loading="lazy" decoding="async">
+                    <span class="name">Gracie Barra Cidade Nova</span>
+                </a>
+            </li>
+            <li>
+                <a class="card" href="https://horizontedosaber.com.br" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/projects/horizonte-do-saber.jpg" alt="Captura do site Horizonte do Saber" width="600" height="338" loading="lazy" decoding="async">
+                    <span class="name">Horizonte do Saber</span>
+                </a>
+            </li>
+            <li>
+                <a class="card" href="https://www.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/projects/evolution-engenharia.jpg" alt="Captura do site Evolution Engenharia" width="600" height="338" loading="lazy" decoding="async">
+                    <span class="name">Evolution Engenharia</span>
+                </a>
+            </li>
+            <li>
+                <a class="card" href="https://hidro.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/projects/hidro-evolution.jpg" alt="Captura do site Hidro Evolution" width="600" height="338" loading="lazy" decoding="async">
+                    <span class="name">Hidro Evolution</span>
                 </a>
             </li>
             <li>
                 <a class="card" href="https://bjjmasters.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer">
                     <img src="assets/projects/bjj-masters.svg" alt="Miniatura do projeto BJJ Masters" width="1200" height="675" loading="lazy" decoding="async">
                     <span class="name">BJJ Masters</span>
-                </a>
-            </li>
-            <li>
-                <a class="card" href="https://gbcidadenovaam.com.br" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/gb-cidade-nova.svg" alt="Miniatura do projeto Gracie Barra Cidade Nova" width="1200" height="675" loading="lazy" decoding="async">
-                    <span class="name">Gracie Barra Cidade Nova</span>
-                </a>
-            </li>
-            <li>
-                <a class="card" href="https://horizontedosaber.com.br" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/horizonte-do-saber.svg" alt="Miniatura do projeto Horizonte do Saber" width="1200" height="675" loading="lazy" decoding="async">
-                    <span class="name">Horizonte do Saber</span>
-                </a>
-            </li>
-            <li>
-                <a class="card" href="https://www.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/evolution-engenharia.svg" alt="Miniatura do projeto Evolution Engenharia" width="1200" height="675" loading="lazy" decoding="async">
-                    <span class="name">Evolution Engenharia</span>
-                </a>
-            </li>
-            <li>
-                <a class="card" href="https://hidro.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/hidro-evolution.svg" alt="Miniatura do projeto Hidro Evolution" width="1200" height="675" loading="lazy" decoding="async">
-                    <span class="name">Hidro Evolution</span>
                 </a>
             </li>
         </ul>
