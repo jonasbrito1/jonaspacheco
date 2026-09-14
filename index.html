@@ -216,40 +216,86 @@
         footer a { color: var(--muted); border-bottom: none; }
         footer .sep { padding: 0 0.4rem; opacity: 0.4; }
 
-        /* Retrato estreito: 2 colunas x 3 linhas. */
-        @media (max-width: 44rem) and (min-height: 34rem) {
+        /* ================================================================
+           CELULAR (retrato): a pagina rola naturalmente.
+           Com 11 projetos, forcar tudo numa tela de 390px so produz cards
+           minusculos, nomes truncados e resumo escondido. No mobile, rolar
+           e o comportamento esperado; o que importa e legibilidade e toque.
+           ================================================================ */
+        @media (max-width: 44rem) {
+            html, body {
+                height: auto;
+                overflow: visible;
+                overflow-x: hidden;
+            }
+
+            main {
+                height: auto;
+                min-height: 100dvh;
+                padding: 1.5rem 1.25rem 2rem;
+                gap: 1.75rem;
+            }
+
+            .identity { gap: 0.9rem; }
+            .avatar   { width: 3.25rem; }
+
+            h1    { font-size: 1.35rem; }
+            .role { font-size: 0.8125rem; }
+
+            .summary {
+                display: block;
+                font-size: 0.875rem;
+                line-height: 1.55;
+                margin-top: 0.55rem;
+            }
+
+            /* Alvo de toque confortavel sem alterar o visual do link. */
+            .social { margin-top: 0.5rem; gap: 0 1.5rem; }
+            .social a { display: inline-block; padding: 0.5rem 0; }
+
             .projects {
+                max-width: 100%;
+                flex: none;
                 grid-template-columns: repeat(2, 1fr);
-                --cols: 2;
-                --rows: 6;
+                gap: 1.25rem 0.9rem;
+                align-content: start;
+            }
+
+            .card { gap: 0.5rem; }
+
+            /* Nome completo, quebrando em ate duas linhas. */
+            .card .name {
+                white-space: normal;
+                overflow: visible;
+                text-overflow: clip;
+                font-size: 0.8125rem;
+                line-height: 1.3;
+            }
+
+            footer {
+                margin-top: 0.5rem;
+                padding-top: 1rem;
+                border-top: 1px solid var(--border);
             }
         }
 
-        /* Retrato estreito e nao muito alto: com 4 linhas de projeto o resumo
-           nao cabe junto. Some para o grid inteiro continuar visivel. */
-        @media (max-width: 44rem) and (max-height: 46rem) {
-            .summary { display: none; }
-            .projects { --chrome: 11rem; }
+        /* Celular muito estreito: uma coluna preserva o tamanho do card. */
+        @media (max-width: 22rem) {
+            .projects { grid-template-columns: 1fr; }
         }
 
-        /* Pouca altura (celular deitado, telas curtas): o resumo sai e o grid
-           achata para 4 colunas, senao as linhas estouram a viewport. */
-        @media (max-height: 34rem) {
+        /* ================================================================
+           TELA LARGA E BAIXA (janela de desktop curta, tablet deitado):
+           mantem o layout sem rolagem, achatando o grid. Limitado por
+           largura minima para nunca alcancar celulares em retrato.
+           ================================================================ */
+        @media (min-width: 44rem) and (max-height: 34rem) {
             .summary { display: none; }
-            .projects {
-                grid-template-columns: repeat(4, 1fr);
-                --cols: 4;
-                --rows: 3;
-                --chrome: 10rem;
-            }
-        }
-
-        /* Curto e largo o bastante: tudo numa fileira so. */
-        @media (max-height: 34rem) and (min-width: 40rem) {
             .projects {
                 grid-template-columns: repeat(6, 1fr);
-                --cols: 8;
+                --cols: 6;
                 --rows: 2;
+                --chrome: 10rem;
             }
         }
 
