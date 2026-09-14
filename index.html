@@ -41,6 +41,21 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate" hreflang="pt-BR" href="https://jonaspacheco.cloud/">
+    <link rel="alternate" hreflang="en" href="https://jonaspacheco.cloud/?lang=en">
+
+    <script>
+    // Define o idioma antes do primeiro render para nao piscar em PT.
+    // Prioridade: ?lang= na URL > escolha salva > idioma do navegador > PT.
+    (function () {
+        var q = new URLSearchParams(location.search).get("lang"), s = null;
+        try { s = localStorage.getItem("lang"); } catch (e) {}
+        var nav = (navigator.language || "").toLowerCase().indexOf("en") === 0 ? "en" : "pt";
+        var l = (q === "en" || q === "pt") ? q : (s === "en" || s === "pt") ? s : nav;
+        document.documentElement.setAttribute("data-lang", l);
+        document.documentElement.lang = l === "en" ? "en" : "pt-BR";
+    })();
+    </script>
 
     <style>
         :root {
@@ -99,6 +114,37 @@
         }
 
         .identity-text { min-width: 0; }
+
+        /* Seletor de idioma: encostado a direita do cabecalho. */
+        .lang {
+            margin-left: auto;
+            align-self: flex-start;
+            display: flex;
+            gap: 0.15rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .lang button {
+            background: none;
+            border: 1px solid transparent;
+            border-radius: 0.3rem;
+            color: var(--muted);
+            font: inherit;
+            padding: 0.3rem 0.5rem;
+            cursor: pointer;
+            transition: color 0.15s ease, border-color 0.15s ease;
+        }
+
+        .lang button[aria-pressed="true"] {
+            color: var(--text);
+            border-color: var(--border);
+            cursor: default;
+        }
+
+        .lang button:hover,
+        .lang button:focus-visible { color: var(--accent); outline: none; }
+        .lang button:focus-visible { border-color: var(--accent); }
 
         .identity-text > :first-child { margin-top: 0; }
 
@@ -252,6 +298,7 @@
             /* Alvo de toque confortavel sem alterar o visual do link. */
             .social { margin-top: 0.5rem; gap: 0 1.5rem; }
             .social a { display: inline-block; padding: 0.5rem 0; }
+            .lang button { padding: 0.55rem 0.65rem; font-size: 0.8125rem; }
 
             .projects {
                 max-width: 100%;
@@ -308,8 +355,8 @@
                  width="224" height="224" fetchpriority="high" decoding="async">
             <div class="identity-text">
                 <h1>Jonas Pacheco</h1>
-                <p class="role">Engenheiro de Software · Sistemas e Segurança</p>
-                <p class="summary">
+                <p class="role" data-i18n="role">Engenheiro de Software · Sistemas e Segurança</p>
+                <p class="summary" data-i18n="summary">
                     Engenheiro de software e analista de sistemas. Construo aplicações web full stack
                     e sistemas de gestão, do frontend ao deploy — React, Vue, Node.js, Python e PHP,
                     com Docker e CI/CD na infraestrutura.
@@ -319,82 +366,131 @@
                     <li><a href="https://www.linkedin.com/in/jonaspacheco1/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
                 </ul>
             </div>
+            <nav class="lang" aria-label="Idioma" data-i18n-aria="lang">
+                <button type="button" data-lang="pt" aria-pressed="true" lang="pt-BR">PT</button>
+                <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
+            </nav>
         </header>
 
         <ul class="projects">
             <li>
                 <a class="card" href="https://vitaunic.com.br" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/vitaunic.jpg" alt="Captura do site Vitaunic" width="600" height="338" loading="lazy" decoding="async">
+                    <img src="assets/projects/vitaunic.jpg" alt="Captura do site Vitaunic" data-alt-name="Vitaunic" width="600" height="338" loading="lazy" decoding="async">
                     <span class="name">Vitaunic</span>
                 </a>
             </li>
             <li>
                 <a class="card" href="https://incormanaus.med.br" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/incor-manaus.jpg" alt="Captura do site Incor Manaus" width="600" height="338" loading="lazy" decoding="async">
+                    <img src="assets/projects/incor-manaus.jpg" alt="Captura do site Incor Manaus" data-alt-name="Incor Manaus" width="600" height="338" loading="lazy" decoding="async">
                     <span class="name">Incor Manaus</span>
                 </a>
             </li>
             <li>
                 <a class="card" href="https://vomariacafe.com.br" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/vo-maria-cafe.jpg" alt="Captura do site Vó Maria Café" width="600" height="338" loading="lazy" decoding="async">
+                    <img src="assets/projects/vo-maria-cafe.jpg" alt="Captura do site Vó Maria Café" data-alt-name="Vó Maria Café" width="600" height="338" loading="lazy" decoding="async">
                     <span class="name">Vó Maria Café</span>
                 </a>
             </li>
             <li>
                 <a class="card" href="https://gbcidadenovaam.com.br" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/gb-cidade-nova.jpg" alt="Captura do site Gracie Barra Cidade Nova" width="600" height="338" loading="lazy" decoding="async">
+                    <img src="assets/projects/gb-cidade-nova.jpg" alt="Captura do site Gracie Barra Cidade Nova" data-alt-name="Gracie Barra Cidade Nova" width="600" height="338" loading="lazy" decoding="async">
                     <span class="name">Gracie Barra Cidade Nova</span>
                 </a>
             </li>
             <li>
                 <a class="card" href="https://norteartec.com.br" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/nortear.jpg" alt="Captura do site Nortear" width="600" height="338" loading="lazy" decoding="async">
+                    <img src="assets/projects/nortear.jpg" alt="Captura do site Nortear" data-alt-name="Nortear" width="600" height="338" loading="lazy" decoding="async">
                     <span class="name">Nortear</span>
                 </a>
             </li>
             <li>
                 <a class="card" href="https://ponto.norteartec.com.br" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/nortear-ponto.jpg" alt="Captura do site Nortear Ponto" width="600" height="338" loading="lazy" decoding="async">
+                    <img src="assets/projects/nortear-ponto.jpg" alt="Captura do site Nortear Ponto" data-alt-name="Nortear Ponto" width="600" height="338" loading="lazy" decoding="async">
                     <span class="name">Nortear Ponto</span>
                 </a>
             </li>
             <li>
                 <a class="card" href="https://horizontedosaber.com.br" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/horizonte-do-saber.jpg" alt="Captura do site Horizonte do Saber" width="600" height="338" loading="lazy" decoding="async">
+                    <img src="assets/projects/horizonte-do-saber.jpg" alt="Captura do site Horizonte do Saber" data-alt-name="Horizonte do Saber" width="600" height="338" loading="lazy" decoding="async">
                     <span class="name">Horizonte do Saber</span>
                 </a>
             </li>
             <li>
                 <a class="card" href="https://horizonteedu.com.br" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/horizonte-edu.jpg" alt="Captura do site Horizonte Educação" width="600" height="338" loading="lazy" decoding="async">
+                    <img src="assets/projects/horizonte-edu.jpg" alt="Captura do site Horizonte Educação" data-alt-name="Horizonte Educação" width="600" height="338" loading="lazy" decoding="async">
                     <span class="name">Horizonte Educação</span>
                 </a>
             </li>
             <li>
                 <a class="card" href="https://www.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/evolution-engenharia.jpg" alt="Captura do site Evolution Engenharia" width="600" height="338" loading="lazy" decoding="async">
+                    <img src="assets/projects/evolution-engenharia.jpg" alt="Captura do site Evolution Engenharia" data-alt-name="Evolution Engenharia" width="600" height="338" loading="lazy" decoding="async">
                     <span class="name">Evolution Engenharia</span>
                 </a>
             </li>
             <li>
                 <a class="card" href="https://hidro.evolutionengenharia.com.br" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/hidro-evolution.jpg" alt="Captura do site Hidro Evolution" width="600" height="338" loading="lazy" decoding="async">
+                    <img src="assets/projects/hidro-evolution.jpg" alt="Captura do site Hidro Evolution" data-alt-name="Hidro Evolution" width="600" height="338" loading="lazy" decoding="async">
                     <span class="name">Hidro Evolution</span>
                 </a>
             </li>
             <li>
                 <a class="card" href="https://wrconfeccoes.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/wr-confeccoes.jpg" alt="Captura do site WR Confecções" width="600" height="338" loading="lazy" decoding="async">
+                    <img src="assets/projects/wr-confeccoes.jpg" alt="Captura do site WR Confecções" data-alt-name="WR Confecções" width="600" height="338" loading="lazy" decoding="async">
                     <span class="name">WR Confecções</span>
                 </a>
             </li>
         </ul>
 
         <footer>
-            <a href="privacy-policy.html">Privacidade</a>
+            <a href="privacy-policy.html" data-i18n="privacy">Privacidade</a>
             <span class="sep">·</span>
-            <a href="terms-of-service.html">Termos</a>
+            <a href="terms-of-service.html" data-i18n="terms">Termos</a>
         </footer>
     </main>
+
+    <script>
+    (function () {
+        var T = {
+            pt: {
+                title: "Jonas Pacheco | Engenheiro de Software",
+                role: "Engenheiro de Software · Sistemas e Segurança",
+                summary: "Engenheiro de software e analista de sistemas. Construo aplicações web full stack e sistemas de gestão, do frontend ao deploy — React, Vue, Node.js, Python e PHP, com Docker e CI/CD na infraestrutura.",
+                privacy: "Privacidade", terms: "Termos",
+                alt: "Captura do site ", lang: "Idioma"
+            },
+            en: {
+                title: "Jonas Pacheco | Software Engineer",
+                role: "Software Engineer · Systems & Security",
+                summary: "Software engineer and systems analyst. I build full-stack web applications and management systems, from frontend to deployment — React, Vue, Node.js, Python and PHP, with Docker and CI/CD on the infrastructure side.",
+                privacy: "Privacy", terms: "Terms",
+                alt: "Screenshot of ", lang: "Language"
+            }
+        };
+        var root = document.documentElement, btns = document.querySelectorAll(".lang button");
+
+        function apply(l) {
+            var t = T[l] || T.pt;
+            root.setAttribute("data-lang", l);
+            root.lang = l === "en" ? "en" : "pt-BR";
+            document.title = t.title;
+            document.querySelectorAll("[data-i18n]").forEach(function (e) {
+                var v = t[e.getAttribute("data-i18n")]; if (v != null) e.textContent = v;
+            });
+            document.querySelectorAll("[data-i18n-aria]").forEach(function (e) {
+                var v = t[e.getAttribute("data-i18n-aria")]; if (v != null) e.setAttribute("aria-label", v);
+            });
+            document.querySelectorAll("[data-alt-name]").forEach(function (e) {
+                e.alt = t.alt + e.getAttribute("data-alt-name");
+            });
+            btns.forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-lang") === l)); });
+            try { localStorage.setItem("lang", l); } catch (e) {}
+        }
+
+        apply(root.getAttribute("data-lang") || "pt");
+        btns.forEach(function (b) {
+            b.addEventListener("click", function () { apply(b.getAttribute("data-lang")); });
+        });
+    })();
+    </script>
 </body>
 </html>
