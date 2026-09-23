@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Jonas Pacheco | Engenheiro de Software</title>
-    <meta name="description" content="Jonas Pacheco — Engenheiro de software, desenvolvedor web full stack e analista de sistemas. Sistemas, segurança e automação, do frontend ao deploy.">
+    <title>Jonas Pacheco | Engenheiro de Software e Cibersegurança</title>
+    <meta name="description" content="Jonas Pacheco — Engenheiro de software e analista de sistemas com foco em cibersegurança: security by design, privacy by design (LGPD), Wazuh, Zabbix e SIEM. Aplicações web full stack, do frontend ao deploy.">
     <meta name="author" content="Jonas Pacheco">
     <link rel="canonical" href="https://jonaspacheco.cloud/">
 
     <meta property="og:type"        content="profile">
     <meta property="og:url"         content="https://jonaspacheco.cloud/">
-    <meta property="og:title"       content="Jonas Pacheco | Engenheiro de Software">
-    <meta property="og:description" content="Sistemas, segurança e automação. Aplicações web full stack, do frontend ao deploy.">
+    <meta property="og:title"       content="Jonas Pacheco | Engenheiro de Software e Cibersegurança">
+    <meta property="og:description" content="Security by design, privacy by design, Wazuh, Zabbix e SIEM. Aplicações web full stack, do frontend ao deploy.">
     <meta property="og:image"       content="https://jonaspacheco.cloud/jonas-pacheco-logo.png">
     <meta property="og:image:width"  content="1134">
     <meta property="og:image:height" content="972">
@@ -20,8 +20,8 @@
     <meta property="og:site_name"   content="Jonas Pacheco">
 
     <meta name="twitter:card"        content="summary">
-    <meta name="twitter:title"       content="Jonas Pacheco | Engenheiro de Software">
-    <meta name="twitter:description" content="Sistemas, segurança e automação. Aplicações web full stack, do frontend ao deploy.">
+    <meta name="twitter:title"       content="Jonas Pacheco | Engenheiro de Software e Cibersegurança">
+    <meta name="twitter:description" content="Security by design, privacy by design, Wazuh, Zabbix e SIEM. Aplicações web full stack, do frontend ao deploy.">
     <meta name="twitter:image"       content="https://jonaspacheco.cloud/jonas-pacheco-logo.png">
 
     <script type="application/ld+json">
@@ -31,8 +31,9 @@
       "name": "Jonas Pacheco",
       "url": "https://jonaspacheco.cloud",
       "image": "https://jonaspacheco.cloud/jonas-pacheco-logo.png",
-      "jobTitle": ["Engenheiro de Software", "Desenvolvedor Web Full Stack", "Analista de Sistemas"],
-      "description": "Engenheiro de software e analista de sistemas, com foco em desenvolvimento web full stack, sistemas e segurança.",
+      "jobTitle": ["Engenheiro de Software", "Analista de Sistemas", "Especialista em Cibersegurança"],
+      "description": "Engenheiro de software e analista de sistemas, com foco em cibersegurança, security by design, privacy by design e desenvolvimento web full stack.",
+      "knowsAbout": ["Security by Design", "Privacy by Design", "LGPD", "Wazuh", "Zabbix", "SIEM", "Monitoramento de infraestrutura", "Resposta a incidentes", "Hardening", "Desenvolvimento web full stack"],
       "sameAs": [
         "https://github.com/jonasbrito1",
         "https://www.linkedin.com/in/jonaspacheco1/"
@@ -178,6 +179,34 @@
             font-size: clamp(0.75rem, 0.7rem + 0.3vw, 0.875rem);
         }
 
+        /* Competencias: linha compacta de etiquetas abaixo do resumo. */
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            padding: 0;
+            margin: 0.6rem 0 0;
+            list-style: none;
+        }
+
+        .skills li {
+            font-size: clamp(0.6875rem, 0.65rem + 0.15vw, 0.75rem);
+            color: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 0.1rem 0.6rem;
+            white-space: nowrap;
+        }
+
+        .skills li.sec { color: var(--text); border-color: var(--accent); }
+
+        /* Em telas de altura media, so as etiquetas de seguranca (uma linha),
+           para o cabecalho nao roubar altura do grid. A stack volta em telas
+           altas e no celular, onde a pagina rola. */
+        @media (min-width: 44rem) and (max-height: 60rem) {
+            .skills li:not(.sec) { display: none; }
+        }
+
         /* O grid ocupa a altura restante e divide entre as linhas.
            min-height:0 permite que ele encolha abaixo do conteudo. */
         .projects {
@@ -186,7 +215,7 @@
                derivada disso impede o grid de estourar a viewport. */
             --cols: 4;
             --rows: 3;
-            --chrome: 16rem;
+            --chrome: 22rem;
             width: 100%;
             max-width: min(100%, calc(((100dvh - var(--chrome)) / var(--rows) - 1.5rem) * 1.7778 * var(--cols)));
             /* linhas "auto" deixam a miniatura assumir sua proporcao natural
@@ -296,6 +325,9 @@
             }
 
             /* Alvo de toque confortavel sem alterar o visual do link. */
+            .skills { margin-top: 0.75rem; }
+            .skills li { font-size: 0.75rem; padding: 0.2rem 0.65rem; }
+
             .social { margin-top: 0.5rem; gap: 0 1.5rem; }
             .social a { display: inline-block; padding: 0.5rem 0; }
             .lang button { padding: 0.55rem 0.65rem; font-size: 0.8125rem; }
@@ -336,8 +368,8 @@
            mantem o layout sem rolagem, achatando o grid. Limitado por
            largura minima para nunca alcancar celulares em retrato.
            ================================================================ */
-        @media (min-width: 44rem) and (max-height: 34rem) {
-            .summary { display: none; }
+        @media (min-width: 44rem) and (max-height: 38rem) {
+            .summary, .skills { display: none; }
             .projects {
                 grid-template-columns: repeat(6, 1fr);
                 --cols: 6;
@@ -355,12 +387,23 @@
                  width="224" height="224" fetchpriority="high" decoding="async">
             <div class="identity-text">
                 <h1>Jonas Pacheco</h1>
-                <p class="role" data-i18n="role">Engenheiro de Software · Sistemas e Segurança</p>
+                <p class="role" data-i18n="role">Engenheiro de Software · Cibersegurança e Sistemas</p>
                 <p class="summary" data-i18n="summary">
-                    Engenheiro de software e analista de sistemas. Construo aplicações web full stack
-                    e sistemas de gestão, do frontend ao deploy — React, Vue, Node.js, Python e PHP,
-                    com Docker e CI/CD na infraestrutura.
+                    Engenheiro de software e analista de sistemas com foco em cibersegurança. Construo
+                    aplicações web e sistemas de gestão com security by design e privacy by design, e
+                    estruturo ambientes de monitoramento e detecção com Wazuh, Zabbix e SIEM —
+                    do código à operação.
                 </p>
+                <ul class="skills" aria-label="Competências" data-i18n-aria="skills">
+                    <li class="sec">Security by Design</li>
+                    <li class="sec">Privacy by Design · LGPD</li>
+                    <li class="sec">Wazuh SIEM/XDR</li>
+                    <li class="sec">Zabbix</li>
+                    <li class="sec" data-i18n="skIr">Detecção e resposta a incidentes</li>
+                    <li>Hardening</li>
+                    <li>React · Node.js · Python · PHP</li>
+                    <li>Docker · CI/CD</li>
+                </ul>
                 <ul class="social">
                     <li><a href="https://github.com/jonasbrito1" target="_blank" rel="noopener noreferrer">GitHub</a></li>
                     <li><a href="https://www.linkedin.com/in/jonaspacheco1/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
@@ -410,6 +453,12 @@
                 </a>
             </li>
             <li>
+                <a class="card" href="https://nortrh.norteartec.com.br" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/projects/nortrh.jpg" alt="Captura do site NortRH" data-alt-name="NortRH" width="600" height="338" loading="lazy" decoding="async">
+                    <span class="name" data-i18n="nortrh">NortRH · Ponto e RH</span>
+                </a>
+            </li>
+            <li>
                 <a class="card" href="https://horizontedosaber.com.br" target="_blank" rel="noopener noreferrer">
                     <img src="assets/projects/horizonte-do-saber.jpg" alt="Captura do site Horizonte do Saber" data-alt-name="Horizonte do Saber" width="600" height="338" loading="lazy" decoding="async">
                     <span class="name">Horizonte do Saber</span>
@@ -452,16 +501,20 @@
     (function () {
         var T = {
             pt: {
-                title: "Jonas Pacheco | Engenheiro de Software",
-                role: "Engenheiro de Software · Sistemas e Segurança",
-                summary: "Engenheiro de software e analista de sistemas. Construo aplicações web full stack e sistemas de gestão, do frontend ao deploy — React, Vue, Node.js, Python e PHP, com Docker e CI/CD na infraestrutura.",
+                title: "Jonas Pacheco | Engenheiro de Software e Cibersegurança",
+                role: "Engenheiro de Software · Cibersegurança e Sistemas",
+                summary: "Engenheiro de software e analista de sistemas com foco em cibersegurança. Construo aplicações web e sistemas de gestão com security by design e privacy by design, e estruturo ambientes de monitoramento e detecção com Wazuh, Zabbix e SIEM — do código à operação.",
+                skills: "Competências", skIr: "Detecção e resposta a incidentes",
+                nortrh: "NortRH · Ponto e RH",
                 privacy: "Privacidade", terms: "Termos",
                 alt: "Captura do site ", lang: "Idioma"
             },
             en: {
-                title: "Jonas Pacheco | Software Engineer",
-                role: "Software Engineer · Systems & Security",
-                summary: "Software engineer and systems analyst. I build full-stack web applications and management systems, from frontend to deployment — React, Vue, Node.js, Python and PHP, with Docker and CI/CD on the infrastructure side.",
+                title: "Jonas Pacheco | Software Engineer & Cybersecurity",
+                role: "Software Engineer · Cybersecurity & Systems",
+                summary: "Software engineer and systems analyst focused on cybersecurity. I build web applications and management systems following security by design and privacy by design, and set up monitoring and detection environments with Wazuh, Zabbix and SIEM tooling — from code to operations.",
+                skills: "Skills", skIr: "Incident detection & response",
+                nortrh: "NortRH · Time & HR",
                 privacy: "Privacy", terms: "Terms",
                 alt: "Screenshot of ", lang: "Language"
             }
