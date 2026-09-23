@@ -2,17 +2,18 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#020c1b">
 
     <title>Jonas Pacheco | Engenheiro de Software e Cibersegurança</title>
-    <meta name="description" content="Jonas Pacheco — Engenheiro de software e analista de sistemas com foco em cibersegurança: security by design, privacy by design (LGPD), Wazuh, Zabbix e SIEM. Aplicações web full stack, do frontend ao deploy.">
+    <meta name="description" content="Jonas Pacheco — Engenheiro de software e analista de sistemas. Desenvolvimento full stack, infraestrutura e cibersegurança: security by design, privacy by design (LGPD), monitoramento e resposta a incidentes com Wazuh, Zabbix e SIEM.">
     <meta name="author" content="Jonas Pacheco">
     <link rel="canonical" href="https://jonaspacheco.cloud/">
 
     <meta property="og:type"        content="profile">
     <meta property="og:url"         content="https://jonaspacheco.cloud/">
     <meta property="og:title"       content="Jonas Pacheco | Engenheiro de Software e Cibersegurança">
-    <meta property="og:description" content="Security by design, privacy by design, Wazuh, Zabbix e SIEM. Aplicações web full stack, do frontend ao deploy.">
+    <meta property="og:description" content="Desenvolvimento full stack, infraestrutura e cibersegurança. Security by design, privacy by design, Wazuh, Zabbix e SIEM.">
     <meta property="og:image"       content="https://jonaspacheco.cloud/jonas-pacheco-logo.png">
     <meta property="og:image:width"  content="1134">
     <meta property="og:image:height" content="972">
@@ -21,7 +22,7 @@
 
     <meta name="twitter:card"        content="summary">
     <meta name="twitter:title"       content="Jonas Pacheco | Engenheiro de Software e Cibersegurança">
-    <meta name="twitter:description" content="Security by design, privacy by design, Wazuh, Zabbix e SIEM. Aplicações web full stack, do frontend ao deploy.">
+    <meta name="twitter:description" content="Desenvolvimento full stack, infraestrutura e cibersegurança. Security by design, privacy by design, Wazuh, Zabbix e SIEM.">
     <meta name="twitter:image"       content="https://jonaspacheco.cloud/jonas-pacheco-logo.png">
 
     <script type="application/ld+json">
@@ -77,6 +78,9 @@
         }
 
         body {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
             background: var(--bg);
             color: var(--text);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -166,8 +170,13 @@
             color: var(--muted);
             font-size: clamp(0.75rem, 0.7rem + 0.35vw, 0.9375rem);
             margin: 0.6rem 0 0;
-            max-width: 44rem;
+            max-width: 50rem;
+            text-wrap: pretty;
         }
+
+        /* Primeiro paragrafo: apresentacao, um tom acima do segundo. */
+        .summary.lead { color: var(--text); opacity: 0.92; }
+        .summary + .summary { margin-top: 0.35rem; }
 
         .social {
             display: flex;
@@ -203,30 +212,34 @@
         /* Em telas de altura media, so as etiquetas de seguranca (uma linha),
            para o cabecalho nao roubar altura do grid. A stack volta em telas
            altas e no celular, onde a pagina rola. */
-        @media (min-width: 44rem) and (max-height: 60rem) {
+        @media (min-width: 60.01rem) and (max-height: 60rem) {
             .skills li:not(.sec) { display: none; }
         }
 
-        /* O grid ocupa a altura restante e divide entre as linhas.
-           min-height:0 permite que ele encolha abaixo do conteudo. */
-        .projects {
-            /* --cols/--rows descrevem o arranjo atual; --chrome estima o que
-               cabecalho, rodape e espacamentos consomem. A largura maxima
-               derivada disso impede o grid de estourar a viewport. */
-            --cols: 4;
-            --rows: 3;
-            --chrome: 22rem;
-            width: 100%;
-            max-width: min(100%, calc(((100dvh - var(--chrome)) / var(--rows) - 1.5rem) * 1.7778 * var(--cols)));
-            /* linhas "auto" deixam a miniatura assumir sua proporcao natural
-               16:9; align-content centra o bloco na altura que sobrar. */
+        /* O invólucro ocupa a altura restante e vira um container de
+           tamanho: o grid le a altura real disponivel (cqh) em vez de
+           estimar quanto cabecalho e rodape consomem. */
+        .projects-wrap {
             flex: 1;
             min-height: 0;
+            container-type: size;
+            display: flex;
+            align-items: center;
+        }
+
+        .projects {
+            /* Largura maxima que faz --rows linhas de miniaturas 16:9 (mais
+               o nome de cada card) caberem na altura do container. */
+            --cols: 4;
+            --rows: 3;
+            --g: clamp(0.5rem, 1.6vh, 1.15rem);
+            --name: 1.75rem;
+            width: 100%;
+            max-width: calc(((100cqh - (var(--rows) - 1) * var(--g)) / var(--rows) - var(--name))
+                            * 1.7778 * var(--cols) + (var(--cols) - 1) * var(--g));
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-auto-rows: auto;
-            align-content: center;
-            gap: clamp(0.5rem, 1.6vh, 1.15rem);
+            grid-template-columns: repeat(var(--cols), 1fr);
+            gap: var(--g);
             list-style: none;
             padding: 0;
             margin: 0 auto;
@@ -292,12 +305,13 @@
         footer .sep { padding: 0 0.4rem; opacity: 0.4; }
 
         /* ================================================================
-           CELULAR (retrato): a pagina rola naturalmente.
-           Com 11 projetos, forcar tudo numa tela de 390px so produz cards
-           minusculos, nomes truncados e resumo escondido. No mobile, rolar
-           e o comportamento esperado; o que importa e legibilidade e toque.
+           CELULAR E TABLET (ate 60rem): a pagina rola naturalmente.
+           Abaixo dessa largura, forcar os 11 projetos numa tela so produz
+           cards minusculos e esconde o resumo. Aqui o que importa e
+           legibilidade, toque confortavel e respeito as areas seguras
+           (notch, barra de gestos).
            ================================================================ */
-        @media (max-width: 44rem) {
+        @media (max-width: 60rem) {
             html, body {
                 height: auto;
                 overflow: visible;
@@ -307,74 +321,108 @@
             main {
                 height: auto;
                 min-height: 100dvh;
-                padding: 1.5rem 1.25rem 2rem;
-                gap: 1.75rem;
+                padding:
+                    max(1.5rem, env(safe-area-inset-top))
+                    max(1.25rem, env(safe-area-inset-right))
+                    max(2rem, env(safe-area-inset-bottom))
+                    max(1.25rem, env(safe-area-inset-left));
+                gap: 2rem;
             }
 
-            .identity { gap: 0.9rem; }
-            .avatar   { width: 3.25rem; }
-
-            h1    { font-size: 1.35rem; }
-            .role { font-size: 0.8125rem; }
+            /* Cabecalho em grade: foto, nome e idioma na primeira faixa;
+               resumo, competencias e links ocupam a largura toda abaixo.
+               display:contents solta os filhos de .identity-text na grade. */
+            .identity {
+                display: grid;
+                grid-template-columns: auto 1fr auto;
+                column-gap: 0.9rem;
+                row-gap: 0;
+                align-items: center;
+            }
+            .identity-text { display: contents; }
+            .avatar  { grid-column: 1; grid-row: 1 / span 2; width: 3.5rem; }
+            h1       { grid-column: 2; grid-row: 1; align-self: end; font-size: 1.35rem; line-height: 1.2; }
+            .role    { grid-column: 2 / -1; grid-row: 2; align-self: start; font-size: 0.8125rem; line-height: 1.35; margin-top: 0.2rem; }
+            .lang    { grid-column: 3; grid-row: 1; align-self: start; margin: 0; }
+            .summary, .skills, .social { grid-column: 1 / -1; }
 
             .summary {
-                display: block;
-                font-size: 0.875rem;
-                line-height: 1.55;
-                margin-top: 0.55rem;
+                max-width: 40rem;
+                font-size: 0.9375rem;
+                line-height: 1.6;
             }
+            .summary.lead { margin-top: 1.1rem; }
+            .summary + .summary { margin-top: 0.6rem; }
 
-            /* Alvo de toque confortavel sem alterar o visual do link. */
-            .skills { margin-top: 0.75rem; }
-            .skills li { font-size: 0.75rem; padding: 0.2rem 0.65rem; }
+            .skills { margin-top: 1rem; gap: 0.45rem; }
+            .skills li { font-size: 0.75rem; padding: 0.25rem 0.7rem; }
 
-            .social { margin-top: 0.5rem; gap: 0 1.5rem; }
-            .social a { display: inline-block; padding: 0.5rem 0; }
-            .lang button { padding: 0.55rem 0.65rem; font-size: 0.8125rem; }
+            /* Alvo de toque confortavel (>= 44px) sem alterar o visual. */
+            .social { margin-top: 0.75rem; gap: 0 1.5rem; }
+            .social a { display: inline-block; padding: 0.6rem 0; }
+            .lang button { min-width: 2.75rem; min-height: 2.5rem; padding: 0.4rem 0.6rem; font-size: 0.8125rem; }
+
+            .projects-wrap { flex: none; container-type: normal; display: block; }
 
             .projects {
+                --cols: 3;
                 max-width: 100%;
-                flex: none;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1.25rem 0.9rem;
-                align-content: start;
+                gap: 1.5rem 1rem;
             }
 
-            .card { gap: 0.5rem; }
+            .card { gap: 0.55rem; }
+            .card img {
+                border-radius: 0.6rem;
+                transition: border-color 0.15s ease, transform 0.15s ease;
+            }
+            .card:active img { border-color: var(--accent); transform: scale(0.985); }
 
             /* Nome completo, quebrando em ate duas linhas. */
             .card .name {
                 white-space: normal;
                 overflow: visible;
                 text-overflow: clip;
-                font-size: 0.8125rem;
+                font-size: 0.875rem;
                 line-height: 1.3;
             }
 
             footer {
                 margin-top: 0.5rem;
-                padding-top: 1rem;
+                padding-top: 1.1rem;
                 border-top: 1px solid var(--border);
+                font-size: 0.8125rem;
             }
+            footer a { display: inline-block; padding: 0.4rem 0; }
+        }
+
+        /* Celular em retrato: duas colunas. */
+        @media (max-width: 36rem) {
+            .projects { --cols: 2; gap: 1.25rem 0.85rem; }
+            .card .name { font-size: 0.8125rem; }
         }
 
         /* Celular muito estreito: uma coluna preserva o tamanho do card. */
         @media (max-width: 22rem) {
-            .projects { grid-template-columns: 1fr; }
+            .projects { --cols: 1; }
+            .avatar { width: 3rem; }
+            h1 { font-size: 1.2rem; }
+        }
+
+        /* Sem animacao para quem pediu movimento reduzido. */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { transition: none !important; }
         }
 
         /* ================================================================
            TELA LARGA E BAIXA (janela de desktop curta, tablet deitado):
            mantem o layout sem rolagem, achatando o grid. Limitado por
-           largura minima para nunca alcancar celulares em retrato.
+           largura minima para nunca alcancar celulares nem tablets.
            ================================================================ */
-        @media (min-width: 44rem) and (max-height: 38rem) {
+        @media (min-width: 60.01rem) and (max-height: 38rem) {
             .summary, .skills { display: none; }
             .projects {
-                grid-template-columns: repeat(6, 1fr);
                 --cols: 6;
                 --rows: 2;
-                --chrome: 10rem;
             }
         }
 
@@ -387,12 +435,16 @@
                  width="224" height="224" fetchpriority="high" decoding="async">
             <div class="identity-text">
                 <h1>Jonas Pacheco</h1>
-                <p class="role" data-i18n="role">Engenheiro de Software · Cibersegurança e Sistemas</p>
-                <p class="summary" data-i18n="summary">
-                    Engenheiro de software e analista de sistemas com foco em cibersegurança. Construo
-                    aplicações web e sistemas de gestão com security by design e privacy by design, e
-                    estruturo ambientes de monitoramento e detecção com Wazuh, Zabbix e SIEM —
-                    do código à operação.
+                <p class="role" data-i18n="role">Engenheiro de Software · Cibersegurança · Infraestrutura</p>
+                <p class="summary lead" data-i18n="summary">
+                    Engenheiro de software e analista de sistemas, com atuação em desenvolvimento
+                    full stack, infraestrutura e cibersegurança.
+                </p>
+                <p class="summary" data-i18n="summary2">
+                    Projeto e entrego aplicações web e sistemas de gestão com segurança e privacidade
+                    desde a concepção (security by design e privacy by design, em conformidade com a
+                    LGPD), e estruturo ambientes de monitoramento contínuo, detecção e resposta a
+                    incidentes com Wazuh, Zabbix e soluções SIEM.
                 </p>
                 <ul class="skills" aria-label="Competências" data-i18n-aria="skills">
                     <li class="sec">Security by Design</li>
@@ -415,6 +467,7 @@
             </nav>
         </header>
 
+        <div class="projects-wrap">
         <ul class="projects">
             <li>
                 <a class="card" href="https://vitaunic.com.br" target="_blank" rel="noopener noreferrer">
@@ -444,12 +497,6 @@
                 <a class="card" href="https://norteartec.com.br" target="_blank" rel="noopener noreferrer">
                     <img src="assets/projects/nortear.jpg" alt="Captura do site Nortear" data-alt-name="Nortear" width="600" height="338" loading="lazy" decoding="async">
                     <span class="name">Nortear</span>
-                </a>
-            </li>
-            <li>
-                <a class="card" href="https://ponto.norteartec.com.br" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/projects/nortear-ponto.jpg" alt="Captura do site Nortear Ponto" data-alt-name="Nortear Ponto" width="600" height="338" loading="lazy" decoding="async">
-                    <span class="name">Nortear Ponto</span>
                 </a>
             </li>
             <li>
@@ -489,6 +536,7 @@
                 </a>
             </li>
         </ul>
+        </div>
 
         <footer>
             <a href="privacy-policy.html" data-i18n="privacy">Privacidade</a>
@@ -502,8 +550,9 @@
         var T = {
             pt: {
                 title: "Jonas Pacheco | Engenheiro de Software e Cibersegurança",
-                role: "Engenheiro de Software · Cibersegurança e Sistemas",
-                summary: "Engenheiro de software e analista de sistemas com foco em cibersegurança. Construo aplicações web e sistemas de gestão com security by design e privacy by design, e estruturo ambientes de monitoramento e detecção com Wazuh, Zabbix e SIEM — do código à operação.",
+                role: "Engenheiro de Software · Cibersegurança · Infraestrutura",
+                summary: "Engenheiro de software e analista de sistemas, com atuação em desenvolvimento full stack, infraestrutura e cibersegurança.",
+                summary2: "Projeto e entrego aplicações web e sistemas de gestão com segurança e privacidade desde a concepção (security by design e privacy by design, em conformidade com a LGPD), e estruturo ambientes de monitoramento contínuo, detecção e resposta a incidentes com Wazuh, Zabbix e soluções SIEM.",
                 skills: "Competências", skIr: "Detecção e resposta a incidentes",
                 nortrh: "NortRH · Ponto e RH",
                 privacy: "Privacidade", terms: "Termos",
@@ -511,8 +560,9 @@
             },
             en: {
                 title: "Jonas Pacheco | Software Engineer & Cybersecurity",
-                role: "Software Engineer · Cybersecurity & Systems",
-                summary: "Software engineer and systems analyst focused on cybersecurity. I build web applications and management systems following security by design and privacy by design, and set up monitoring and detection environments with Wazuh, Zabbix and SIEM tooling — from code to operations.",
+                role: "Software Engineer · Cybersecurity · Infrastructure",
+                summary: "Software engineer and systems analyst working across full-stack development, infrastructure and cybersecurity.",
+                summary2: "I design and deliver web applications and management systems with security and privacy built in from the start (security by design and privacy by design, LGPD-compliant), and set up continuous monitoring, threat detection and incident response environments with Wazuh, Zabbix and SIEM solutions.",
                 skills: "Skills", skIr: "Incident detection & response",
                 nortrh: "NortRH · Time & HR",
                 privacy: "Privacy", terms: "Terms",
