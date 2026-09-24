@@ -595,5 +595,33 @@
         });
     })();
     </script>
+
+    <script>
+    // Medicao de audiencia propria, sem cookies e sem terceiros. Envia so o
+    // essencial (pagina, origem, idioma, largura da tela, cliques em links
+    // externos e tempo na pagina). Quem ativa "nao rastrear" no navegador
+    // (Global Privacy Control ou Do Not Track) nao e medido.
+    (function () {
+        var E = "https://hub.jonaspacheco.cloud/api/analytics/collect";
+        if (location.protocol !== "https:" || navigator.globalPrivacyControl || navigator.doNotTrack === "1") return;
+        var t0 = Date.now(), left = false;
+        function send(o) {
+            o.p = location.pathname; o.l = navigator.language; o.w = screen.width;
+            var b = JSON.stringify(o);
+            try {
+                if (!(navigator.sendBeacon && navigator.sendBeacon(E, b)))
+                    fetch(E, { method: "POST", body: b, keepalive: true, mode: "no-cors" });
+            } catch (e) {}
+        }
+        send({ t: "pageview", r: document.referrer, u: new URLSearchParams(location.search).get("utm_source") });
+        document.addEventListener("click", function (e) {
+            var a = e.target.closest && e.target.closest("a[href]");
+            if (a && a.hostname && a.hostname !== location.hostname) send({ t: "click", x: a.href });
+        }, true);
+        addEventListener("pagehide", function () {
+            if (!left) { left = true; send({ t: "leave", d: Date.now() - t0 }); }
+        });
+    })();
+    </script>
 </body>
 </html>

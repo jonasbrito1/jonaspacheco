@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import LoadingScreen from './components/LoadingScreen'
+import { isOwner } from './utils/owner'
 
 const Login = lazy(() => import('./pages/Login'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
@@ -12,6 +13,7 @@ const Tickets = lazy(() => import('./pages/Tickets'))
 const Users = lazy(() => import('./pages/Users'))
 const TaskFlow = lazy(() => import('./pages/TaskFlow'))
 const Board = lazy(() => import('./pages/Board'))
+const Analytics = lazy(() => import('./pages/Analytics'))
 
 const BlogPosts = lazy(() => import('./pages/blog/BlogPosts'))
 const BlogEditor = lazy(() => import('./pages/blog/BlogEditor'))
@@ -34,6 +36,12 @@ const RoleRoute = ({ children, roles }) => {
   return roles.includes(user.role) ? children : <Navigate to="/" />
 }
 
+const OwnerRoute = ({ children }) => {
+  const user = JSON.parse(localStorage.getItem('hub_user') || '{}')
+  if (!localStorage.getItem('hub_token')) return <Navigate to="/login" />
+  return isOwner(user) ? children : <Navigate to="/" />
+}
+
 function withLazy(element, label = 'Carregando modulo...') {
   return <Suspense fallback={<LoadingScreen label={label} />}>{element}</Suspense>
 }
@@ -49,6 +57,7 @@ export default function App() {
           <Route path="finance" element={<RoleRoute roles={['admin', 'dev']}>{withLazy(<Finance />, 'Carregando financeiro...')}</RoleRoute>} />
           <Route path="monitor" element={<RoleRoute roles={['admin', 'dev']}>{withLazy(<Monitor />, 'Carregando monitor...')}</RoleRoute>} />
           <Route path="tickets" element={<RoleRoute roles={['admin', 'dev', 'colaborador']}>{withLazy(<Tickets />, 'Carregando tickets...')}</RoleRoute>} />
+          <Route path="acessos" element={<OwnerRoute>{withLazy(<Analytics />, 'Carregando acessos...')}</OwnerRoute>} />
           <Route path="users" element={<AdminRoute>{withLazy(<Users />, 'Carregando usuarios...')}</AdminRoute>} />
           <Route path="taskflow" element={<RoleRoute roles={['admin', 'dev', 'colaborador']}>{withLazy(<TaskFlow />, 'Carregando TaskFlow...')}</RoleRoute>} />
           <Route path="taskflow/:id" element={<RoleRoute roles={['admin', 'dev', 'colaborador']}>{withLazy(<Board />, 'Carregando board...')}</RoleRoute>} />

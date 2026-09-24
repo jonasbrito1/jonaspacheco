@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
-import { LayoutDashboard, FolderKanban, DollarSign, Activity, LogOut, Ticket, Users, CheckSquare, Menu, X, NotebookText } from 'lucide-react'
+import { LayoutDashboard, FolderKanban, DollarSign, Activity, LogOut, Ticket, Users, CheckSquare, Menu, X, NotebookText, BarChart3 } from 'lucide-react'
+import { isOwner } from '../utils/owner'
 
 export default function Layout() {
   const navigate = useNavigate()
@@ -21,8 +22,9 @@ export default function Layout() {
     { to: '/taskflow', icon: CheckSquare,     label: 'TaskFlow',   roles: ['admin', 'dev', 'colaborador'] },
     { to: '/blog',     icon: NotebookText,    label: 'Blog',       roles: ['admin'] },
     { to: '/monitor',  icon: Activity,        label: 'Monitor',    roles: ['admin', 'dev'] },
+    { to: '/acessos',  icon: BarChart3,       label: 'Acessos',    owner: true },
     { to: '/users',    icon: Users,           label: 'Usuários',   roles: ['admin'] },
-  ].filter(item => item.roles.includes(currentUser.role))
+  ].filter(item => item.owner ? isOwner(currentUser) : item.roles.includes(currentUser.role))
 
   const roleLabel = { admin: 'Admin', dev: 'Desenvolvedor', colaborador: 'Colaborador' }
 
