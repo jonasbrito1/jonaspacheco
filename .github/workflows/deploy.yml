@@ -38,27 +38,22 @@ jobs:
           VPS_PORT=$(echo "$VPS_PORT" | tr -d '[:space:]')
           VPS_USER=$(echo "$VPS_USER" | tr -d '[:space:]')
           VPS_PATH=$(echo "$VPS_PATH" | tr -d '[:space:]')
-          rsync -avz --delete \
+          # Publica SOMENTE os arquivos do site (lista de permissao). Tudo o que
+          # nao estiver na lista e removido do webroot (--delete-excluded), para
+          # codigo-fonte, scripts e configuracoes do repositorio nunca ficarem
+          # acessiveis pela web. .well-known fica para a renovacao do certificado.
+          rsync -avz --delete --delete-excluded \
             -e "ssh -i ~/.ssh/deploy_key -p ${VPS_PORT} -o StrictHostKeyChecking=no" \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='.env' \
-            --exclude='*.env' \
-            --exclude='.vps/' \
-            --exclude='*.pem' \
-            --exclude='*.ppk' \
-            --exclude='id_rsa*' \
-            --exclude='.claude' \
-            --exclude='backend/' \
-            --exclude='deploy/' \
-            --exclude='node_modules/' \
-            --exclude='deploy.sh' \
-            --exclude='docker*' \
-            --exclude='*.md' \
-            --exclude='test-css.html' \
-            --exclude='logos.html' \
-            --exclude='config.php' \
-            --exclude='vendor/' \
+            --filter='P /.well-known/' \
+            --include='/index.html' \
+            --include='/privacy-policy.html' --include='/privacy-policy-en.html' \
+            --include='/terms-of-service.html' --include='/terms-of-service-en.html' \
+            --include='/sitemap.xml' \
+            --include='/favicon.svg' \
+            --include='/jonas-pacheco-logo.png' --include='/jp-logo.png' \
+            --include='/logo-jonas-*.svg' \
+            --include='/assets/***' \
+            --exclude='*' \
             ./ \
             ${VPS_USER}@${VPS_HOST}:${VPS_PATH}/
 
