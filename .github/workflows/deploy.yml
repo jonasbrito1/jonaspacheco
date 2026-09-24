@@ -53,6 +53,7 @@ jobs:
             --include='/jonas-pacheco-logo.png' --include='/jp-logo.png' \
             --include='/logo-jonas-*.svg' \
             --include='/assets/***' \
+            --include='/wrconfeccoes/***' \
             --exclude='*' \
             ./ \
             ${VPS_USER}@${VPS_HOST}:${VPS_PATH}/

@@ -45,7 +45,11 @@ export function ago(iso) {
 }
 
 export function host(url) {
-  try { return new URL(url).hostname.replace(/^www\./, '') } catch { return url }
+  try {
+    const u = new URL(url)
+    const path = u.pathname.replace(/\/$/, '')
+    return u.hostname.replace(/^www\./, '') + path
+  } catch { return url }
 }
 
 const regionNames = (() => { try { return new Intl.DisplayNames(['pt-BR'], { type: 'region' }) } catch { return null } })()

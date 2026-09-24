@@ -530,7 +530,7 @@
                 </a>
             </li>
             <li>
-                <a class="card" href="https://wrconfeccoes.jonaspacheco.cloud" target="_blank" rel="noopener noreferrer">
+                <a class="card" href="/wrconfeccoes/" target="_blank" rel="noopener">
                     <img src="assets/projects/wr-confeccoes.jpg" alt="Captura do site WR Confecções" data-alt-name="WR Confecções" width="600" height="338" loading="lazy" decoding="async">
                     <span class="name">WR Confecções</span>
                 </a>
@@ -599,7 +599,7 @@
     <script>
     // Medicao de audiencia propria, sem cookies e sem terceiros. Envia so o
     // essencial (pagina, origem, idioma, largura da tela, cliques em links
-    // externos e tempo na pagina). Quem ativa "nao rastrear" no navegador
+    // externos e nos projetos, e tempo na pagina). Quem ativa "nao rastrear" no navegador
     // (Global Privacy Control ou Do Not Track) nao e medido.
     (function () {
         var E = "https://hub.jonaspacheco.cloud/api/analytics/collect";
@@ -616,7 +616,7 @@
         send({ t: "pageview", r: document.referrer, u: new URLSearchParams(location.search).get("utm_source") });
         document.addEventListener("click", function (e) {
             var a = e.target.closest && e.target.closest("a[href]");
-            if (a && a.hostname && a.hostname !== location.hostname) send({ t: "click", x: a.href });
+            if (a && a.hostname && (a.hostname !== location.hostname || a.closest(".card"))) send({ t: "click", x: a.href });
         }, true);
         addEventListener("pagehide", function () {
             if (!left) { left = true; send({ t: "leave", d: Date.now() - t0 }); }
