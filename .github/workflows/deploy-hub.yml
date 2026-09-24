@@ -3,7 +3,8 @@ name: Deploy → hub.jonaspacheco.cloud
 on:
   push:
     branches: [main]
-    paths: ['hub/**']
+    paths: ['hub/backend/**', 'hub/frontend/**', '.github/workflows/deploy-hub.yml']
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -17,7 +18,7 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Build frontend
+      - name: Build do painel
         run: |
           cd hub/frontend
           npm ci --silent
@@ -30,40 +31,46 @@ jobs:
           mkdir -p ~/.ssh
           echo "$VPS_SSH_KEY" | base64 -d > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          echo "StrictHostKeyChecking no" >> ~/.ssh/config
 
-      - name: Deploy backend
+      - name: Publicar backend e painel
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
           VPS_HOST=$(echo "$VPS_HOST" | tr -d '[:space:]')
           VPS_PORT=$(echo "$VPS_PORT" | tr -d '[:space:]')
-          rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p ${VPS_PORT} -o StrictHostKeyChecking=no" \
-            --exclude='node_modules/' \
-            --exclude='.env' \
-            hub/backend/ \
-            root@${VPS_HOST}:/var/www/jonaspacheco/current/hub/backend/
+          SSH="ssh -i ~/.ssh/deploy_key -p ${VPS_PORT} -o StrictHostKeyChecking=no"
+          # Backend: o .env e um link para /var/www/jonaspacheco/shared e nunca e tocado.
+          rsync -az --delete -e "$SSH" \
+            --exclude='node_modules/' --exclude='.env' \
+            hub/backend/ root@${VPS_HOST}:/var/www/jonaspacheco/current/hub/backend/
+          # Painel estatico; .well-known fica para a renovacao do certificado.
+          rsync -az --delete -e "$SSH" \
+            --filter='P /.well-known/' \
+            hub/frontend/dist/ root@${VPS_HOST}:/var/www/hub.jonaspacheco.cloud/
 
-      - name: Deploy frontend
+      - name: Reiniciar a API
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
           VPS_HOST=$(echo "$VPS_HOST" | tr -d '[:space:]')
           VPS_PORT=$(echo "$VPS_PORT" | tr -d '[:space:]')
-          rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p ${VPS_PORT} -o StrictHostKeyChecking=no" \
-            hub/frontend/dist/ \
-            root@${VPS_HOST}:/var/www/admin.jonaspacheco.cloud/
+          ssh -i ~/.ssh/deploy_key -p ${VPS_PORT} -o StrictHostKeyChecking=no root@${VPS_HOST} '
+            set -e
+            cd /var/www/jonaspacheco/current/hub/backend
+            npm ci --omit=dev --silent
+            pm2 restart hub-backend --update-env || pm2 start src/index.js --name hub-backend
+            pm2 save >/dev/null
+          '
 
-      - name: Restart PM2 + npm install
-        env:
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-          VPS_PORT: ${{ secrets.VPS_PORT }}
+      - name: Verificar
         run: |
-          VPS_HOST=$(echo "$VPS_HOST" | tr -d '[:space:]')
-          VPS_PORT=$(echo "$VPS_PORT" | tr -d '[:space:]')
-          ssh -i ~/.ssh/deploy_key -p ${VPS_PORT} -o StrictHostKeyChecking=no root@${VPS_HOST} \
-            "cd /var/www/jonaspacheco/current/hub/backend && npm install --omit=dev --silent && pm2 restart hub-backend || pm2 start src/index.js --name hub-backend"
+          for i in 1 2 3 4 5 6; do
+            sleep 5
+            CODE=$(curl -s -o /dev/null -w "%{http_code}" https://hub.jonaspacheco.cloud/api/health || true)
+            echo "tentativa $i: HTTP $CODE"
+            [ "$CODE" = "200" ] && exit 0
+          done
+          echo "A API do hub não respondeu 200"
+          exit 1

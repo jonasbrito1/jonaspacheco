@@ -1,9 +1,6 @@
 const crypto = require('crypto');
 const pool = require('../../db/pool');
 
-// Dono do painel de acessos. Somente este e-mail enxerga os dados.
-const OWNER_EMAIL = (process.env.ANALYTICS_OWNER_EMAIL || 'jonasbrito1a@gmail.com').trim().toLowerCase();
-
 // Hosts de onde aceitamos eventos (evita que terceiros poluam a base).
 const ALLOWED_HOSTS = (process.env.ANALYTICS_ALLOWED_HOSTS || 'jonaspacheco.cloud,www.jonaspacheco.cloud')
   .split(',').map((h) => h.trim().toLowerCase()).filter(Boolean);
@@ -121,6 +118,6 @@ async function purgeOld() {
 }
 
 module.exports = {
-  OWNER_EMAIL, ALLOWED_HOSTS, RETENTION_DAYS, TZ, BOT_RE,
+  ALLOWED_HOSTS, RETENTION_DAYS, TZ, BOT_RE,
   ensureSchema, dailySalt, clientIp, anonymizeIp, parseUa, hostOf, cut, headerText, purgeOld,
 };

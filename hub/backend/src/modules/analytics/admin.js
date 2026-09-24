@@ -1,23 +1,10 @@
 const router = require('express').Router();
 const auth = require('../../middleware/auth');
 const pool = require('../../db/pool');
-const { OWNER_EMAIL, TZ } = require('./helpers');
+const { TZ } = require('./helpers');
 
-// Alem do token valido, exige que o usuario seja o dono do painel. O e-mail
-// e conferido no banco (nao so no token) para refletir alteracoes de cadastro.
-async function ownerOnly(req, res, next) {
-  try {
-    const { rows } = await pool.query('SELECT email FROM users WHERE id = $1', [req.user.id]);
-    if ((rows[0]?.email || '').trim().toLowerCase() !== OWNER_EMAIL) {
-      return res.status(403).json({ error: 'Acesso restrito' });
-    }
-    next();
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-}
-
-router.use(auth, ownerOnly);
+// O middleware de autenticacao do hub ja restringe tudo ao dono.
+router.use(auth);
 
 function clampDays(v) {
   const n = Number.parseInt(v, 10);

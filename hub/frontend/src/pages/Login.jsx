@@ -1,57 +1,72 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import api from '../services/api'
+import { LogIn } from 'lucide-react'
+import api, { errorMessage, saveSession } from '../lib/api'
 
 export default function Login() {
+  const navigate = useNavigate()
+  const [mode, setMode] = useState('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+  const [info, setInfo] = useState('')
+  const [busy, setBusy] = useState(false)
 
-  const handleSubmit = async e => {
+  const submit = async (e) => {
     e.preventDefault()
-    setLoading(true); setError('')
+    setError('')
+    setInfo('')
+    setBusy(true)
     try {
-      const { data } = await api.post('/auth/login', { email, password })
-      localStorage.setItem('hub_token', data.token)
-      localStorage.setItem('hub_user', JSON.stringify(data.user))
-      navigate('/')
-    } catch {
-      setError('Email ou senha incorretos')
-    } finally { setLoading(false) }
+      if (mode === 'login') {
+        const { data } = await api.post('/auth/login', { email, password })
+        saveSession(data)
+        navigate('/', { replace: true })
+      } else {
+        const { data } = await api.post('/auth/forgot', { email })
+        setInfo(data.message)
+      }
+    } catch (err) {
+      setError(errorMessage(err, 'Não foi possível entrar'))
+    } finally {
+      setBusy(false)
+    }
   }
 
   return (
-    <div style={s.page}>
-      <div style={s.card}>
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <h1 style={s.title}>&lt;hub /&gt;</h1>
-          <p style={s.sub}>Painel de Gestão · Jonas Pacheco</p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 16 }}>
-            {['#009C3B','#FFDF00','#002776'].map(c => (
-              <span key={c} style={{ width: 8, height: 8, borderRadius: '50%', background: c }} />
-            ))}
-          </div>
+    <div className="auth">
+      <form className="auth-card" onSubmit={submit}>
+        <header>
+          <img src="/avatar.jpg" alt="" />
+          <strong>Hub · Jonas Pacheco</strong>
+          <span>{mode === 'login' ? 'Acesso restrito' : 'Redefinir senha'}</span>
+        </header>
+
+        {error && <div className="error-box">{error}</div>}
+        {info && <div className="ok-box">{info}</div>}
+
+        <div className="field">
+          <label htmlFor="email">E-mail</label>
+          <input id="email" className="input" type="email" autoComplete="username" required
+            value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <input style={s.input} type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
-          <input style={s.input} type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} required />
-          {error && <p style={{ color: '#EF4444', fontSize: 13, textAlign: 'center' }}>{error}</p>}
-          <button style={{ ...s.btn, opacity: loading ? 0.7 : 1 }} disabled={loading}>
-            {loading ? 'Entrando...' : 'Entrar'}
-          </button>
-        </form>
-      </div>
+
+        {mode === 'login' && (
+          <div className="field">
+            <label htmlFor="password">Senha</label>
+            <input id="password" className="input" type="password" autoComplete="current-password" required
+              value={password} onChange={(e) => setPassword(e.target.value)} />
+          </div>
+        )}
+
+        <button className="btn btn-primary" type="submit" disabled={busy} style={{ padding: '11px 14px' }}>
+          {mode === 'login' ? <><LogIn size={16} />{busy ? 'Entrando...' : 'Entrar'}</> : (busy ? 'Enviando...' : 'Enviar link por e-mail')}
+        </button>
+
+        <button type="button" className="btn btn-ghost" onClick={() => { setMode(mode === 'login' ? 'forgot' : 'login'); setError(''); setInfo('') }}>
+          {mode === 'login' ? 'Esqueci minha senha' : 'Voltar para o login'}
+        </button>
+      </form>
     </div>
   )
-}
-
-const s = {
-  page:  { minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#020c1b', padding: 16 },
-  card:  { background: '#0d1e35', padding: '40px 36px', borderRadius: 18, width: '100%', maxWidth: 380, border: '1px solid #1a3a5c', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' },
-  title: { color: '#FFDF00', fontSize: 32, fontWeight: 800, letterSpacing: -1 },
-  sub:   { color: '#4A6B87', fontSize: 13, marginTop: 4 },
-  input: { padding: '12px 16px', background: '#06101e', border: '1px solid #1a3a5c', borderRadius: 10, color: '#EEF2FF', fontSize: 14, outline: 'none', transition: 'border-color .2s' },
-  btn:   { padding: '13px', background: '#FFDF00', border: 'none', borderRadius: 10, color: '#020c1b', fontWeight: 800, fontSize: 15, letterSpacing: 0.3 },
 }

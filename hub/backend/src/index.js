@@ -1,37 +1,38 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-const path = require('path');
+const { ensureSchema } = require('./db/schema');
 
 const app = express();
-app.use(cors({ origin: process.env.FRONTEND_URL || '*' }));
-app.use(express.json());
 
-// Serve uploaded files from hub/backend/uploads, which is where the app stores them.
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+// Atras do Nginx e da Cloudflare; o IP real vem de CF-Connecting-IP.
+app.set('trust proxy', 'loopback');
+app.disable('x-powered-by');
 
-app.use('/api/auth',      require('./routes/auth'));
-app.use('/api/dashboard', require('./routes/dashboard'));
-app.use('/api/projects',  require('./routes/projects'));
-app.use('/api/finance',   require('./routes/finance'));
-app.use('/api/monitor',   require('./routes/monitor'));
-app.use('/api/tickets',   require('./routes/tickets'));
-app.use('/api/users',     require('./routes/users'));
-app.use('/api/portal',    require('./routes/portal'));
-app.use('/api/tf',        require('./routes/taskflow'));
-app.use('/api/admin/blog', require('./modules/blog/admin'));
-app.use('/api/blog',       require('./modules/blog/public'));
-app.use('/api/analytics',       require('./modules/analytics/public'));
+// Coleta publica de acessos da landing: le o corpo como texto (sendBeacon),
+// por isso e registrada antes do parser JSON.
+app.use('/api/analytics', require('./modules/analytics/public'));
+
+app.use(express.json({ limit: '1mb' }));
+
+app.use('/api/auth',            require('./routes/auth'));
+app.use('/api/overview',        require('./routes/overview'));
 app.use('/api/admin/analytics', require('./modules/analytics/admin'));
+app.use('/api/sites',           require('./routes/sites'));
+app.use('/api/vps',             require('./routes/vps'));
+app.use('/api/projects',        require('./routes/projects'));
+app.use('/api/notes',           require('./routes/notes'));
 
-app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
+app.get('/api/health', (req, res) => res.json({ status: 'ok', service: 'hub-jonaspacheco' }));
+app.use('/api', (req, res) => res.status(404).json({ error: 'Rota não encontrada' }));
 
-const PORT = process.env.PORT || 3200;
-app.listen(PORT, () => console.log(`Hub API rodando na porta ${PORT}`));
+const PORT = process.env.PORT || 3201;
 
-// Acessos da landing: cria as tabelas se faltarem e aplica a retencao uma vez por dia.
-const analytics = require('./modules/analytics/helpers');
-analytics.ensureSchema()
-  .then(() => analytics.purgeOld())
-  .catch((err) => console.error('[analytics] falha ao preparar o schema:', err.message));
-setInterval(() => analytics.purgeOld().catch(() => {}), 24 * 60 * 60 * 1000).unref();
+ensureSchema()
+  .then(() => {
+    app.listen(PORT, '127.0.0.1', () => console.log(`Hub Jonas Pacheco rodando na porta ${PORT}`));
+    require('./services/sampler').start();
+  })
+  .catch((err) => {
+    console.error('[hub] falha ao preparar o banco:', err.message);
+    process.exit(1);
+  });

@@ -1,118 +1,136 @@
 import React, { useEffect, useState } from 'react'
-import api from '../services/api'
-import { Plus, Pencil, Trash2, ExternalLink } from 'lucide-react'
-import { isoToDateInput, normalizeDateInput, parseDateInputToYmd } from '../utils/date'
+import { Link } from 'react-router-dom'
+import { Plus, ExternalLink, Github, Pencil, Trash2, NotebookPen, Search } from 'lucide-react'
+import api, { errorMessage } from '../lib/api'
+import { ago, host } from '../lib/format'
+import { PageHead, Modal, Field, Loading } from '../components/ui'
 
-const STATUS = { em_desenvolvimento: { label: 'Em Dev', color: '#00d4ff' }, concluido: { label: 'Concluído', color: '#10b981' }, pausado: { label: 'Pausado', color: '#f59e0b' }, manutencao: { label: 'Manutenção', color: '#a78bfa' } }
+export const STATUS = {
+  em_desenvolvimento: { label: 'Em desenvolvimento', tone: 'info' },
+  ativo: { label: 'Ativo', tone: 'ok' },
+  manutencao: { label: 'Manutenção', tone: 'warn' },
+  pausado: { label: 'Pausado', tone: '' },
+  concluido: { label: 'Concluído', tone: '' },
+}
 
-const empty = { name: '', client: '', status: 'em_desenvolvimento', technologies: '', description: '', deadline: '', monthly_value: '', url: '' }
+const EMPTY = { name: '', client: '', status: 'em_desenvolvimento', url: '', repo_url: '', stack: '', description: '' }
 
 export default function Projects() {
-  const [projects, setProjects] = useState([])
-  const [modal, setModal] = useState(false)
-  const [form, setForm] = useState(empty)
+  const [projects, setProjects] = useState(null)
   const [editing, setEditing] = useState(null)
+  const [filter, setFilter] = useState('')
+  const [q, setQ] = useState('')
 
-  const load = () => api.get('/projects').then(r => setProjects(r.data))
+  const load = () => api.get('/projects').then(({ data }) => setProjects(data))
   useEffect(() => { load() }, [])
 
-  const openNew = () => { setForm(empty); setEditing(null); setModal(true) }
-  const openEdit = p => {
-    setForm({ ...p, technologies: p.technologies?.join(', ') || '', deadline: isoToDateInput(p.deadline) })
-    setEditing(p.id)
-    setModal(true)
-  }
+  if (!projects) return <Loading />
 
-  const save = async e => {
-    e.preventDefault()
-    const payload = {
-      ...form,
-      deadline: parseDateInputToYmd(form.deadline),
-      technologies: form.technologies.split(',').map(t => t.trim()).filter(Boolean),
-    }
-    editing ? await api.put(`/projects/${editing}`, payload) : await api.post('/projects', payload)
-    setModal(false); load()
-  }
-
-  const remove = async id => { if (confirm('Excluir projeto?')) { await api.delete(`/projects/${id}`); load() } }
+  const term = q.trim().toLowerCase()
+  const shown = projects.filter((p) => (!filter || p.status === filter) && (!term ||
+    [p.name, p.client, p.description, ...(p.stack || [])].some((v) => (v || '').toLowerCase().includes(term))))
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2 style={{ fontSize: 22, fontWeight: 700 }}>Projetos</h2>
-        <button onClick={openNew} style={s.btnPrimary}><Plus size={16} /> Novo Projeto</button>
-      </div>
+    <div className="page">
+      <PageHead title="Projetos" subtitle="Seus projetos e clientes: links, stack, situação e notas.">
+        <button className="btn btn-primary" onClick={() => setEditing(EMPTY)}><Plus size={15} />Novo projeto</button>
+      </PageHead>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
-        {projects.map(p => (
-          <div key={p.id} style={s.card}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
-              <div>
-                <h3 style={{ fontSize: 16, fontWeight: 600 }}>{p.name}</h3>
-                <p style={{ color: '#64748b', fontSize: 13 }}>{p.client || 'Sem cliente'}</p>
-              </div>
-              <span style={{ background: STATUS[p.status]?.color + '22', color: STATUS[p.status]?.color, padding: '3px 10px', borderRadius: 20, fontSize: 12 }}>
-                {STATUS[p.status]?.label}
-              </span>
-            </div>
-            {p.description && <p style={{ color: '#94a3b8', fontSize: 13, marginBottom: 12 }}>{p.description}</p>}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
-              {p.technologies?.map(t => <span key={t} style={s.tag}>{t}</span>)}
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ color: '#10b981', fontWeight: 600 }}>R$ {parseFloat(p.monthly_value || 0).toFixed(2)}/mês</span>
-              <div style={{ display: 'flex', gap: 8 }}>
-                {p.url && <a href={p.url} target="_blank" rel="noreferrer"><ExternalLink size={16} color="#64748b" /></a>}
-                <button onClick={() => openEdit(p)} style={s.iconBtn}><Pencil size={15} /></button>
-                <button onClick={() => remove(p.id)} style={{ ...s.iconBtn, color: '#f87171' }}><Trash2 size={15} /></button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {modal && (
-        <div style={s.overlay}>
-          <div style={s.modal}>
-            <h3 style={{ marginBottom: 20, fontWeight: 700 }}>{editing ? 'Editar' : 'Novo'} Projeto</h3>
-            <form onSubmit={save} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <input style={s.input} placeholder="Nome *" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required />
-              <input style={s.input} placeholder="Cliente" value={form.client} onChange={e => setForm(f => ({ ...f, client: e.target.value }))} />
-              <select style={s.input} value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))}>
-                {Object.entries(STATUS).map(([v, { label }]) => <option key={v} value={v}>{label}</option>)}
-              </select>
-              <input style={s.input} placeholder="Tecnologias (separadas por vírgula)" value={form.technologies} onChange={e => setForm(f => ({ ...f, technologies: e.target.value }))} />
-              <textarea style={{ ...s.input, resize: 'vertical', minHeight: 80 }} placeholder="Descrição" value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} />
-              <input
-                style={s.input}
-                type="text"
-                inputMode="numeric"
-                maxLength={10}
-                placeholder="dd/mm/aaaa"
-                value={form.deadline}
-                onChange={e => setForm(f => ({ ...f, deadline: normalizeDateInput(e.target.value) }))}
-              />
-              <input style={s.input} type="number" placeholder="Valor mensal (R$)" value={form.monthly_value} onChange={e => setForm(f => ({ ...f, monthly_value: e.target.value }))} />
-              <input style={s.input} placeholder="URL do projeto" value={form.url} onChange={e => setForm(f => ({ ...f, url: e.target.value }))} />
-              <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
-                <button type="button" onClick={() => setModal(false)} style={s.btnSecondary}>Cancelar</button>
-                <button type="submit" style={s.btnPrimary}>Salvar</button>
-              </div>
-            </form>
-          </div>
+      <div className="actions">
+        <div style={{ position: 'relative', flex: '1 1 240px', maxWidth: 360 }}>
+          <Search size={15} className="dim" style={{ position: 'absolute', left: 11, top: 12 }} />
+          <input className="input" placeholder="Buscar por nome, cliente ou tecnologia" value={q} onChange={(e) => setQ(e.target.value)} style={{ paddingLeft: 34 }} />
         </div>
+        <select className="select" value={filter} onChange={(e) => setFilter(e.target.value)} style={{ width: 'auto' }}>
+          <option value="">Todas as situações</option>
+          {Object.entries(STATUS).map(([k, s]) => <option key={k} value={k}>{s.label}</option>)}
+        </select>
+      </div>
+
+      {shown.length ? (
+        <div className="grid grid-auto">
+          {shown.map((p) => (
+            <div className="card" key={p.id} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start' }}>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontWeight: 650, fontSize: 15 }}>{p.name}</div>
+                  {p.client && <div className="dim" style={{ fontSize: 12.5 }}>{p.client}</div>}
+                </div>
+                <span className={`badge ${STATUS[p.status]?.tone || ''}`}>{STATUS[p.status]?.label || p.status}</span>
+              </div>
+              {p.description && <p className="note-content" style={{ display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{p.description}</p>}
+              {p.stack?.length > 0 && <div className="chips">{p.stack.map((s) => <span className="chip" key={s}>{s}</span>)}</div>}
+              <div className="actions" style={{ marginTop: 'auto', justifyContent: 'space-between' }}>
+                <span className="actions">
+                  {p.url && <a className="btn btn-ghost" href={p.url} target="_blank" rel="noopener noreferrer" title={p.url}><ExternalLink size={14} />{host(p.url)}</a>}
+                  {p.repo_url && <a className="btn btn-ghost" href={p.repo_url} target="_blank" rel="noopener noreferrer" title={p.repo_url}><Github size={14} /></a>}
+                  <Link className="btn btn-ghost" to={`/anotacoes?projeto=${p.id}`} title="Anotações do projeto"><NotebookPen size={14} />{p.notes}</Link>
+                </span>
+                <span className="actions">
+                  <span className="dim" style={{ fontSize: 12 }}>{ago(p.updated_at)}</span>
+                  <button className="btn btn-ghost" onClick={() => setEditing({ ...p, stack: (p.stack || []).join(', ') })} aria-label="Editar"><Pencil size={15} /></button>
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="card empty">{projects.length ? 'Nenhum projeto com esse filtro.' : 'Nenhum projeto ainda. Cadastre o primeiro em “Novo projeto”.'}</div>
       )}
+
+      {editing && <ProjectForm project={editing} onClose={() => setEditing(null)} onSaved={() => { setEditing(null); load() }} />}
     </div>
   )
 }
 
-const s = {
-  card: { background: '#161b27', border: '1px solid #1e293b', borderRadius: 12, padding: 20 },
-  tag: { background: '#1e293b', color: '#94a3b8', padding: '2px 8px', borderRadius: 4, fontSize: 12 },
-  iconBtn: { background: 'none', border: 'none', color: '#64748b', padding: 4, display: 'flex' },
-  btnPrimary: { display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', background: '#00d4ff', border: 'none', borderRadius: 8, color: '#0f1117', fontWeight: 700, fontSize: 14 },
-  btnSecondary: { flex: 1, padding: '10px', background: 'none', border: '1px solid #1e293b', borderRadius: 8, color: '#94a3b8' },
-  input: { padding: '10px 14px', background: '#0f1117', border: '1px solid #1e293b', borderRadius: 8, color: '#e2e8f0', fontSize: 14 },
-  overlay: { position: 'fixed', inset: 0, background: '#00000088', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 },
-  modal: { background: '#161b27', borderRadius: 16, padding: 32, width: 500, maxHeight: '90vh', overflowY: 'auto', border: '1px solid #1e293b' },
+function ProjectForm({ project, onClose, onSaved }) {
+  const [form, setForm] = useState({ ...EMPTY, ...project })
+  const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
+  const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
+
+  const save = async () => {
+    setBusy(true)
+    setError('')
+    try {
+      if (project.id) await api.put(`/projects/${project.id}`, form)
+      else await api.post('/projects', form)
+      onSaved()
+    } catch (err) {
+      setError(errorMessage(err, 'Não foi possível salvar'))
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const remove = async () => {
+    if (!window.confirm(`Excluir o projeto ${project.name}? As anotações ligadas a ele ficam, sem vínculo.`)) return
+    await api.delete(`/projects/${project.id}`)
+    onSaved()
+  }
+
+  return (
+    <Modal title={project.id ? 'Editar projeto' : 'Novo projeto'} onClose={onClose} footer={
+      <>
+        {project.id && <button className="btn btn-danger" onClick={remove} style={{ marginRight: 'auto' }}><Trash2 size={15} />Excluir</button>}
+        <button className="btn" onClick={onClose}>Cancelar</button>
+        <button className="btn btn-primary" onClick={save} disabled={busy}>{busy ? 'Salvando...' : 'Salvar'}</button>
+      </>
+    }>
+      {error && <div className="error-box">{error}</div>}
+      <div className="grid grid-2" style={{ gap: 12 }}>
+        <Field label="Nome"><input className="input" value={form.name} onChange={set('name')} autoFocus /></Field>
+        <Field label="Cliente"><input className="input" value={form.client || ''} onChange={set('client')} /></Field>
+        <Field label="Situação">
+          <select className="select" value={form.status} onChange={set('status')}>
+            {Object.entries(STATUS).map(([k, s]) => <option key={k} value={k}>{s.label}</option>)}
+          </select>
+        </Field>
+        <Field label="Stack (separada por vírgula)"><input className="input" value={form.stack || ''} onChange={set('stack')} placeholder="React, Node.js, PostgreSQL" /></Field>
+        <Field label="URL"><input className="input" value={form.url || ''} onChange={set('url')} placeholder="https://" /></Field>
+        <Field label="Repositório"><input className="input" value={form.repo_url || ''} onChange={set('repo_url')} placeholder="https://github.com/..." /></Field>
+      </div>
+      <Field label="Descrição e notas"><textarea className="textarea" value={form.description || ''} onChange={set('description')} rows={6} /></Field>
+    </Modal>
+  )
 }
